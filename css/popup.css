@@ -1,9 +1,10 @@
+
+
+
 body{
-    /* if I state anything in the body, the response in popup.js from content_script doesn't go through? */
-/* color:red; */
-/* width:500px; */
 width:95vw;
 overflow:scroll;
+background-color:rgba(255,255,255,0.7);
 }
 
 .container{
@@ -11,6 +12,52 @@ overflow:scroll;
     justify-content:center;
     align-items:center;
     flex-wrap:wrap;
+}
+
+.currentProduct{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    background-color:grey; 
+    border-radius:25px;
+    overflow:hidden;
+}
+
+#productName, 
+#productPrice{
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+#mainImg{
+    padding:5%;
+    margin: auto;
+}
+
+#currentProductMainImg{
+    display:flex;
+    flex-wrap:nowrap;
+    overflow-y:scroll;
+}
+
+#productTextarea{
+    margin-top:5%; 
+    margin-bottom: 5%;
+    margin-left: 3%;
+    margin-right: 3%;
+    width:90%;
+    height: 20vh;
+    resize:none;
+}
+
+#submitButton{
+    width:100%;
+    align-self:baseline;
+}
+
+#journalButton{
+    margin: 5%;
 }
 
 button {

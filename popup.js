@@ -2,6 +2,7 @@
 console.log("we are in the popup")
 
 
+
 //When client click "generate product" button, popup fetches the information from content_script.js and writes it in the popup
 $(".generateProduct").on("click", function(){
     console.log("button clicked")
@@ -18,16 +19,39 @@ $(".generateProduct").on("click", function(){
         
         //remove the button to generate product
         $(".generateProduct").remove()
-        
+
         //Writes the information in the extension popup
-        $("#currentProductName").html(`<h1 id = "productName"> ${response.name} </h1>`)
+        $("#currentProductName").html(`<h3 id = "productName"> ${response.name} </h3>`)
 
-        $("#currentProductMainImg").html(`<img src="${response.mainImg}" alt = "${response.name}" id = "mainImg">`)
+        $("#currentPrice").html(`<h4 id = "productPrice">${response.price}</h4>`)
 
-        $("#currentProductTextInput").html(`<textarea placeholder = "write your entry here" > </textarea>`)
+        let currentImgs = [];
+
+        for (let i = 0; i < response.allImgs.length; i++){
+            
+            //Go through all the images and only take the one with a specific dimensions to avoid repeats
+            if(response.allImgs[i].includes("220x293")){
+                currentImgs.push(response.allImgs[i])
+                console.log(currentImgs)
+            }
+        }
+// $("#currentProductMainImg").html(`<img src="${response.mainImg}" alt = "${response.name}" id = "mainImg">`)
+
+        for (let i = 0; i < currentImgs.length; i++){
+        $("#currentProductMainImg").append(`<img src ="https:${currentImgs[i]}" id = "img${[i]}" class ="currentImgs">`);
+        }
+     //   $("#currentProductMainImg").html(`<img src ="https:${currentImgs}" id = "otherImgs">`);
+        
+
+        $("#currentProductTextInput").html(`<textarea id = "productTextarea" placeholder = "write your entry here" > </textarea>`)
+
+        $("#currentSubmitButton").html(`<button id = "submitButton"> submit </button>`)
+
+
       })
       });
 })
+
 
 //if the journal button is clicked, create a new tab with the extension url (journal.html)
 document.getElementById("journalButton").addEventListener("click", function(){
