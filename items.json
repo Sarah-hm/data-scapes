@@ -1,0 +1,14 @@
+{
+    "items":{
+        "timestamp-id":{
+            "product-name":"product name",
+            "product-url":"url",
+            "product-description":"product description prompted by app client",
+            "product-images":{
+                "img1":"url",
+                "img2":"url",
+                "img3":"url"
+            }
+        }
+
+}}

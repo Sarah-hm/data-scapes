@@ -1,0 +1,25 @@
+body{
+    /* if I state anything in the body, the response in popup.js from content_script doesn't go through? */
+/* color:red; */
+/* width:500px; */
+width:95vw;
+overflow:scroll;
+}
+
+.container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+button {
+    width:90%;
+}
+img{
+    width:80%;
+}
+
+.currentProduct{
+    width:90%;
+}
