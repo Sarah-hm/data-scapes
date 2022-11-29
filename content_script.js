@@ -12,16 +12,23 @@
             //main product image
             let mainImg = document.getElementsByClassName("productimg-extend__main-image")[0].getElementsByTagName('img')[0].src;
 
-            //get all images (including main)
+            console.log(mainImg);
+
+           // get all images (including main)
             let allOtherImgs = document.getElementsByClassName("j-verlok-lazy");
             let allImgs = []
             for (let i = 0; i < allOtherImgs.length; i++){
                 let imgURL = document.getElementsByClassName("j-verlok-lazy")[i].dataset.src
                 allImgs.push(imgURL);
             }
-
+    
+            
             //price of the item (is only one number as a string with $ (ex: '13.00$')
-            let price = document.getElementsByClassName("product-intro__head-price")[0].getElementsByClassName("original")[0].getElementsByClassName("from")[0].innerText;
+            //let price = document.getElementsByClassName("product-intro__head-price")[0].getElementsByClassName("original")[0].getElementsByClassName("from")[0].innerText;
+
+            //get the first, most discounted price
+            let price = document.getElementsByClassName("product-intro__head-price")[0].getElementsByTagName("span")[0].innerText
+            console.log(price)
 
             //url of the product page 
             let url = window.location.baseURI
@@ -35,7 +42,7 @@
             if(message.name ==="fromPopup"){
                 console.log("we send the information to the popup")
                 //Send the product name, main image, url and price (all strings)
-                sendResponse({name:productName, mainImg:mainImg, url:url, price:price, allImgs:allImgs});
+                sendResponse({productName:productName, mainImg:mainImg, url:url, price:price, allImgs:allImgs});
             }
           });
         

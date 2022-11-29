@@ -13,7 +13,41 @@
   chrome.runtime.onInstalled.addListener(function() {
     setPaused(true);
   });
+
+  // chrome.tabs.sendMessage({name: "fromPopupToBackground"}, function (response) {
+  //   //hello
+  //   console.log(response);
+  //       })
   
+
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+  if(message.name ==="fromPopupToBackground"){
+    console.log("a message was received from popup");
+
+    console.log(message);
+    //console.log(response);
+
+
+    const dataOne = new FormData();
+    dataOne.append("productName", message.productName);
+    dataOne.append("url", message.url);
+    dataOne.append("price",message.price);
+    dataOne.append("currentImgs",message.currentImgs);
+    dataOne.append("journalEntry",message.journalEntry);
+         fetch('https://hybrid.concordia.ca/s_hontoy/data_scapes/datascapes.php', {
+                method: 'post',
+                body: dataOne,
+                      }).then(function(r) {
+                              return r.text();
+                      }).then(function(data) {
+                        console.log("we sent the data in the php");
+                        console.log(data);
+                    });
+      } // if message
+});
+
+
+
 
   // Receive messages from the content script
   
