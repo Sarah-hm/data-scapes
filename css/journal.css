@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,900;1,700&display=swap');
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 *{
     font-family:Arial, Helvetica, sans-serif;   
     }
@@ -31,6 +35,31 @@
     /* margin:1%; */
 }
 
+.header p a { 
+    text-decoration:none; 
+    font-weight:bold;
+    transition: all 0.5s;
+    color:white;
+    background-color:black;
+}
+
+.header p a:hover { 
+    text-decoration:none; 
+    background-color:white;
+    color:black;
+    font-weight:bold;
+}
+
+.header p a:visited { 
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.header span{
+    font-weight:bold;
+}
+
+
 .header p {
     text-align: center;
     font-size: 130%; 
@@ -50,11 +79,6 @@ span .projectTitle{
     width: 30%;
     margin: 1%;
 }
-
-.participateButton{
-    /* This is the button to participate */
-}
-
 
 
 .participateSection{
@@ -80,7 +104,7 @@ span .projectTitle{
 /* background-color:pink; */
 width: 18vw;
 height: 55vh;
-margin: 2%;
+margin: 1%;
 border-top: dashed #E5E5E5 1px;
 padding: 1%;
 /* box-shadow: 5px 10px #888888;

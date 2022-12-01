@@ -1,4 +1,3 @@
-
 console.log("we are in the popup")
 
 
@@ -44,13 +43,21 @@ $(".generateProduct").on("click", function(){
     
             $("#currentProductTextInput").html(`<textarea id = "productTextarea" placeholder = "Why do you think this product was targetted to you? Where or when would you wear it? What is it meant for?" ></textarea>`)
     
-            $("#currentSubmitButton").html(`<button id = "submitButton"> add product to journal </button>`)
+           let button =  document.createElement("button");
+           button.addEventListener("click",function(){journalButtonClicked(currentImgs)});
+           button.textContent = "add product to journal";
+           
+            $("#currentSubmitButton").html(button);
 
         }, 0)//settimeout
 
 //When you click submit, the information is stored and sent to the function that sends it to backgroun
-        $("#submitButton").on("click", function(){
+       
+function journalButtonClicked(currentImgs){
+//$("#submitButton").on("click", function(){
             //Get the value inside the textArea
+
+            console.log("clicked")
             
         let currentJournalEntry = $("#productTextarea").val()
 
@@ -69,9 +76,10 @@ $(".generateProduct").on("click", function(){
         $("#currentSubmitButton").empty();
         $(".currentProduct").css("height","95vh");
         $(".generateProduct").css("display","inline");
-        })
+        }
       })
       });
+   
 })//generate product
 
 
@@ -79,7 +87,8 @@ $(".generateProduct").on("click", function(){
 
 //if the journal button is clicked, create a new tab with the extension url (journal.html)
 document.getElementById("journalButton").addEventListener("click", function(){
-    var newURL = "chrome-extension://apkdppfalbdncflefignfacofnkmfkdo/journal.html";
+    let extensionID = chrome.runtime.id
+    var newURL = `chrome-extension://${extensionID}/journal.html`;
     chrome.tabs.create({ url: newURL });
 });
 
@@ -93,5 +102,3 @@ function submitJournalEntry(response, journalEntry, currentImgs){
     chrome.runtime.sendMessage({name: "fromPopupToBackground", productName:response.productName, mainImg:response.mainImg, url:response.url, price:response.price, currentImgs:currentImgs, journalEntry: journalEntry }, function (response) {
     })
 }//submit journal entry
-  
-
