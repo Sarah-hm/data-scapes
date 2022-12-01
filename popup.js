@@ -42,7 +42,7 @@ $(".generateProduct").on("click", function(){
             $("#currentProductMainImg").append(`<img src ="https:${currentImgs[i]}" id = "img${[i]}" class ="currentImgs">`);
             }        
     
-            $("#currentProductTextInput").html(`<textarea id = "productTextarea" placeholder = "Why did that product was targetted to you? Where would you wear it? What is it meant for?" ></textarea>`)
+            $("#currentProductTextInput").html(`<textarea id = "productTextarea" placeholder = "Why do you think this product was targetted to you? Where or when would you wear it? What is it meant for?" ></textarea>`)
     
             $("#currentSubmitButton").html(`<button id = "submitButton"> add product to journal </button>`)
 
@@ -95,33 +95,3 @@ function submitJournalEntry(response, journalEntry, currentImgs){
 }//submit journal entry
   
 
-
-// chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-//     console.log("we are listening in the popup")
-//     // if (message.name == "isPaused?") {
-//     //   sendResponse({value: localStorage.getItem('paused')});
-//     // }
-//     if(message.name =="sentToPopup.js"){
-
-//         console.log(message.subject)
-    
-        //console.log($(".currentProduct"))
-    
-
-
-    //   console.log("a message was received");
-    //   sendResponse({value: "message is passing"});
-  
-    //   const dataOne = new FormData();
-    //   dataOne.append('username', 'abc123');
-    //                fetch('https://hybrid.concordia.ca/srosenbe/phpTestForChrome/fromChrome.php', {
-    //                method: 'post',
-    //               body: dataOne,
-    //                     }).then(function(r) {
-    //                             return r.text();
-    //                     }).then(function(data) {
-    //                       console.log("1222222");
-    //                       console.log(data);
-    //                   });
-//         } // if message
-//   });

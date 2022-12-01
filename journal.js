@@ -12,7 +12,7 @@ $(document).ready(function(){
 //open the participate section when clicking on the participate button 
 $(".participateButton").on("click", function(){
     console.log("button has been clicked")
-    $(".participateSection").css("height", "30vh")
+    $(".participateSection").css("height", "50vh")
     $(this).css("display", "none")
 })
 //close participate button to close dialogue box

@@ -1,10 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,900;1,700&display=swap');
+
 *{
     font-family:Arial, Helvetica, sans-serif;   
     }
 
+h1{ 
+    font-family: 'Azeret Mono', monospace;
+    font-weight: 900;
+}
 
 body{
 width:95vw;
+height: 100vh;
 overflow:scroll;
 background-color:rgba(255,255,255,0.7);
 }
