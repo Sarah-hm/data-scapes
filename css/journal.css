@@ -1,0 +1,90 @@
+*{
+font-family:Arial, Helvetica, sans-serif;   
+}
+
+.header{
+    min-height: 15vh;
+    background-color:rgba(255,255,255,0.7);
+    position: sticky;
+    top: 0;
+    display:flex; 
+    flex-direction: column;
+    align-items: center; 
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+.participateButtonContainer{
+    height: 5vh;
+}
+
+.participateButton{
+    /* This is the button to participate */
+}
+
+
+
+.participateSection{
+    height:0px;
+    transition: height 1s; 
+    overflow: hidden;
+  /* background-color:red; */
+}
+
+.journalBoard{
+ /* background-color:cyan; */
+ display:flex;
+ width:100%; 
+ flex-wrap: wrap;
+ justify-content: space-between;
+}
+
+.singleJournalEntry{
+/* background-color:pink; */
+width: 18vw;
+margin: 2%;
+border: 1px solid;
+padding: 1%;
+box-shadow: 5px 10px #888888;
+border-radius: 25px;
+}
+
+.imgsContainer{
+   /* background-color:black; */
+    display:flex;
+    overflow: scroll;
+}
+
+.imgsContainer img{ 
+    width: 100%; 
+    margin-right:10%;
+    margin-left:10%;
+}
+
+.singleJournalEntry h2{ 
+font-size:105%; 
+}
+
+
+button{ 
+    font-size: 130%; 
+    text-transform: uppercase;
+    font-weight:900;
+    background-color:black; 
+    color:white; 
+    transition: all 0.5s ease-in-out;
+    width: 92%; 
+    border:none;
+    padding: 4%; 
+
+}
+
+button:hover{
+    background-color:#4E4E4E;
+    color:white;
+}
+
+.closeParticipateButton{
+    height: 5vh;
+    width: 25%;
+}

@@ -1,4 +1,6 @@
-
+*{
+    font-family:Arial, Helvetica, sans-serif;   
+    }
 
 
 body{
@@ -12,16 +14,19 @@ background-color:rgba(255,255,255,0.7);
     justify-content:center;
     align-items:center;
     flex-wrap:wrap;
+    flex-direction: column;
 }
 
 .currentProduct{
+    height:0px;
     display:flex;
     justify-content:center;
     align-items:center;
-    flex-wrap:wrap;
-    background-color:grey; 
     border-radius:25px;
     overflow:hidden;
+    flex-direction: column;
+    width:100%;
+    /* transition: all 0.5s ease-in;  */
 }
 
 #productName, 
@@ -30,8 +35,13 @@ background-color:rgba(255,255,255,0.7);
     padding-right: 5%;
 }
 
+#productPrice{
+font-weight:900;
+}
+
 #mainImg{
-    padding:5%;
+    padding-left:8%;
+    padding-right:5%;
     margin: auto;
 }
 
@@ -39,38 +49,58 @@ background-color:rgba(255,255,255,0.7);
     display:flex;
     flex-wrap:nowrap;
     overflow-y:scroll;
+    border-top: dashed #E5E5E5 1px;
+    border-bottom: dashed #E5E5E5 1px;
+    padding-left: 6%;
 }
 
 .currentImgs{
-    padding:7%;
+    padding:8%;
+}
+
+#currentProductTextInput{
+    width:94%;
+    margin-left: 3%; 
+    margin-right: 3%;
 }
 
 #productTextarea{
-    margin-top:5%; 
-    margin-bottom: 5%;
-    margin-left: 3%;
-    margin-right: 3%;
-    width:90%;
-    height: 20vh;
-    resize:none;
-}
-
-#submitButton{
+    margin-top:2%; 
     width:100%;
-    align-self:baseline;
+    height: 15vh;
+    resize:none;
+    border: none;
+    overflow: auto;
+    outline: none;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 
 #journalButton{
     margin: 5%;
 }
 
-button {
-    width:90%;
-}
 img{
     width:80%;
 }
 
-.currentProduct{
-    width:90%;
+
+button{ 
+    font-size: 130%; 
+    text-transform: uppercase;
+    font-weight:900;
+    background-color:black; 
+    color:white; 
+    transition: all 0.5s ease-in-out;
+    width: 92%; 
+    border:none;
+    padding: 4%; 
+
+}
+
+button:hover{
+    background-color:#4E4E4E;
+    color:white;
 }

@@ -21,8 +21,6 @@
                 let imgURL = document.getElementsByClassName("j-verlok-lazy")[i].dataset.src
                 allImgs.push(imgURL);
             }
-    
-            
             //price of the item (is only one number as a string with $ (ex: '13.00$')
             //let price = document.getElementsByClassName("product-intro__head-price")[0].getElementsByClassName("original")[0].getElementsByClassName("from")[0].innerText;
 
@@ -33,7 +31,6 @@
             //url of the product page 
             let url = window.location.baseURI
             //let url = window.location.href
-        
             console.log(allImgs)
         
         //Send the information extracted to the extension popup (popup.js)
