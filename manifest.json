@@ -1,6 +1,6 @@
 {
     "manifest_version": 2,
-    "name": "HHello Extensions of the world!",
+    "name": "DATA_SCAPES extension",
     "description": "Base Level Extension",
     "version": "1.0",
     "browser_action": {
