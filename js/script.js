@@ -19,6 +19,9 @@ window.addEventListener("load", () => {
     const headerSubtitle = document.querySelector("#headerSubtitle");
     let headerBtns = document.querySelectorAll(".header-btn");
 
+    let styleguideBtn = document.querySelector(".styleguide-btn")
+    let styleguideSection = document.querySelector("#styleguide-section")
+
     console.log(headerSubtitle)
     headerSubtitle.addEventListener("mouseover",() => {
   
@@ -35,12 +38,17 @@ window.addEventListener("load", () => {
                 let randomColor = Math.floor(Math.random() * allColors.length);
                 let newColor = allColors[randomColor];
                 el.style.border = `solid 4px ${newColor}`;
+
             }) //Clicked visualization button 
             el.addEventListener('mouseleave',() => {
                 let newColor = grey;
                 el.style.border = `solid 4px ${newColor}`;
             }) //Clicked visualization button 
         })
+
+    // styleguideBtn.addEventListener(`click`, ()=>{
+    //     styleguideSection.classList.toggle("header-section-open")
+    // })
 
 
   });

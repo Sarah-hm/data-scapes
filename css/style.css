@@ -70,8 +70,32 @@ button{
 	font: inherit;
 	cursor: pointer;
 	outline: inherit;
-    transition: border 2s; 
+    transition: border 0.75s; 
 }
+
+
+#styleguide-section, #wireframe-section{
+    width:100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#styleguide-img, .wireframe-imgs{
+    margin:2%; 
+    object-fit: contain;
+    width:90%;
+    border: solid 4px var(--grey-color)
+}
+
+#wireframe-img-4{
+    height: 100vh;
+}
+
+/* .header-section-open{
+    height: 80vh;
+} */
 
 .tilt-shaking{
     -webkit-animation-name: tilt-shaking;
@@ -93,8 +117,6 @@ button{
     100% { transform: rotate(0deg); }
   }
 
-
-/* Removing default button style */
 
 
 .bioContainer{
