@@ -1,0 +1,58 @@
+*{
+    padding:0; 
+    margin:0; 
+    box-sizing: border-box;
+}
+
+body{
+    background:black;
+    display:flex; 
+    align-items: center;
+    justify-content: center;
+}
+
+#data-scapes-container{
+    background: white;
+    transform-origin: center;
+    /* width:100%; 
+    height:100vh; */
+    margin: auto;
+    transform: scale(1);
+    transition: all 2s ease-in-out;
+}
+
+#rhizome-cloud-container{
+    background: black;
+    transform-origin: center;
+    margin: auto;
+    transform: scale(1);
+    transition: all 2s ease-in-out;
+}
+
+#title-overlay-zoom-out{
+   background-color:cyan; 
+   display:flex;
+   align-items: center; 
+   justify-content:center;
+   text-align: center;
+   font-size: 3rem;
+   color:black; 
+   font-weight: bold;
+   width:100%;
+   height:100%;
+   z-index:100;
+   opacity:0;
+   transition: all 1s ease-in-out;
+}
+
+.opened-container{
+    width:100%; 
+    height:100vh;
+    position:absolute; 
+    left:0px; 
+    top:0px; 
+}
+
+.closed-container{ 
+    transform: scale(0.25);
+}
