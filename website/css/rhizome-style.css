@@ -16,8 +16,8 @@ body{
 #data-scapes-container{
     background: white;
     transform-origin: center;
-    /* width:100%; 
-    height:100vh; */
+    width:100%; 
+    height:100vh;
     margin: auto;
     transform: scale(1);
     transition: all 2s ease-in-out;
@@ -27,7 +27,6 @@ body{
 #rhizome-cloud-container{
     background: black;
     transform-origin: center;
-    margin: auto;
     transform: scale(1);
     transition: all 2s ease-in-out;
 }
@@ -35,35 +34,51 @@ body{
 #rhizome-grid{
     display: grid;
     grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto auto auto auto auto auto;
+    gap:50px;
     width:100%;
     height:100vh;
     background-color:red;
 }
 
-
-
 #rhizome-grid-datascapes-container{
-
+    grid-column-start: 5;
+    grid-column-end: 6;
+    grid-row-start: 5;
+    grid-row-end: 6;
 }
 
-
-
-
-#title-overlay-zoom-out{
+.title-overlay-zoom-out{
    background-color:cyan; 
-   display:flex;
-   align-items: center; 
-   justify-content:center;
+   display: flex;
+   align-items: center;
+   justify-content: center;
    text-align: center;
-   font-size: 3rem;
+   font-size: 1rem;
    color:black; 
    font-weight: bold;
    width:100%;
    height:100%;
    z-index:100;
-   opacity:0;
+   transform-origin: center ;
+   transform: scale (1);
+   opacity:1;
    transition: all 1s ease-in-out;
 }
+
+.title-overlay-zoom-out h2{
+    position: fixed; 
+    width:100%; 
+    height:100%; 
+    left:0px; 
+    top:0px;
+}
+
+.title-overlay-zoom-out:hover{
+   transform: scale(1.25);
+   cursor:pointer;
+ }
+
 
 .opened-container{
     width:100%; 
@@ -71,8 +86,4 @@ body{
     position:absolute; 
     left:0px; 
     top:0px; 
-}
-
-.closed-container{ 
-    transform: scale(0.25);
 }

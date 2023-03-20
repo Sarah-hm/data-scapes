@@ -40,17 +40,8 @@ body{
     background-color:red;
 }
 
-
-
-#rhizome-grid-datascapes-container{
-
-}
-
-
-
-
-#title-overlay-zoom-out{
-   background-color:cyan; 
+.title-overlay-zoom-out{
+   background-color:white; 
    display:flex;
    align-items: center; 
    justify-content:center;

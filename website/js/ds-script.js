@@ -1,13 +1,17 @@
 window.onload = (event) => { 
 
 let datascapesContainer = document.querySelector("#data-scapes-container");
-let datascapesContainerOverlay = document.querySelector("#title-overlay-zoom-out")
+let datascapesContainerOverlays = document.querySelectorAll(".title-overlay-zoom-out")
 
 
 document.addEventListener("scroll", () =>{
 console.log("scrolled")
 datascapesContainer.style.transform = "scale(0.25)"
-datascapesContainerOverlay.style.opacity = "1"
+
+datascapesContainerOverlays.forEach((el) => {
+console.log(el);
+el.style.opacity = "1"
+})
 //body.style.background = "black"
 setTimeout(sendToRhizomeCloud, 2000)
 })
