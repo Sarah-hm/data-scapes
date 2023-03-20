@@ -1,7 +1,7 @@
 window.onload = (event) => { 
 
 let datascapesContainer = document.querySelector("#data-scapes-container");
-let datascapesContainerOverlays = document.querySelectorAll(".title-overlay-zoom-out")
+let datascapesContainerOverlays = document.querySelectorAll(".rhizome-grid-item")
 
 
 
@@ -20,19 +20,11 @@ datascapesContainerOverlays.forEach((el) => {
          el.querySelector("h1").style.color = "rgba(0,0,0,1)"
         }, 750)
      })
-
-
+     console.log(el.getAttribute("data-url"))
+     el.addEventListener("click", ()=>{
+        window.location.href = `${el.getAttribute("data-url")}`
+     })
     })
-
-
-
-datascapesContainer.addEventListener("click", () =>{
-console.log("scrolled")
-datascapesContainer.style.transform = "scale(0.25)"
-datascapesContainerOverlay.style.opacity = "1"
-//body.style.background = "black"
-setTimeout(sendTodatascapesContainer, 2000)
-})
 
 }//window onload
 
