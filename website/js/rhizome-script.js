@@ -1,7 +1,29 @@
 window.onload = (event) => { 
 
 let datascapesContainer = document.querySelector("#data-scapes-container");
-let datascapesContainerOverlay = document.querySelector("#title-overlay-zoom-out")
+let datascapesContainerOverlays = document.querySelectorAll(".title-overlay-zoom-out")
+
+
+
+
+datascapesContainerOverlays.forEach((el) => {
+    console.log(el)
+    el.addEventListener("mouseenter", ()=>{
+       el.querySelector("h1").style.color = "rgba(0,0,0,0)"
+       setTimeout(()=>{
+        el.querySelector("h2").style.color = "rgba(0,0,0,1)"
+       }, 750)
+    })
+    el.addEventListener("mouseleave", ()=>{
+        el.querySelector("h2").style.color = "rgba(0,0,0,0)"
+        setTimeout(()=>{
+         el.querySelector("h1").style.color = "rgba(0,0,0,1)"
+        }, 750)
+     })
+
+
+    })
+
 
 
 datascapesContainer.addEventListener("click", () =>{
