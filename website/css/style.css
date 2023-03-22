@@ -6,22 +6,65 @@
 }
 
 body{
-    background:black;
+    background:white;
     display:flex; 
     align-items: center;
     justify-content: center;
 }
 
+#black-out-screen{
+    position:fixed; 
+    z-index:1000; 
+    background-color:rgba(0,0,0,1); 
+    top:0px; 
+    left:0px; 
+    width:100%; 
+    height:100vh;
+    display:inline;
+    transition: background-color 2s ease-out;
+    }
 
+#scroll-instruction{
+    position: fixed; 
+    left: 45%; 
+    top: 92vh; 
+    width: 10%; 
+    text-align:center;
+    color:rgba(0,0,0,0);
+    transition: all 0.5s ease-out; 
+    vertical-align: baseline;
+    z-index:5000;
+}
 
 #data-scapes-container{
-    background: white;
+    width: 100%; 
+    height:110vh;
     transform-origin: center;
-    /* width:100%; 
-    height:100vh; */
     margin: auto;
     transform: scale(1);
     transition: all 2s ease-in-out;
+}
+
+#data-scapes-grid{
+    background: white;
+    border: 2px black solid;
+    transform-origin: center;
+    width:100%; 
+    height:100vh;
+    margin: auto;
+    transform: scale(1);
+    transition: all 2s ease-in-out;
+    display:grid;
+    grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+    grid-template-rows: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
+    padding: 1%;
+}
+
+#data-scapes-grid-title{
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row: 1;
+    /* justify-self: stretch; */
 }
 
 /* RHIZOME CLOUD PAGE */
@@ -33,16 +76,12 @@ body{
     transition: all 2s ease-in-out;
 }
 
-#rhizome-grid{
-    display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
-    width:100%;
-    height:100vh;
-    background-color:red;
-}
-
 .title-overlay-zoom-out{
-   background-color:white; 
+   background-color: white;
+   position:fixed; 
+   background-color:rgba(255,255,255,1); 
+   top:0px; 
+   left:0px; 
    display:flex;
    align-items: center; 
    justify-content:center;
@@ -55,14 +94,6 @@ body{
    z-index:100;
    opacity:0;
    transition: all 1s ease-in-out;
-}
-
-.opened-container{
-    width:100%; 
-    height:110vh;
-    position:absolute; 
-    left:0px; 
-    top:0px; 
 }
 
 .closed-container{ 
