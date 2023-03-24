@@ -14,6 +14,7 @@ body{
 
 /* RHIZOME CLOUD PAGE */
 
+
 #black-out-screen{
 position:fixed; 
 z-index:1000; 
@@ -26,28 +27,40 @@ display:block;
 transition: background-color 1s ease-out;
 }
 
+#svg-container{
+    position:fixed; 
+    background-color:transparent; 
+    width:100%; 
+    height: 100vh; 
+    top:0; 
+    left: 0; 
+    z-index: 0;
+}
+
 #rhizome-cloud-container{
-    background: black;
+    background-color: white;
     transition: all 2s ease-in-out;
     width:100%; 
     height:100vh;
 }
 
 #rhizome-grid{
+    z-index:1;
     display: grid;
     grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto;
     grid-template-rows: auto auto auto auto auto auto auto auto auto auto;
     gap:50px;
     width:100%;
     height:100vh;
-    background-color:white;
+    /* background-color:white; */
 }
 
-#rhizome-grid-datascapes-container{
+.rhizome-grid-datascapes-container{
     grid-column-start: 5;
     grid-column-end: 7;
     grid-row-start: 5;
     grid-row-end: 7;
+    transition: all 1s; 
 }
 
 #rhizome-grid-01-container{
@@ -65,6 +78,7 @@ transition: background-color 1s ease-out;
 }
 
 .rhizome-grid-item{
+    background-color:white;
    border: 2px black solid;
    transform-origin: center;
    display: flex;
@@ -98,15 +112,32 @@ transition: background-color 1s ease-out;
     transition: color 0.75s ease-out
 }
 
-.rhizome-grid-item:hover{
-   transform: scale(1.25);
-   cursor:pointer;
+.rhizome-grid-item-hover{
+    transform: scale(1.25);
+    cursor:grab;
+  }
+
+  .grid-item-closed{
+    transform: scale(1);
+  }
+
+  .grid-item-open-transition{
+    background-color:cyan;
+    transform-origin: center;
+    /* z-index:1000; */
+    transform: scale(3);
+    z-index:1000;
+    transition: all 2s; 
  }
 
- .grid-item-open{
-    /* position:fixed; */
-    /* top:0px;
-    left:0px; */
-    width:100vw;
-    height:100vh;
+ .grid-item-focus{
+    grid-column-start: 3;
+    grid-column-end: 10;
+    grid-row-start: 3;
+    grid-row-end: 9;
  }
+
+ svg{
+    background-color:transparent;
+ }
+
