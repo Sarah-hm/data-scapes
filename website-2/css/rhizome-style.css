@@ -6,7 +6,7 @@
 }
 
 body{
-    background:black;
+    background:white;
     display:flex; 
     align-items: center;
     justify-content: center;
@@ -25,56 +25,48 @@ width:100%;
 height:100vh;
 display:block;
 transition: background-color 1s ease-out;
+opacity:0; 
 }
 
 #svg-container{
+    background-color:transparent;
     position:fixed; 
-    background-color:transparent; 
+    top: 0px; 
+    left: 0px; 
     width:100%; 
     height: 100vh; 
-    top:0; 
-    left: 0; 
     z-index: 0;
 }
 
 #rhizome-cloud-container{
-    background-color: white;
+    /* background-color: white; */
     transition: all 2s ease-in-out;
+    transform-origin: center;
+    /* display:flex; */
     width:100%; 
     height:100vh;
 }
 
-#rhizome-grid{
-    z-index:1;
-    display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto;
-    grid-template-rows: auto auto auto auto auto auto auto auto auto auto;
-    gap:50px;
-    width:100%;
-    height:100vh;
-    /* background-color:white; */
-}
 
 .rhizome-grid-datascapes-container{
-    grid-column-start: 5;
-    grid-column-end: 7;
-    grid-row-start: 5;
-    grid-row-end: 7;
-    transition: all 1s; 
+    transform-origin:center;
+    position: fixed;
+    top: 35%; 
+    left: 35%;  
+    transition: all 0.1s;
+    transition: transform 1s; 
 }
 
 #rhizome-grid-01-container{
-    grid-column-start: 2;
-    grid-column-end: 4;
-    grid-row-start: 2;
-    grid-row-end: 4;
+    transform-origin:center;
+    position: fixed;
+    top: 15%; 
+    left: 60%;  
+    transition: transform 1s; 
 }
 
 #rhizome-grid-02-container{
-    grid-column-start: 7;
-    grid-column-end: 9;
-    grid-row-start: 7;
-    grid-row-end: 9;
+   
 }
 
 .rhizome-grid-item{
@@ -88,7 +80,8 @@ transition: background-color 1s ease-out;
    font-size: 1rem;
    font-weight: bold;
     position: relative;
-   width:100%;
+   width:20%;
+   height: 20vh;
    z-index:0;
    transition: all 1s ease-in-out;
 }
@@ -135,9 +128,5 @@ transition: background-color 1s ease-out;
     grid-column-end: 10;
     grid-row-start: 3;
     grid-row-end: 9;
- }
-
- svg{
-    background-color:transparent;
  }
 

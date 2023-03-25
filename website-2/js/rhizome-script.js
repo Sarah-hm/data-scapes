@@ -8,6 +8,13 @@ let blackoutScreen = document.querySelector("#black-out-screen")
 let rhizomeLines = [];
 const newSvg = document.createElement(`svg`);
 
+//Draggable
+let mouseDown = false;
+let mouseX = 0;
+let mouseY = 0;
+let elementX = 0;
+let elementY = 0;
+
 // blackoutScreen.style.backgroundColor = "rgba(0,0,0,1)"
 // setTimeout(()=>{
 // blackoutScreen.style.display = "none"
@@ -31,7 +38,9 @@ let newLine = {el:el, xPos:elCenter.x, yPos:elCenter.y}
 rhizomeLines.push(newLine);
 console.log(rhizomeLines);
 
-
+    el.addEventListener('mousedown',handleMouseDown);
+    el.addEventListener('mouseup',handleMouseUp);
+    document.addEventListener('mousemove',handleMouseMove);
 
 
     // On mouse enter, make title disappear and pullquote appear
@@ -85,17 +94,14 @@ console.log(rhizomeLines);
 
     //Create rhizome lines
     for (let i=0; i<rhizomeLines.length;i++){
-
-
-
     let x1 = rhizomeLines[0].xPos;
     let y1 = rhizomeLines[0].yPos;
     let x2 = rhizomeLines[1].xPos;
     let y2 = rhizomeLines[1].yPos;
 
 
-
-    draw.line(x1, x2, y1, y2).stroke({ width: 1, color:'black' })
+    
+    draw.line(x1, y1, x2, y2).stroke({ width: 1, color:'black' })
     // line.plot(50, 30, 100, 150)
     
     
@@ -109,8 +115,33 @@ console.log(rhizomeLines);
             let x = rect.left + rect.width/2; 
             let y = rect.top + rect.height/2; 
             return {x, y}
-    
     }
+
+
+// FROM chatGPT: 
+    // Handle mouse down event
+function handleMouseDown(event) {
+    mouseDown = true;
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+    elementX = event.target.offsetLeft;
+    elementY = event.target.offsetTop;
+  }
+  
+  // Handle mouse up event
+  function handleMouseUp(event) {
+    mouseDown = false;
+  }
+  
+  // Handle mouse move event
+  function handleMouseMove(event) {
+    if (mouseDown) {
+      const deltaX = event.clientX - mouseX;
+      const deltaY = event.clientY - mouseY;
+      event.target.style.left = (elementX + deltaX) + 'px';
+      event.target.style.top = (elementY + deltaY) + 'px';
+    }
+  }
 
 }//window onload
 
