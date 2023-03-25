@@ -48,12 +48,12 @@ opacity:0;
 }
 
 
-.rhizome-grid-datascapes-container{
+#rhizome-grid-datascapes-container{
     transform-origin:center;
     position: fixed;
     top: 35%; 
     left: 35%;  
-    transition: all 0.1s;
+    /* transition: all 0.1s; */
     transition: transform 1s; 
 }
 
@@ -66,7 +66,11 @@ opacity:0;
 }
 
 #rhizome-grid-02-container{
-   
+    transform-origin:center;
+    position: fixed;
+    top: 15%; 
+    left: 25%;  
+    transition: transform 1s; 
 }
 
 .rhizome-grid-item{
