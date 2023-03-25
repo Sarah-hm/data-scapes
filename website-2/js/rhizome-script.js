@@ -1,6 +1,6 @@
 window.onload = (event) => { 
 
-const draw = SVG().addTo('#svg-container').size('100%', '100%')
+const itemBackground = SVG().addTo('.rhizome-item-background').size('100%', '100%')
 
 const rhizomeGrid = document.querySelector("#rhizome-grid")
 let rhizomeItems = document.querySelectorAll(".rhizome-grid-item");
@@ -20,14 +20,12 @@ let elementY = 0;
 // blackoutScreen.style.display = "none"
 // }, 1500)
 
+itemBackground.on('mousemove', handleSVGmouseMove);
+
 //For earch rhizome items, interact with them on hover and link them to their specific url
 rhizomeItems.forEach((el) => {
-   
-//Draw lines from the center of all elements once;
-let elCenter = getElCenter(el);
-let newLine = {el:el, xPos:elCenter.x, yPos:elCenter.y}
-rhizomeLines.push(newLine);
 
+drawBackgroundShape(el);
 
     el.addEventListener('mousedown',handleMouseDown);
     el.addEventListener('mouseup',handleMouseUp);
@@ -58,8 +56,6 @@ rhizomeLines.push(newLine);
          })
         })
     })
-    
-
 
 //Create rhizome lines
     for (let i=0; i<rhizomeLines.length;i++){
@@ -70,6 +66,8 @@ rhizomeLines.push(newLine);
 
 
         draw.line(x1, y1, x2, y2).stroke({ width: 1, color:'black' })
+
+
         // line.plot(50, 30, 100, 150)     
         }
     
@@ -110,9 +108,6 @@ function handleMouseDown(event) {
     mouseY = event.clientY;
     elementX = event.target.offsetLeft;
     elementY = event.target.offsetTop;
-
-    //redraw the svg lines; 
-    redrawSVG(event);
   }
   // Handle mouse up event
   function handleMouseUp(event) {
@@ -125,10 +120,26 @@ function handleMouseDown(event) {
       const deltaY = event.clientY - mouseY;
       event.target.style.left = (elementX + deltaX) + 'px';
       event.target.style.top = (elementY + deltaY) + 'px';
+
+    drawBackgroundShape(event.target)
     }
   }
 
-  function redrawSVG(){}
+  function drawBackgroundShape(el){
+
+    let polygon = itemBackground.polygon('50,0 100,50 50,100 0,50')
+
+    polygon.fill('#f06').move(0,0)
+
+  }
+
+
+
+function handleSVGmouseMove(event){
+console.log(event)
+}
+
+
 }//window onload
 
 
