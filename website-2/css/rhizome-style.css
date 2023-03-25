@@ -100,13 +100,18 @@ opacity:0;
     transition: color 0.75s ease-in;
 }
 
-.rhizome-grid-item h2{
+.rhizome-item-hover-screen h2{
     position:absolute;
     top:20%;
     z-index:2;
-    color: rgba(0,0,0,0);
+    color: rgba(0,0,0,1);
     font-size: 1rem;
     transition: color 0.75s ease-out
+}
+
+.rhizome-item-hover-screen{
+    opacity:0;
+    transition: opacity 0.75s;
 }
 
 .rhizome-grid-item-hover{
