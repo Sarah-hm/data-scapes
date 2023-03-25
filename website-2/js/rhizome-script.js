@@ -115,14 +115,18 @@ function handleMouseDown(event) {
   }
   // Handle mouse move event
   function handleMouseMove(event) {
-    if (mouseDown) {
-      const deltaX = event.clientX - mouseX;
-      const deltaY = event.clientY - mouseY;
-      event.target.style.left = (elementX + deltaX) + 'px';
-      event.target.style.top = (elementY + deltaY) + 'px';
-
-    drawBackgroundShape(event.target)
+    console.log(event.target)
+    if (event.target.classList.contains("rhizome-grid-item")){
+        if (mouseDown) {
+            const deltaX = event.clientX - mouseX;
+            const deltaY = event.clientY - mouseY;
+            event.target.style.left = (elementX + deltaX) + 'px';
+            event.target.style.top = (elementY + deltaY) + 'px';
+      
+          drawBackgroundShape(event.target)
+          }
     }
+
   }
 
   function drawBackgroundShape(el){
