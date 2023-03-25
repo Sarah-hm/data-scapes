@@ -35,16 +35,16 @@ opacity:0;
     left: 0px; 
     width:100%; 
     height: 100vh; 
-    z-index: 0;
+    z-index: -5;
 }
 
 #rhizome-cloud-container{
-    /* background-color: white; */
+    background-color: beige;
     transition: all 2s ease-in-out;
-    transform-origin: center;
     /* display:flex; */
     width:100%; 
     height:100vh;
+    z-index:0;
 }
 
 
@@ -58,11 +58,11 @@ opacity:0;
 }
 
 #rhizome-grid-01-container{
-    transform-origin:center;
+    /* transform-origin:center; */
     position: fixed;
     top: 15%; 
     left: 60%;  
-    transition: transform 1s; 
+    transition: transform 1s;
 }
 
 #rhizome-grid-02-container{
@@ -139,17 +139,21 @@ opacity:0;
 
   .grid-item-open-transition{
     background-color:cyan;
-    transform-origin: center;
+    transform-origin: top left;
     /* z-index:1000; */
-    transform: scale(3);
+    /* transform: scale(3); */
+    width:60%;
+    /* height: 90vh; */
     z-index:1000;
     transition: all 2s; 
  }
 
- .grid-item-focus{
-    grid-column-start: 3;
-    grid-column-end: 10;
-    grid-row-start: 3;
-    grid-row-end: 9;
+ .rhizome-item-focus{
+transform-origin: top right;
+ position:fixed; 
+ width: 90%; 
+ height: 90vh;
+left: 5%;
+top:5vh;
  }
 

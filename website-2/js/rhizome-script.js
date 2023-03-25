@@ -1,6 +1,6 @@
 window.onload = (event) => { 
 
-const itemBackground = SVG().addTo('.rhizome-item-background').size('100%', '100%')
+const draw = SVG().addTo('#svg-container').size('100%', '100%')
 
 const rhizomeGrid = document.querySelector("#rhizome-grid")
 let rhizomeItems = document.querySelectorAll(".rhizome-grid-item");
@@ -20,12 +20,17 @@ let elementY = 0;
 // blackoutScreen.style.display = "none"
 // }, 1500)
 
-itemBackground.on('mousemove', handleSVGmouseMove);
+draw.on('mousemove', handleSVGmouseMove);
 
 //For earch rhizome items, interact with them on hover and link them to their specific url
 rhizomeItems.forEach((el) => {
 
-drawBackgroundShape(el);
+    let coords = getElCenter(el);
+    console.log(coords)
+
+    let polygon = draw.polygon(`${coords.x+50},${coords.y} ${coords.x+100},${coords.y+50} ${coords.x+50},${coords.y+100} ${coords.x},${coords.y+50}`)
+    polygon.fill('#f06')
+
 
     el.addEventListener('mousedown',handleMouseDown);
     el.addEventListener('mouseup',handleMouseUp);
@@ -117,30 +122,33 @@ function handleMouseDown(event) {
   function handleMouseMove(event) {
     console.log(event.target)
     if (event.target.classList.contains("rhizome-grid-item")){
-        if (mouseDown) {
-            const deltaX = event.clientX - mouseX;
-            const deltaY = event.clientY - mouseY;
-            event.target.style.left = (elementX + deltaX) + 'px';
-            event.target.style.top = (elementY + deltaY) + 'px';
-      
-          drawBackgroundShape(event.target)
-          }
+    if (mouseDown) {
+      const deltaX = event.clientX - mouseX;
+      const deltaY = event.clientY - mouseY;
+      event.target.style.left = (elementX + deltaX) + 'px';
+      event.target.style.top = (elementY + deltaY) + 'px';
+
+    drawBackgroundShape(event.target)
+    }
     }
 
   }
 
   function drawBackgroundShape(el){
 
-    let polygon = itemBackground.polygon('50,0 100,50 50,100 0,50')
+    console.log(el)
+   coords = getElCenter(el);
+    console.log(coords)    
 
-    polygon.fill('#f06').move(0,0)
+    polygon.plot([[coords.x+50,coords.y], [coords.x+100,coords.y+50], [coords.x+50,coords.y+100], [coords.x,coords.y+50]]) 
+
 
   }
 
 
 
 function handleSVGmouseMove(event){
-console.log(event)
+console.log(event.target)
 }
 
 
