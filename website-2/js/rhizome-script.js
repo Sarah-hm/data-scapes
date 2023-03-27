@@ -1,8 +1,10 @@
 window.onload = (event) => { 
 
+
+
 const draw = SVG().addTo('#svg-container').size('100%', '100%')
 
-const rhizomeGrid = document.querySelector("#rhizome-grid")
+const rhizomeCloud = document.querySelector("#rhizome-cloud-container")
 let rhizomeItems = document.querySelectorAll(".rhizome-grid-item");
 let blackoutScreen = document.querySelector("#black-out-screen")
 let rhizomeLines = [];
@@ -20,13 +22,74 @@ let elementY = 0;
 // blackoutScreen.style.display = "none"
 // }, 1500)
 
+
+//fetch data from the literature review json file and write them as rhizome items on the screen (at a random point)
+    //fetch data by chatGPT
+    fetch('data/literature-review.json')
+    .then(response => response.json())
+    .then(data => {
+        for (let i=0; i<data.length;i++){
+
+            //create a new div for every literature review item with a specific data attribute and random position
+            let newDiv = document.createElement("div")
+
+            console.log(data[i].dataAtt)
+            
+            // add a rhizome grid class and their specific data attribute (name)
+            newDiv.classList.add("rhizome-grid-item");
+            newDiv.setAttribute(`data-att`,`${data[i].dataAtt}`);
+
+            // set random position in x,y 
+            newDiv.style.left = Math.floor(Math.random() * window.innerWidth) + 'px';
+            newDiv.style.top = Math.floor(Math.random() * window.innerHeight) + 'px';
+
+            // create an empty h1 and append it to the new div
+            let title = document.createElement("h1");
+            newDiv.appendChild(title)
+          
+            //append new div to the rhizome cloud
+            rhizomeCloud.appendChild(newDiv)
+
+            //append a hover div (pullquote and button) on the previously created div
+            let container = document.querySelector(`[data-att="${data[i].dataAtt}"]`)
+            let newDivHoverScreen = document.createElement("div")
+
+            newDivHoverScreen.classList.add("rhizome-item-hover-screen");
+            container.appendChild(newDivHoverScreen)
+
+            //put a h2 and button in all hover screen
+            let hoverScreenContainer = document.querySelector(`[data-att="${data[i].dataAtt}"]`).querySelector(".rhizome-item-hover-screen")
+            let pullquote = document.createElement("h2");
+            let btn = document.createElement("button")
+    
+            hoverScreenContainer.appendChild(pullquote)
+            hoverScreenContainer.appendChild(btn)
+
+          
+            //Populate all elements with data from json file
+            container.querySelector("h1").innerText = data[i].title;
+            container.querySelector("h2").innerText = data[i].pullquote
+            container.querySelector("button").innerText = `Learn more`
+
+
+
+
+
+            
+        }
+    })
+    .catch(error => console.error(error));
+
+
+
+
 draw.on('mousemove', handleSVGmouseMove);
 
 //For earch rhizome items, interact with them on hover and link them to their specific url
 rhizomeItems.forEach((el) => {
 
     let coords = getElCenter(el);
-    console.log(coords)
+    // console.log(coords)
 
     let polygon = draw.polygon(`${coords.x+50},${coords.y} ${coords.x+100},${coords.y+50} ${coords.x+50},${coords.y+100} ${coords.x},${coords.y+50}`)
     polygon.fill('#f06')
@@ -77,7 +140,7 @@ rhizomeItems.forEach((el) => {
         }
     
 function getElCenter(el){
-console.log(el)
+// console.log(el)
     let rect = el.getBoundingClientRect();
     let x = rect.left + rect.width/2; 
     let y = rect.top + rect.height/2; 
@@ -120,7 +183,7 @@ function handleMouseDown(event) {
   }
   // Handle mouse move event
   function handleMouseMove(event) {
-    console.log(event.target)
+    // console.log(event.target)
     if (event.target.classList.contains("rhizome-grid-item")){
     if (mouseDown) {
       const deltaX = event.clientX - mouseX;
@@ -136,9 +199,9 @@ function handleMouseDown(event) {
 
   function drawBackgroundShape(el){
 
-    console.log(el)
+    // console.log(el)
    coords = getElCenter(el);
-    console.log(coords)    
+    // console.log(coords)    
 
     polygon.plot([[coords.x+50,coords.y], [coords.x+100,coords.y+50], [coords.x+50,coords.y+100], [coords.x,coords.y+50]]) 
 
@@ -148,7 +211,7 @@ function handleMouseDown(event) {
 
 
 function handleSVGmouseMove(event){
-console.log(event.target)
+// console.log(event.target)
 }
 
 
