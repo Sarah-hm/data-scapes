@@ -40,8 +40,11 @@ let elementY = 0;
             newDiv.setAttribute(`data-att`,`${data[i].dataAtt}`);
 
             // set random position in x,y 
-            newDiv.style.left = Math.floor(Math.random() * window.innerWidth) + 'px';
-            newDiv.style.top = Math.floor(Math.random() * window.innerHeight) + 'px';
+            data[i].xPos = Math.floor(Math.random() * window.innerWidth) + 'px';
+            data[i].yPos = Math.floor(Math.random() * window.innerHeight) + 'px';
+
+            newDiv.style.left =  data[i].xPos;
+            newDiv.style.top = data[i].yPos;
 
             // create an empty h1 and append it to the new div
             let title = document.createElement("h1");
@@ -71,15 +74,33 @@ let elementY = 0;
             container.querySelector("h2").innerText = data[i].pullquote
             container.querySelector("button").innerText = `Learn more`
 
-
-
-
-
+            //hover state + draggable + button click to change state
+            container.addEventListener('mousedown',handleMouseDown);
+            container.addEventListener('mouseup',handleMouseUp);
+            document.addEventListener('mousemove',handleMouseMove);
+            // On mouse enter, make title disappear and pullquote appear
+            container.addEventListener("mouseenter", handleMouseEnter)
+            //On mouse leave, make pullquote disappear and title appear
+            container.addEventListener("mouseleave", handleMouseLeave)       
             
+
+            //draw lines between rhizomes
+            drawLines(container);
+            
+
         }
     })
     .catch(error => console.error(error));
 
+
+function drawLines(el){
+    let coords = getElCenter(el);
+    
+    let polygon = draw.polygon(`${coords.x+50},${coords.y} ${coords.x+100},${coords.y+50} ${coords.x+50},${coords.y+100} ${coords.x},${coords.y+50}`)
+    polygon.fill('#f06')
+
+
+}
 
 
 
