@@ -1,11 +1,8 @@
 window.onload = (event) => { 
 
-
-
 const draw = SVG().addTo('#svg-container').size('100%', '100%')
 
 const rhizomeCloud = document.querySelector("#rhizome-cloud-container")
-let rhizomeItems = document.querySelectorAll(".rhizome-grid-item");
 let blackoutScreen = document.querySelector("#black-out-screen")
 let rhizomeLines = [];
 const newSvg = document.createElement(`svg`);
@@ -68,7 +65,6 @@ let elementY = 0;
             hoverScreenContainer.appendChild(pullquote)
             hoverScreenContainer.appendChild(btn)
 
-          
             //Populate all elements with data from json file
             container.querySelector("h1").innerText = data[i].title;
             container.querySelector("h2").innerText = data[i].pullquote
@@ -85,20 +81,41 @@ let elementY = 0;
             
 
             //draw lines between rhizomes
-            drawLines(container);
-            
-
+        
         }
+
+        drawRhizomeLinks(data);
     })
     .catch(error => console.error(error));
 
+function drawRhizomeLinks(data){
 
-function drawLines(el){
-    let coords = getElCenter(el);
+    let rhizomeItems = document.querySelectorAll(".rhizome-grid-item");
+
+    console.log(data)
+    for (let i = 0; i<data.length;i++){
+        if (data[i].link.includes('visual-complexity')){
+            let target = document.querySelector('[data-att="visual-complexity"]')
+            targetCoords = getElCenter(target);
+            console.log(targetCoords)
+
+            drawLine(data[i].xPos, data[i].yPos, targetCoords.x, targetCoords.y)
+        }
+    }
+    // if (data.link.includes('visual-complexity')){
+    //     console.log("visual complexity link")
+    // }
+
+    // let coords = getElCenter(container);
     
-    let polygon = draw.polygon(`${coords.x+50},${coords.y} ${coords.x+100},${coords.y+50} ${coords.x+50},${coords.y+100} ${coords.x},${coords.y+50}`)
-    polygon.fill('#f06')
+    // let polygon = draw.polygon(`${coords.x+50},${coords.y} ${coords.x+100},${coords.y+50} ${coords.x+50},${coords.y+100} ${coords.x},${coords.y+50}`)
+    // polygon.fill('#f06')
+}
 
+
+function drawLine(x1, y1, x2, y2){
+    console.log(x1, y1, x2, y2)
+    draw.line(x1, y1, x2, y2).stroke({ width: 1, color:'black' })
 
 }
 
@@ -108,7 +125,7 @@ draw.on('mousemove', handleSVGmouseMove);
 
 //For earch rhizome items, interact with them on hover and link them to their specific url
 rhizomeItems.forEach((el) => {
-
+    console.log(el)
     let coords = getElCenter(el);
     // console.log(coords)
 
@@ -167,8 +184,6 @@ function getElCenter(el){
     let y = rect.top + rect.height/2; 
     return {x, y}
     }
-
-
 //handle mouse enter (hover effect)
 function handleMouseEnter(event){
     if (!event.target.classList.contains("grid-item-open")){
@@ -204,8 +219,9 @@ function handleMouseDown(event) {
   }
   // Handle mouse move event
   function handleMouseMove(event) {
-    // console.log(event.target)
+
     if (event.target.classList.contains("rhizome-grid-item")){
+    
     if (mouseDown) {
       const deltaX = event.clientX - mouseX;
       const deltaY = event.clientY - mouseY;
@@ -224,12 +240,10 @@ function handleMouseDown(event) {
    coords = getElCenter(el);
     // console.log(coords)    
 
-    polygon.plot([[coords.x+50,coords.y], [coords.x+100,coords.y+50], [coords.x+50,coords.y+100], [coords.x,coords.y+50]]) 
+    // polygon.plot([[coords.x+50,coords.y], [coords.x+100,coords.y+50], [coords.x+50,coords.y+100], [coords.x,coords.y+50]]) 
 
 
   }
-
-
 
 function handleSVGmouseMove(event){
 // console.log(event.target)
