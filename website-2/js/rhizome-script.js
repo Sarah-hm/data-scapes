@@ -37,11 +37,13 @@ let elementY = 0;
             newDiv.setAttribute(`data-att`,`${data[i].dataAtt}`);
 
             // set random position in x,y 
-            data[i].xPos = Math.floor(Math.random() * window.innerWidth) + 'px';
-            data[i].yPos = Math.floor(Math.random() * window.innerHeight) + 'px';
+            let leftPos = Math.floor(Math.random() * window.innerWidth) + 'px';
+            let topPos = Math.floor(Math.random() * window.innerHeight) + 'px';
 
-            newDiv.style.left =  data[i].xPos;
-            newDiv.style.top = data[i].yPos;
+            newDiv.style.position = "fixed"
+            newDiv.style.transition = "transform 1s"
+            newDiv.style.left =  leftPos;
+            newDiv.style.top = topPos;
 
             // create an empty h1 and append it to the new div
             let title = document.createElement("h1");
@@ -70,6 +72,10 @@ let elementY = 0;
             container.querySelector("h2").innerText = data[i].pullquote
             container.querySelector("button").innerText = `Learn more`
 
+            let centercoords = getElCenter(container);
+            data[i].xPos = centercoords.x; 
+            data[i].yPos = centercoords.y;
+
             //hover state + draggable + button click to change state
             container.addEventListener('mousedown',handleMouseDown);
             container.addEventListener('mouseup',handleMouseUp);
@@ -85,98 +91,11 @@ let elementY = 0;
         }
 
         drawRhizomeLinks(data);
+
     })
     .catch(error => console.error(error));
 
-function drawRhizomeLinks(data){
-
-    let rhizomeItems = document.querySelectorAll(".rhizome-grid-item");
-
-    console.log(data)
-    for (let i = 0; i<data.length;i++){
-        if (data[i].link.includes('visual-complexity')){
-            let target = document.querySelector('[data-att="visual-complexity"]')
-            targetCoords = getElCenter(target);
-            console.log(targetCoords)
-
-            drawLine(data[i].xPos, data[i].yPos, targetCoords.x, targetCoords.y)
-        }
-    }
-    // if (data.link.includes('visual-complexity')){
-    //     console.log("visual complexity link")
-    // }
-
-    // let coords = getElCenter(container);
-    
-    // let polygon = draw.polygon(`${coords.x+50},${coords.y} ${coords.x+100},${coords.y+50} ${coords.x+50},${coords.y+100} ${coords.x},${coords.y+50}`)
-    // polygon.fill('#f06')
-}
-
-
-function drawLine(x1, y1, x2, y2){
-    console.log(x1, y1, x2, y2)
-    draw.line(x1, y1, x2, y2).stroke({ width: 1, color:'black' })
-
-}
-
-
-
-draw.on('mousemove', handleSVGmouseMove);
-
-//For earch rhizome items, interact with them on hover and link them to their specific url
-rhizomeItems.forEach((el) => {
-    console.log(el)
-    let coords = getElCenter(el);
-    // console.log(coords)
-
-    let polygon = draw.polygon(`${coords.x+50},${coords.y} ${coords.x+100},${coords.y+50} ${coords.x+50},${coords.y+100} ${coords.x},${coords.y+50}`)
-    polygon.fill('#f06')
-
-
-    el.addEventListener('mousedown',handleMouseDown);
-    el.addEventListener('mouseup',handleMouseUp);
-    document.addEventListener('mousemove',handleMouseMove);
-    // On mouse enter, make title disappear and pullquote appear
-    el.addEventListener("mouseenter", handleMouseEnter)
-    //On mouse leave, make pullquote disappear and title appear
-    el.addEventListener("mouseleave", handleMouseLeave)
-
-    //when clicked, send user to whatever url attributed to the grid-item clicked
-    el.querySelectorAll("button").forEach((btn) =>{
-        btn.addEventListener("click", ()=>{
-            // console.log("clicked")
-        if(!el.classList.contains("grid-item-open-transition")){
-            el.querySelector("h1").style.color = "rgba(0,0,0,0)"
-            el.querySelector("h2").style.color = "rgba(0,0,0,0)"
-        
-            el.classList.add("grid-item-open-transition");
-    
-            setTimeout(()=>{
-            el.classList.add("grid-item-focus")
-            },750)
-           
-        } else {
-            el.classList.remove("grid-item-open-transition");
-            el.classList.add("grid-item-closed")
-        }  
-         })
-        })
-    })
-
-//Create rhizome lines
-    for (let i=0; i<rhizomeLines.length;i++){
-        let x1 = rhizomeLines[0].xPos;
-        let y1 = rhizomeLines[0].yPos;
-        let x2 = rhizomeLines[i].xPos;
-        let y2 = rhizomeLines[i].yPos;
-
-
-        draw.line(x1, y1, x2, y2).stroke({ width: 1, color:'black' })
-
-
-        // line.plot(50, 30, 100, 150)     
-        }
-    
+  
 function getElCenter(el){
 // console.log(el)
     let rect = el.getBoundingClientRect();
@@ -247,6 +166,38 @@ function handleMouseDown(event) {
 
 function handleSVGmouseMove(event){
 // console.log(event.target)
+}
+
+function drawRhizomeLinks(data){
+
+    let rhizomeItems = document.querySelectorAll(".rhizome-grid-item");
+
+    console.log(data)
+    for (let i = 0; i<data.length;i++){
+        if (data[i].link.includes('visual-complexity')){
+            let target = document.querySelector('[data-att="visual-complexity"]')
+            targetCoords = getElCenter(target);
+            console.log(targetCoords)
+
+            drawLine(data[i].xPos, data[i].yPos, targetCoords.x, targetCoords.y)
+        }
+    }
+    // if (data.link.includes('visual-complexity')){
+    //     console.log("visual complexity link")
+    // }
+
+    // let coords = getElCenter(container);
+    
+    // let polygon = draw.polygon(`${coords.x+50},${coords.y} ${coords.x+100},${coords.y+50} ${coords.x+50},${coords.y+100} ${coords.x},${coords.y+50}`)
+    // polygon.fill('#f06')
+}
+
+function drawLine(x1, y1, x2, y2){
+    console.log(x1, y1, x2, y2)
+    draw.line(x1, y1, x2, y2).stroke({ width: 1, color:'black' })
+
+    // line.plot(50, 30, 100, 150)     
+
 }
 
 
