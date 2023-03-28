@@ -44,9 +44,10 @@ window.onload = (event) => {
 
         // create an empty h1 and append it to the new div
         let title = document.createElement("h1");
-        let svgBackground = document.createElement("svg");
-        // let svgBackground = document.createElement("div")
-        // svgBackground.classList.add("svg-ackground")
+        // let svgBackground = document.createElement("svg");
+        let svgBackground = document.createElement("div");
+        svgBackground.classList.add("svg-background");
+        svgBackground.setAttribute(`background-div-att`, `${data[i].dataAtt}`);
 
         newDiv.appendChild(title);
         newDiv.appendChild(svgBackground);
@@ -154,26 +155,29 @@ window.onload = (event) => {
   }
   // Handle mouse move event
   function handleMouseMove(event, data) {
-    if (event.target.classList.contains("rhizome-grid-item")) {
-      if (mouseDown) {
-        const deltaX = event.clientX - mouseX;
-        const deltaY = event.clientY - mouseY;
-        event.target.style.left = elementX + deltaX + "px";
-        event.target.style.top = elementY + deltaY + "px";
+    // if (event.target.classList.contains("rhizome-grid-item")) {
+    if (mouseDown) {
+      const deltaX = event.clientX - mouseX;
+      const deltaY = event.clientY - mouseY;
+      event.target.style.left = elementX + deltaX + "px";
+      event.target.style.top = elementY + deltaY + "px";
 
-        console.log(event.target);
-        console.log(data);
+      console.log(event.target);
+      console.log(data);
 
-        drawBackgroundShape(event.target, data);
-        // drawBackgroundShape(event.target)
-      }
+      drawBackgroundShape(event.target, data);
+      // drawBackgroundShape(event.target)
     }
+    // }
   }
 
   function drawBackgroundShape(el, data) {
-    let svgContainer = el.querySelector("svg");
-    console.log(svgContainer);
-    // const draw = SVG().addTo('#svg-container').size('100%', '100%')
+    let element = document.querySelector(
+      `[background-div-att="${data.dataAtt}"]`
+    );
+    // let svgContainer = el.querySelector(".svg-background");
+    console.log(element);
+    const drawContainer = SVG().addTo(element).size("100%", "100%");
 
     console.log(el);
     coords = getElCenter(el);
@@ -182,40 +186,76 @@ window.onload = (event) => {
     let lgDist = 86;
     let shDist = 35.5;
 
+    console.log(coords);
+    console.log(coords.x + shDist, coords.x - shDist);
+
     let p1 = {
-      oct: { x: coords.x - shDist, y: coords.y - lgDist },
-      rect: { x: coords.x - lgDist, y: coords.y - lgDist },
+      oct: { x: coords.x + shDist, y: lgDist },
+      rect: { x: lgDist, y: lgDist },
     };
     let p2 = {
-      oct: { x: coords.x + shDist, y: coords.y - lgDist },
-      rect: { x: coords.x + lgDist, y: coords.y - lgDist },
+      oct: { x: shDist, y: lgDist },
+      rect: { x: +lgDist, y: lgDist },
     };
     let p3 = {
-      oct: { x: coords.x + lgDist, y: coords.y - shDist },
-      rect: { x: coords.x + lgDist, y: coords.y - lgDist },
+      oct: { x: lgDist, y: shDist },
+      rect: { x: lgDist, y: lgDist },
     };
     let p4 = {
-      oct: { x: coords.x + lgDist, y: coords.y + shDist },
-      rect: { x: coords.x + lgDist, y: coords.y + lgDist },
+      oct: { x: lgDist, y: shDist },
+      rect: { x: lgDist, y: lgDist },
     };
     let p5 = {
-      oct: { x: coords.x + shDist, y: coords.y + lgDist },
-      rect: { x: coords.x + lgDist, y: coords.y + lgDist },
+      oct: { x: shDist, y: lgDist },
+      rect: { x: lgDist, y: lgDist },
     };
     let p6 = {
-      oct: { x: coords.x - shDist, y: coords.y + lgDist },
-      rect: { x: coords.x - lgDist, y: coords.y + lgDist },
+      oct: { x: shDist, y: lgDist },
+      rect: { x: lgDist, y: lgDist },
     };
     let p7 = {
-      oct: { x: coords.x - lgDist, y: coords.y + shDist },
-      rect: { x: coords.x - lgDist, y: coords.y + lgDist },
+      oct: { x: lgDist, y: shDist },
+      rect: { x: lgDist, y: lgDist },
     };
     let p8 = {
-      oct: { x: coords.x - lgDist, y: coords.y - shDist },
-      rect: { x: coords.x - lgDist, y: coords.y - lgDist },
+      oct: { x: lgDist, y: shDist },
+      rect: { x: lgDist, y: lgDist },
     };
 
-    let polygon = draw.polygon(
+    // let p1 = {
+    //   oct: { x: coords.x - shDist, y: coords.y - lgDist },
+    //   rect: { x: coords.x - lgDist, y: coords.y - lgDist },
+    // };
+    // let p2 = {
+    //   oct: { x: coords.x + shDist, y: coords.y - lgDist },
+    //   rect: { x: coords.x + lgDist, y: coords.y - lgDist },
+    // };
+    // let p3 = {
+    //   oct: { x: coords.x + lgDist, y: coords.y - shDist },
+    //   rect: { x: coords.x + lgDist, y: coords.y - lgDist },
+    // };
+    // let p4 = {
+    //   oct: { x: coords.x + lgDist, y: coords.y + shDist },
+    //   rect: { x: coords.x + lgDist, y: coords.y + lgDist },
+    // };
+    // let p5 = {
+    //   oct: { x: coords.x + shDist, y: coords.y + lgDist },
+    //   rect: { x: coords.x + lgDist, y: coords.y + lgDist },
+    // };
+    // let p6 = {
+    //   oct: { x: coords.x - shDist, y: coords.y + lgDist },
+    //   rect: { x: coords.x - lgDist, y: coords.y + lgDist },
+    // };
+    // let p7 = {
+    //   oct: { x: coords.x - lgDist, y: coords.y + shDist },
+    //   rect: { x: coords.x - lgDist, y: coords.y + lgDist },
+    // };
+    // let p8 = {
+    //   oct: { x: coords.x - lgDist, y: coords.y - shDist },
+    //   rect: { x: coords.x - lgDist, y: coords.y - lgDist },
+    // };
+
+    let polygon = drawContainer.polygon(
       `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
     );
     polygon.fill("#f06");
