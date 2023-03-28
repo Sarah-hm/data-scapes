@@ -155,20 +155,19 @@ window.onload = (event) => {
   }
   // Handle mouse move event
   function handleMouseMove(event, data) {
-    // if (event.target.classList.contains("rhizome-grid-item")) {
-    if (mouseDown) {
-      const deltaX = event.clientX - mouseX;
-      const deltaY = event.clientY - mouseY;
-      event.target.style.left = elementX + deltaX + "px";
-      event.target.style.top = elementY + deltaY + "px";
+    if (event.target.classList.contains("rhizome-grid-item")) {
+      if (mouseDown) {
+        const deltaX = event.clientX - mouseX;
+        const deltaY = event.clientY - mouseY;
+        event.target.style.left = elementX + deltaX + "px";
+        event.target.style.top = elementY + deltaY + "px";
 
-      console.log(event.target);
-      console.log(data);
+        console.log(event.target);
+        // console.log(data);
 
-      drawBackgroundShape(event.target, data);
-      // drawBackgroundShape(event.target)
+        drawBackgroundShape(event.target, data);
+      }
     }
-    // }
   }
 
   function drawBackgroundShape(el, data) {
@@ -176,30 +175,30 @@ window.onload = (event) => {
       `[background-div-att="${data.dataAtt}"]`
     );
     // let svgContainer = el.querySelector(".svg-background");
-    console.log(element);
+    // console.log(element);
     const drawContainer = SVG().addTo(element).size("100%", "100%");
 
-    console.log(el);
+    // console.log(el);
     coords = getElCenter(el);
     console.log(coords);
 
     let lgDist = 86;
     let shDist = 35.5;
 
-    console.log(coords);
+    // console.log(coords);
     console.log(coords.x + shDist, coords.x - shDist);
 
     let p1 = {
-      oct: { x: coords.x + shDist, y: lgDist },
-      rect: { x: lgDist, y: lgDist },
+      oct: { x: -shDist, y: -lgDist },
+      rect: { x: -lgDist, y: -lgDist },
     };
     let p2 = {
-      oct: { x: shDist, y: lgDist },
-      rect: { x: +lgDist, y: lgDist },
+      oct: { x: shDist, y: -lgDist },
+      rect: { x: lgDist, y: -lgDist },
     };
     let p3 = {
-      oct: { x: lgDist, y: shDist },
-      rect: { x: lgDist, y: lgDist },
+      oct: { x: lgDist, y: -shDist },
+      rect: { x: lgDist, y: -lgDist },
     };
     let p4 = {
       oct: { x: lgDist, y: shDist },
@@ -210,56 +209,23 @@ window.onload = (event) => {
       rect: { x: lgDist, y: lgDist },
     };
     let p6 = {
-      oct: { x: shDist, y: lgDist },
-      rect: { x: lgDist, y: lgDist },
+      oct: { x: -shDist, y: lgDist },
+      rect: { x: -lgDist, y: lgDist },
     };
     let p7 = {
-      oct: { x: lgDist, y: shDist },
-      rect: { x: lgDist, y: lgDist },
+      oct: { x: -lgDist, y: shDist },
+      rect: { x: -lgDist, y: lgDist },
     };
     let p8 = {
-      oct: { x: lgDist, y: shDist },
-      rect: { x: lgDist, y: lgDist },
+      oct: { x: -lgDist, y: -shDist },
+      rect: { x: -lgDist, y: -lgDist },
     };
-
-    // let p1 = {
-    //   oct: { x: coords.x - shDist, y: coords.y - lgDist },
-    //   rect: { x: coords.x - lgDist, y: coords.y - lgDist },
-    // };
-    // let p2 = {
-    //   oct: { x: coords.x + shDist, y: coords.y - lgDist },
-    //   rect: { x: coords.x + lgDist, y: coords.y - lgDist },
-    // };
-    // let p3 = {
-    //   oct: { x: coords.x + lgDist, y: coords.y - shDist },
-    //   rect: { x: coords.x + lgDist, y: coords.y - lgDist },
-    // };
-    // let p4 = {
-    //   oct: { x: coords.x + lgDist, y: coords.y + shDist },
-    //   rect: { x: coords.x + lgDist, y: coords.y + lgDist },
-    // };
-    // let p5 = {
-    //   oct: { x: coords.x + shDist, y: coords.y + lgDist },
-    //   rect: { x: coords.x + lgDist, y: coords.y + lgDist },
-    // };
-    // let p6 = {
-    //   oct: { x: coords.x - shDist, y: coords.y + lgDist },
-    //   rect: { x: coords.x - lgDist, y: coords.y + lgDist },
-    // };
-    // let p7 = {
-    //   oct: { x: coords.x - lgDist, y: coords.y + shDist },
-    //   rect: { x: coords.x - lgDist, y: coords.y + lgDist },
-    // };
-    // let p8 = {
-    //   oct: { x: coords.x - lgDist, y: coords.y - shDist },
-    //   rect: { x: coords.x - lgDist, y: coords.y - lgDist },
-    // };
 
     let polygon = drawContainer.polygon(
       `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
     );
     polygon.fill("#f06");
-
+    console.log(polygon);
     if (!data.backgroundDrawn) {
       // let polygon = draw.polygon(`${coords.x+50},${coords.y} ${coords.x+100},${coords.y+50} ${coords.x+50},${coords.y+100} ${coords.x},${coords.y+50}`)
 
@@ -299,7 +265,7 @@ window.onload = (event) => {
       if (data[i].link.includes("visual-complexity")) {
         let target = document.querySelector('[data-att="visual-complexity"]');
         targetCoords = getElCenter(target);
-        console.log(targetCoords);
+        // console.log(targetCoords);
         drawLine(data[i].xPos, data[i].yPos, targetCoords.x, targetCoords.y);
       }
     }
@@ -314,7 +280,7 @@ window.onload = (event) => {
   }
 
   function drawLine(x1, y1, x2, y2) {
-    console.log(x1, y1, x2, y2);
+    // console.log(x1, y1, x2, y2);
     draw.line(x1, y1, x2, y2).stroke({ width: 1, color: "black" });
 
     // line.plot(50, 30, 100, 150)
