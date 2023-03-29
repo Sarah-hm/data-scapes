@@ -1,5 +1,10 @@
 window.onload = (event) => {
   const draw = SVG().addTo("#svg-container").size("100%", "100%");
+  // let group = draw.group();
+  let movingElement;
+
+  let dataloaded = false;
+  let stopDataCheck = false;
 
   const rhizomeCloud = document.querySelector("#rhizome-cloud-container");
   let blackoutScreen = document.querySelector("#black-out-screen");
@@ -62,7 +67,8 @@ window.onload = (event) => {
         let newDivHoverScreen = document.createElement("div");
 
         newDivHoverScreen.classList.add("rhizome-item-hover-screen");
-        container.appendChild(newDivHoverScreen);
+
+        container.prepend(newDivHoverScreen);
 
         //put a h2 and button in all hover screen
         let hoverScreenContainer = document
@@ -85,31 +91,39 @@ window.onload = (event) => {
 
         data[i].backgroundDrawn = false;
         drawBackgroundShape(container, data[i]);
-
-        //hover state + draggable + button click to change state
-        container.addEventListener("mousedown", handleMouseDown);
-        container.addEventListener("mouseup", handleMouseUp);
-        // document.addEventListener('mousemove',handleMouseMove);
-
-        document.addEventListener("mousemove", function (event) {
-          handleMouseMove(event, data[i]);
-        });
-        // On mouse enter, make title disappear and pullquote appear
-        container.addEventListener("mouseenter", handleMouseEnter);
-        //On mouse leave, make pullquote disappear and title appear
-        container.addEventListener("mouseleave", handleMouseLeave);
-
-        // console.log(container[i].querySelector("#svg-container"))
-
-        // draw.on("mousemove", ()=>{
-        //     drawBackgroundShape(container, data[i])
-        // })
-        //draw lines between rhizomes
       }
 
       drawRhizomeLinks(data);
+      dataloaded = true;
+      console.log(dataloaded);
     })
     .catch((error) => console.error(error));
+
+  //check every second if the data has been loaded
+  setInterval(() => {
+    if (!stopDataCheck) {
+      if (dataloaded) {
+        stopDataCheck = true;
+
+        let rhizomeItems = document.querySelectorAll(".rhizome-grid-item");
+        handleEvents(rhizomeItems);
+      }
+    }
+  }, 1000);
+
+  function handleEvents(rhizomeItems) {
+    rhizomeItems.forEach((el) => {
+      // On mouse enter, make title disappear and pullquote appear
+      el.addEventListener("mouseenter", handleMouseEnter);
+      //On mouse leave, make pullquote disappear and title appear
+      el.addEventListener("mouseleave", handleMouseLeave);
+
+      //hover state + draggable + button click to change state
+      el.addEventListener("mousedown", handleMouseDown);
+      el.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener("mousemove", handleMouseMove);
+    });
+  }
 
   function getElCenter(el) {
     // console.log(el)
@@ -123,6 +137,56 @@ window.onload = (event) => {
     if (!event.target.classList.contains("grid-item-open")) {
       event.target.classList.add("rhizome-grid-item-hover");
       event.target.querySelector("h1").style.color = "rgba(0,0,0,0)";
+
+      let polygon = event.target.querySelector("polygon");
+
+      let lgDist = 86;
+      let shDist = 35.5;
+
+      let p1 = {
+        oct: { x: -shDist, y: -lgDist },
+        rect: { x: -lgDist, y: -lgDist },
+      };
+      let p2 = {
+        oct: { x: shDist, y: -lgDist },
+        rect: { x: lgDist, y: -lgDist },
+      };
+      let p3 = {
+        oct: { x: lgDist, y: -shDist },
+        rect: { x: lgDist, y: -lgDist },
+      };
+      let p4 = {
+        oct: { x: lgDist, y: shDist },
+        rect: { x: lgDist, y: lgDist },
+      };
+      let p5 = {
+        oct: { x: shDist, y: lgDist },
+        rect: { x: lgDist, y: lgDist },
+      };
+      let p6 = {
+        oct: { x: -shDist, y: lgDist },
+        rect: { x: -lgDist, y: lgDist },
+      };
+      let p7 = {
+        oct: { x: -lgDist, y: shDist },
+        rect: { x: -lgDist, y: lgDist },
+      };
+      let p8 = {
+        oct: { x: -lgDist, y: -shDist },
+        rect: { x: -lgDist, y: -lgDist },
+      };
+
+      //   polygon.setAttribute(
+      //     `points`,
+      //     `${p1.rect.x},${p1.rect.y} ${p2.rect.x},${p2.rect.y} ${p3.rect.x},${p3.rect.y} ${p4.rect.x},${p4.rect.y} ${p5.rect.x},${p5.rect.y} ${p6.rect.x},${p6.rect.y} ${p7.rect.x},${p7.rect.y} ${p8.rect.x},${p8.rect.y}`
+      //   );
+
+      //   polygon
+      //     .animate(500)
+      //     .plot(
+      //       `${p1.rect.x},${p1.rect.y} ${p2.rect.x},${p2.rect.y} ${p3.rect.x},${p3.rect.y} ${p4.rect.x},${p4.rect.y} ${p5.rect.x},${p5.rect.y} ${p6.rect.x},${p6.rect.y} ${p7.rect.x},${p7.rect.y} ${p8.rect.x},${p8.rect.y}`
+      //     );
+
       setTimeout(() => {
         event.target.querySelector(".rhizome-item-hover-screen").style.opacity =
           "1";
@@ -146,8 +210,8 @@ window.onload = (event) => {
     mouseDown = true;
     mouseX = event.clientX;
     mouseY = event.clientY;
-    elementX = event.target.offsetLeft;
-    elementY = event.target.offsetTop;
+
+    movingElement = event.target.parentElement.parentElement.parentElement;
   }
   // Handle mouse up event
   function handleMouseUp(event) {
@@ -155,22 +219,30 @@ window.onload = (event) => {
   }
   // Handle mouse move event
   function handleMouseMove(event, data) {
-    if (event.target.classList.contains("rhizome-grid-item")) {
-      if (mouseDown) {
-        const deltaX = event.clientX - mouseX;
-        const deltaY = event.clientY - mouseY;
-        event.target.style.left = elementX + deltaX + "px";
-        event.target.style.top = elementY + deltaY + "px";
+    // console.log("she's moving");
+    // if (event.target.classList.contains("rhizome-grid-item")) {
+    // console.log("we got the item");
+    if (mouseDown) {
+      // console.log(movingElement);
 
-        console.log(event.target);
-        // console.log(data);
+      let elRect = movingElement.getBoundingClientRect();
 
-        drawBackgroundShape(event.target, data);
-      }
+      const deltaX = elRect.width / 2;
+      const deltaY = elRect.height / 2;
+
+      console.log(deltaX);
+      movingElement.style.left = event.clientX - deltaX + "px";
+      movingElement.style.top = event.clientY - deltaY + "px";
+
+      //console.log(movingElement);
+      // console.log(data);
+
+      //   redrawBackgroundShape(event.target, data);
     }
+    // }
   }
 
-  function drawBackgroundShape(el, data) {
+  function drawBackgroundShape(event, data) {
     let element = document.querySelector(
       `[background-div-att="${data.dataAtt}"]`
     );
@@ -179,14 +251,11 @@ window.onload = (event) => {
     const drawContainer = SVG().addTo(element).size("100%", "100%");
 
     // console.log(el);
-    coords = getElCenter(el);
-    console.log(coords);
+    // coords = getElCenter(el);
+    // console.log(coords);
 
     let lgDist = 86;
     let shDist = 35.5;
-
-    // console.log(coords);
-    console.log(coords.x + shDist, coords.x - shDist);
 
     let p1 = {
       oct: { x: -shDist, y: -lgDist },
@@ -225,11 +294,15 @@ window.onload = (event) => {
       `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
     );
     polygon.fill("#f06");
-    console.log(polygon);
+    // group.add(polygon);
+    // console.log(group);
+
+    // polygon.data(`${data.dataAtt},{ value: { data: 0.3 }}`);
+
     if (!data.backgroundDrawn) {
       // let polygon = draw.polygon(`${coords.x+50},${coords.y} ${coords.x+100},${coords.y+50} ${coords.x+50},${coords.y+100} ${coords.x},${coords.y+50}`)
 
-      polygon.on(`mouseover`, () => {
+      drawContainer.on(`mouseover`, () => {
         console.log(p1.rect.x);
         polygon
           .animate(500)
@@ -239,7 +312,7 @@ window.onload = (event) => {
 
         // let polygon = draw.polygon(`${p1.x},${p1.y} ${p2.x},${p2.y} ${p3.x},${p3.y} ${p4.x},${p4.y} ${p5.x},${p5.y} ${p6.x},${p6.y} ${p7.x},${p7.y} ${p8.x},${p8.y}`)
       });
-      polygon.on(`mouseleave`, () => {
+      drawContainer.on(`mouseleave`, () => {
         polygon
           .animate(500)
           .plot(
@@ -253,13 +326,97 @@ window.onload = (event) => {
     // return polygon;
   }
 
+  function redrawBackgroundShape(event, data) {
+    let elements = document.querySelectorAll(`.svg-background`);
+
+    elements.forEach((el) => {
+      console.log(el);
+      const drawContainer = SVG().addTo(el).size("100%", "100%");
+      let lgDist = 86;
+      let shDist = 35.5;
+
+      let p1 = {
+        oct: { x: -shDist, y: -lgDist },
+        rect: { x: -lgDist, y: -lgDist },
+      };
+      let p2 = {
+        oct: { x: shDist, y: -lgDist },
+        rect: { x: lgDist, y: -lgDist },
+      };
+      let p3 = {
+        oct: { x: lgDist, y: -shDist },
+        rect: { x: lgDist, y: -lgDist },
+      };
+      let p4 = {
+        oct: { x: lgDist, y: shDist },
+        rect: { x: lgDist, y: lgDist },
+      };
+      let p5 = {
+        oct: { x: shDist, y: lgDist },
+        rect: { x: lgDist, y: lgDist },
+      };
+      let p6 = {
+        oct: { x: -shDist, y: lgDist },
+        rect: { x: -lgDist, y: lgDist },
+      };
+      let p7 = {
+        oct: { x: -lgDist, y: shDist },
+        rect: { x: -lgDist, y: lgDist },
+      };
+      let p8 = {
+        oct: { x: -lgDist, y: -shDist },
+        rect: { x: -lgDist, y: -lgDist },
+      };
+
+      let polygon = drawContainer.polygon(
+        `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
+      );
+      polygon.fill("#f06");
+      // group.add(polygon);
+
+      // console.log(group);
+
+      // polygon.data(`${data.dataAtt},{ value: { data: 0.3 }}`);
+
+      if (!data.backgroundDrawn) {
+        // let polygon = draw.polygon(`${coords.x+50},${coords.y} ${coords.x+100},${coords.y+50} ${coords.x+50},${coords.y+100} ${coords.x},${coords.y+50}`)
+
+        polygon.on(`mouseover`, () => {
+          console.log(p1.rect.x);
+          polygon
+            .animate(500)
+            .plot(
+              `${p1.rect.x},${p1.rect.y} ${p2.rect.x},${p2.rect.y} ${p3.rect.x},${p3.rect.y} ${p4.rect.x},${p4.rect.y} ${p5.rect.x},${p5.rect.y} ${p6.rect.x},${p6.rect.y} ${p7.rect.x},${p7.rect.y} ${p8.rect.x},${p8.rect.y}`
+            );
+
+          // let polygon = draw.polygon(`${p1.x},${p1.y} ${p2.x},${p2.y} ${p3.x},${p3.y} ${p4.x},${p4.y} ${p5.x},${p5.y} ${p6.x},${p6.y} ${p7.x},${p7.y} ${p8.x},${p8.y}`)
+        });
+        polygon.on(`mouseleave`, () => {
+          polygon
+            .animate(500)
+            .plot(
+              `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
+            );
+        });
+      }
+    });
+    // let svgContainer = el.querySelector(".svg-background");
+    // console.log(element);
+
+    // console.log(el);
+    // coords = getElCenter(el);
+    // console.log(coords);
+
+    //   polygon.plot([[coords.x+50,coords.y], [coords.x+100,coords.y+50], [coords.x+50,coords.y+100], [coords.x,coords.y+50]])
+
+    // return polygon;
+  }
+
   function handleSVGmouseMove(event) {
     // console.log(event.target)
   }
 
   function drawRhizomeLinks(data) {
-    let rhizomeItems = document.querySelectorAll(".rhizome-grid-item");
-
     console.log(data);
     for (let i = 0; i < data.length; i++) {
       if (data[i].link.includes("visual-complexity")) {
@@ -282,7 +439,6 @@ window.onload = (event) => {
   function drawLine(x1, y1, x2, y2) {
     // console.log(x1, y1, x2, y2);
     draw.line(x1, y1, x2, y2).stroke({ width: 1, color: "black" });
-
     // line.plot(50, 30, 100, 150)
   }
 }; //window onload
