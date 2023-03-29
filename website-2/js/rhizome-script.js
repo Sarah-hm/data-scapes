@@ -2,6 +2,7 @@ window.onload = (event) => {
   const draw = SVG().addTo("#svg-container").size("100%", "100%");
   // let group = draw.group();
   let movingElement;
+  let backgroundPolygons = [];
 
   let dataloaded = false;
   let stopDataCheck = false;
@@ -64,13 +65,19 @@ window.onload = (event) => {
         let container = document.querySelector(
           `[data-att="${data[i].dataAtt}"]`
         );
-        let newDivHoverScreen = document.createElement("div");
+        //create a foreground to make an invisible hoverable svg
+        let svgForeground = document.createElement("div");
+        svgForeground.classList.add("svg-foreground");
+        svgForeground.setAttribute(`foreground-div-att`, `${data[i].dataAtt}`);
 
+        //create the hover div (with pullquote and button to access the rhizome item's page)
+        let newDivHoverScreen = document.createElement("div");
         newDivHoverScreen.classList.add("rhizome-item-hover-screen");
 
         container.prepend(newDivHoverScreen);
+        container.prepend(svgForeground);
 
-        //put a h2 and button in all hover screen
+        //put a h2 and button in all hover screen (pullquote and button)
         let hoverScreenContainer = document
           .querySelector(`[data-att="${data[i].dataAtt}"]`)
           .querySelector(".rhizome-item-hover-screen");
@@ -235,8 +242,10 @@ window.onload = (event) => {
     console.log(elements);
     elements.forEach((el) => {
       let svgBackgroundDiv = el.querySelector(".svg-background");
+      let svgForegroundDiv = el.querySelector(".svg-foreground");
       //   console.log(el);
-      const drawContainer = SVG().addTo(svgBackgroundDiv).size("100%", "100%");
+      const drawBackground = SVG().addTo(svgBackgroundDiv).size("100%", "100%");
+      const drawForeground = SVG().addTo(svgForegroundDiv).size("100%", "100%");
 
       let lgDist = 86;
       let shDist = 35.5;
@@ -274,95 +283,37 @@ window.onload = (event) => {
         rect: { x: -lgDist, y: -lgDist },
       };
 
-      let polygon = drawContainer.polygon(
+      let foregroundPolygon = drawForeground.polygon(
         `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
       );
-      polygon.fill("#f06");
+      foregroundPolygon.fill("transparent");
+      let backgroundPolygon = drawBackground.polygon(
+        `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
+      );
+      backgroundPolygon.fill("#f06");
 
-      drawContainer.on(`mouseover`, () => {
-        polygon
+      foregroundPolygon.on(`mouseover`, () => {
+        backgroundPolygon
           .animate(500)
           .plot(
             `${p1.rect.x},${p1.rect.y} ${p2.rect.x},${p2.rect.y} ${p3.rect.x},${p3.rect.y} ${p4.rect.x},${p4.rect.y} ${p5.rect.x},${p5.rect.y} ${p6.rect.x},${p6.rect.y} ${p7.rect.x},${p7.rect.y} ${p8.rect.x},${p8.rect.y}`
           );
       });
 
-      drawContainer.on(`mouseleave`, () => {
-        polygon
+      foregroundPolygon.on(`mouseleave`, () => {
+        backgroundPolygon
           .animate(500)
           .plot(
             `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
           );
       });
-      handleSVGbackgroundEvents(el);
+      backgroundPolygons.push(backgroundPolygon);
     });
+    handleSVGbackgroundEvents();
   }
 
   function handleSVGbackgroundEvents(el) {
-    console.log(el);
-    // let elements = document.querySelectorAll(`.svg-background`);
-
-    // elements.forEach((el) => {
-    //   console.log(el);
-    //   const drawContainer = SVG().addTo(el).size("100%", "100%");
-
-    //   let lgDist = 86;
-    //   let shDist = 35.5;
-
-    //   let p1 = {
-    //     oct: { x: -shDist, y: -lgDist },
-    //     rect: { x: -lgDist, y: -lgDist },
-    //   };
-    //   let p2 = {
-    //     oct: { x: shDist, y: -lgDist },
-    //     rect: { x: lgDist, y: -lgDist },
-    //   };
-    //   let p3 = {
-    //     oct: { x: lgDist, y: -shDist },
-    //     rect: { x: lgDist, y: -lgDist },
-    //   };
-    //   let p4 = {
-    //     oct: { x: lgDist, y: shDist },
-    //     rect: { x: lgDist, y: lgDist },
-    //   };
-    //   let p5 = {
-    //     oct: { x: shDist, y: lgDist },
-    //     rect: { x: lgDist, y: lgDist },
-    //   };
-    //   let p6 = {
-    //     oct: { x: -shDist, y: lgDist },
-    //     rect: { x: -lgDist, y: lgDist },
-    //   };
-    //   let p7 = {
-    //     oct: { x: -lgDist, y: shDist },
-    //     rect: { x: -lgDist, y: lgDist },
-    //   };
-    //   let p8 = {
-    //     oct: { x: -lgDist, y: -shDist },
-    //     rect: { x: -lgDist, y: -lgDist },
-    //   };
-
-    //   let polygon = drawContainer.polygon(
-    //     `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
-    //   );
-    //   polygon.fill("#f06");
-
-    //   drawContainer.on(`mouseover`, () => {
-    //     polygon
-    //       .animate(500)
-    //       .plot(
-    //         `${p1.rect.x},${p1.rect.y} ${p2.rect.x},${p2.rect.y} ${p3.rect.x},${p3.rect.y} ${p4.rect.x},${p4.rect.y} ${p5.rect.x},${p5.rect.y} ${p6.rect.x},${p6.rect.y} ${p7.rect.x},${p7.rect.y} ${p8.rect.x},${p8.rect.y}`
-    //       );
-    //   });
-
-    //   drawContainer.on(`mouseleave`, () => {
-    //     polygon
-    //       .animate(500)
-    //       .plot(
-    //         `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
-    //       );
-    //   });
-    // });
+    console.log(backgroundPolygons);
   }
 
   function handleSVGmouseMove(event) {
