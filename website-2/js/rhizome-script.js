@@ -95,8 +95,6 @@ window.onload = (event) => {
         let centercoords = getElCenter(container);
         data[i].xPos = centercoords.x;
         data[i].yPos = centercoords.y;
-
-        // drawBackgroundShape(container, data[i]);
       }
 
       drawRhizomeLinks(data);
@@ -121,6 +119,15 @@ window.onload = (event) => {
 
   function handleEvents(rhizomeItems) {
     rhizomeItems.forEach((el) => {
+      let btn = el
+        .querySelector(".rhizome-item-hover-screen")
+        .querySelector("button");
+
+      //   console.log(btn);
+
+      btn.addEventListener("click", () => {
+        console.log("button clicked");
+      });
       // On mouse enter, make title disappear and pullquote appear
       el.addEventListener("mouseenter", handleMouseEnter);
       //On mouse leave, make pullquote disappear and title appear
@@ -241,8 +248,15 @@ window.onload = (event) => {
     let elements = document.querySelectorAll(`.rhizome-grid-item`);
     console.log(elements);
     elements.forEach((el) => {
+      let animating = false;
+      let btnHovering = false;
+
       let svgBackgroundDiv = el.querySelector(".svg-background");
       let svgForegroundDiv = el.querySelector(".svg-foreground");
+
+      let btn = el.querySelector("button");
+
+      console.log(btn);
       //   console.log(el);
       const drawBackground = SVG().addTo(svgBackgroundDiv).size("100%", "100%");
       const drawForeground = SVG().addTo(svgForegroundDiv).size("100%", "100%");
@@ -290,23 +304,48 @@ window.onload = (event) => {
       let backgroundPolygon = drawBackground.polygon(
         `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
       );
-      backgroundPolygon.fill("#f06");
+      backgroundPolygon.fill("#fff");
 
       foregroundPolygon.on(`mouseover`, () => {
-        backgroundPolygon
-          .animate(500)
-          .plot(
-            `${p1.rect.x},${p1.rect.y} ${p2.rect.x},${p2.rect.y} ${p3.rect.x},${p3.rect.y} ${p4.rect.x},${p4.rect.y} ${p5.rect.x},${p5.rect.y} ${p6.rect.x},${p6.rect.y} ${p7.rect.x},${p7.rect.y} ${p8.rect.x},${p8.rect.y}`
-          );
+        if (!animating) {
+          animating = true;
+          backgroundPolygon
+            .animate(500)
+            .plot(
+              `${p1.rect.x},${p1.rect.y} ${p2.rect.x},${p2.rect.y} ${p3.rect.x},${p3.rect.y} ${p4.rect.x},${p4.rect.y} ${p5.rect.x},${p5.rect.y} ${p6.rect.x},${p6.rect.y} ${p7.rect.x},${p7.rect.y} ${p8.rect.x},${p8.rect.y}`
+            )
+            .after(function () {
+              animating = false;
+            });
+        }
       });
 
-      foregroundPolygon.on(`mouseleave`, () => {
-        backgroundPolygon
-          .animate(500)
-          .plot(
-            `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
-          );
+      foregroundPolygon.on(`mouseleave`, (e) => {
+        let btnRect = btn.getBoundingClientRect();
+        // console.log(e.clientY);
+        if (
+          e.clientX >= btnRect.left &&
+          e.clientX <= btnRect.right &&
+          e.clientY >= btnRect.top &&
+          e.clientY <= btnRect.bottom
+        ) {
+          console.log(btnHovering);
+          btnHovering = true;
+        } else {
+          btnHovering = false;
+        }
+        if (!btnHovering) {
+          backgroundPolygon
+            .animate(500)
+            .plot(
+              `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
+            )
+            .after(function () {});
+        }
+
+        // backgroundPolygon.timeline.finish();
       });
+
       backgroundPolygons.push(backgroundPolygon);
     });
     handleSVGbackgroundEvents();
