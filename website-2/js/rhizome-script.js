@@ -89,8 +89,7 @@ window.onload = (event) => {
         data[i].xPos = centercoords.x;
         data[i].yPos = centercoords.y;
 
-        data[i].backgroundDrawn = false;
-        drawBackgroundShape(container, data[i]);
+        // drawBackgroundShape(container, data[i]);
       }
 
       drawRhizomeLinks(data);
@@ -103,13 +102,15 @@ window.onload = (event) => {
   setInterval(() => {
     if (!stopDataCheck) {
       if (dataloaded) {
+        //Gotta put a black loading screen or something and then make it disappear after everything is loaded
         stopDataCheck = true;
 
         let rhizomeItems = document.querySelectorAll(".rhizome-grid-item");
+        drawBackgroundShape(rhizomeItems);
         handleEvents(rhizomeItems);
       }
     }
-  }, 1000);
+  }, 500);
 
   function handleEvents(rhizomeItems) {
     rhizomeItems.forEach((el) => {
@@ -204,7 +205,6 @@ window.onload = (event) => {
     }
   }
 
-  // 3 following hadnlers from chatGPT:
   // Handle mouse down event
   function handleMouseDown(event) {
     mouseDown = true;
@@ -219,119 +219,25 @@ window.onload = (event) => {
   }
   // Handle mouse move event
   function handleMouseMove(event, data) {
-    // console.log("she's moving");
-    // if (event.target.classList.contains("rhizome-grid-item")) {
-    // console.log("we got the item");
     if (mouseDown) {
-      // console.log(movingElement);
-
       let elRect = movingElement.getBoundingClientRect();
 
       const deltaX = elRect.width / 2;
       const deltaY = elRect.height / 2;
 
-      console.log(deltaX);
       movingElement.style.left = event.clientX - deltaX + "px";
       movingElement.style.top = event.clientY - deltaY + "px";
-
-      //console.log(movingElement);
-      // console.log(data);
-
-      //   redrawBackgroundShape(event.target, data);
     }
-    // }
   }
 
   function drawBackgroundShape(event, data) {
-    let element = document.querySelector(
-      `[background-div-att="${data.dataAtt}"]`
-    );
-    // let svgContainer = el.querySelector(".svg-background");
-    // console.log(element);
-    const drawContainer = SVG().addTo(element).size("100%", "100%");
-
-    // console.log(el);
-    // coords = getElCenter(el);
-    // console.log(coords);
-
-    let lgDist = 86;
-    let shDist = 35.5;
-
-    let p1 = {
-      oct: { x: -shDist, y: -lgDist },
-      rect: { x: -lgDist, y: -lgDist },
-    };
-    let p2 = {
-      oct: { x: shDist, y: -lgDist },
-      rect: { x: lgDist, y: -lgDist },
-    };
-    let p3 = {
-      oct: { x: lgDist, y: -shDist },
-      rect: { x: lgDist, y: -lgDist },
-    };
-    let p4 = {
-      oct: { x: lgDist, y: shDist },
-      rect: { x: lgDist, y: lgDist },
-    };
-    let p5 = {
-      oct: { x: shDist, y: lgDist },
-      rect: { x: lgDist, y: lgDist },
-    };
-    let p6 = {
-      oct: { x: -shDist, y: lgDist },
-      rect: { x: -lgDist, y: lgDist },
-    };
-    let p7 = {
-      oct: { x: -lgDist, y: shDist },
-      rect: { x: -lgDist, y: lgDist },
-    };
-    let p8 = {
-      oct: { x: -lgDist, y: -shDist },
-      rect: { x: -lgDist, y: -lgDist },
-    };
-
-    let polygon = drawContainer.polygon(
-      `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
-    );
-    polygon.fill("#f06");
-    // group.add(polygon);
-    // console.log(group);
-
-    // polygon.data(`${data.dataAtt},{ value: { data: 0.3 }}`);
-
-    if (!data.backgroundDrawn) {
-      // let polygon = draw.polygon(`${coords.x+50},${coords.y} ${coords.x+100},${coords.y+50} ${coords.x+50},${coords.y+100} ${coords.x},${coords.y+50}`)
-
-      drawContainer.on(`mouseover`, () => {
-        console.log(p1.rect.x);
-        polygon
-          .animate(500)
-          .plot(
-            `${p1.rect.x},${p1.rect.y} ${p2.rect.x},${p2.rect.y} ${p3.rect.x},${p3.rect.y} ${p4.rect.x},${p4.rect.y} ${p5.rect.x},${p5.rect.y} ${p6.rect.x},${p6.rect.y} ${p7.rect.x},${p7.rect.y} ${p8.rect.x},${p8.rect.y}`
-          );
-
-        // let polygon = draw.polygon(`${p1.x},${p1.y} ${p2.x},${p2.y} ${p3.x},${p3.y} ${p4.x},${p4.y} ${p5.x},${p5.y} ${p6.x},${p6.y} ${p7.x},${p7.y} ${p8.x},${p8.y}`)
-      });
-      drawContainer.on(`mouseleave`, () => {
-        polygon
-          .animate(500)
-          .plot(
-            `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
-          );
-      });
-    }
-
-    //   polygon.plot([[coords.x+50,coords.y], [coords.x+100,coords.y+50], [coords.x+50,coords.y+100], [coords.x,coords.y+50]])
-
-    // return polygon;
-  }
-
-  function redrawBackgroundShape(event, data) {
-    let elements = document.querySelectorAll(`.svg-background`);
-
+    let elements = document.querySelectorAll(`.rhizome-grid-item`);
+    console.log(elements);
     elements.forEach((el) => {
-      console.log(el);
-      const drawContainer = SVG().addTo(el).size("100%", "100%");
+      let svgBackgroundDiv = el.querySelector(".svg-background");
+      //   console.log(el);
+      const drawContainer = SVG().addTo(svgBackgroundDiv).size("100%", "100%");
+
       let lgDist = 86;
       let shDist = 35.5;
 
@@ -372,44 +278,91 @@ window.onload = (event) => {
         `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
       );
       polygon.fill("#f06");
-      // group.add(polygon);
 
-      // console.log(group);
+      drawContainer.on(`mouseover`, () => {
+        polygon
+          .animate(500)
+          .plot(
+            `${p1.rect.x},${p1.rect.y} ${p2.rect.x},${p2.rect.y} ${p3.rect.x},${p3.rect.y} ${p4.rect.x},${p4.rect.y} ${p5.rect.x},${p5.rect.y} ${p6.rect.x},${p6.rect.y} ${p7.rect.x},${p7.rect.y} ${p8.rect.x},${p8.rect.y}`
+          );
+      });
 
-      // polygon.data(`${data.dataAtt},{ value: { data: 0.3 }}`);
-
-      if (!data.backgroundDrawn) {
-        // let polygon = draw.polygon(`${coords.x+50},${coords.y} ${coords.x+100},${coords.y+50} ${coords.x+50},${coords.y+100} ${coords.x},${coords.y+50}`)
-
-        polygon.on(`mouseover`, () => {
-          console.log(p1.rect.x);
-          polygon
-            .animate(500)
-            .plot(
-              `${p1.rect.x},${p1.rect.y} ${p2.rect.x},${p2.rect.y} ${p3.rect.x},${p3.rect.y} ${p4.rect.x},${p4.rect.y} ${p5.rect.x},${p5.rect.y} ${p6.rect.x},${p6.rect.y} ${p7.rect.x},${p7.rect.y} ${p8.rect.x},${p8.rect.y}`
-            );
-
-          // let polygon = draw.polygon(`${p1.x},${p1.y} ${p2.x},${p2.y} ${p3.x},${p3.y} ${p4.x},${p4.y} ${p5.x},${p5.y} ${p6.x},${p6.y} ${p7.x},${p7.y} ${p8.x},${p8.y}`)
-        });
-        polygon.on(`mouseleave`, () => {
-          polygon
-            .animate(500)
-            .plot(
-              `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
-            );
-        });
-      }
+      drawContainer.on(`mouseleave`, () => {
+        polygon
+          .animate(500)
+          .plot(
+            `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
+          );
+      });
+      handleSVGbackgroundEvents(el);
     });
-    // let svgContainer = el.querySelector(".svg-background");
-    // console.log(element);
+  }
 
-    // console.log(el);
-    // coords = getElCenter(el);
-    // console.log(coords);
+  function handleSVGbackgroundEvents(el) {
+    console.log(el);
+    // let elements = document.querySelectorAll(`.svg-background`);
 
-    //   polygon.plot([[coords.x+50,coords.y], [coords.x+100,coords.y+50], [coords.x+50,coords.y+100], [coords.x,coords.y+50]])
+    // elements.forEach((el) => {
+    //   console.log(el);
+    //   const drawContainer = SVG().addTo(el).size("100%", "100%");
 
-    // return polygon;
+    //   let lgDist = 86;
+    //   let shDist = 35.5;
+
+    //   let p1 = {
+    //     oct: { x: -shDist, y: -lgDist },
+    //     rect: { x: -lgDist, y: -lgDist },
+    //   };
+    //   let p2 = {
+    //     oct: { x: shDist, y: -lgDist },
+    //     rect: { x: lgDist, y: -lgDist },
+    //   };
+    //   let p3 = {
+    //     oct: { x: lgDist, y: -shDist },
+    //     rect: { x: lgDist, y: -lgDist },
+    //   };
+    //   let p4 = {
+    //     oct: { x: lgDist, y: shDist },
+    //     rect: { x: lgDist, y: lgDist },
+    //   };
+    //   let p5 = {
+    //     oct: { x: shDist, y: lgDist },
+    //     rect: { x: lgDist, y: lgDist },
+    //   };
+    //   let p6 = {
+    //     oct: { x: -shDist, y: lgDist },
+    //     rect: { x: -lgDist, y: lgDist },
+    //   };
+    //   let p7 = {
+    //     oct: { x: -lgDist, y: shDist },
+    //     rect: { x: -lgDist, y: lgDist },
+    //   };
+    //   let p8 = {
+    //     oct: { x: -lgDist, y: -shDist },
+    //     rect: { x: -lgDist, y: -lgDist },
+    //   };
+
+    //   let polygon = drawContainer.polygon(
+    //     `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
+    //   );
+    //   polygon.fill("#f06");
+
+    //   drawContainer.on(`mouseover`, () => {
+    //     polygon
+    //       .animate(500)
+    //       .plot(
+    //         `${p1.rect.x},${p1.rect.y} ${p2.rect.x},${p2.rect.y} ${p3.rect.x},${p3.rect.y} ${p4.rect.x},${p4.rect.y} ${p5.rect.x},${p5.rect.y} ${p6.rect.x},${p6.rect.y} ${p7.rect.x},${p7.rect.y} ${p8.rect.x},${p8.rect.y}`
+    //       );
+    //   });
+
+    //   drawContainer.on(`mouseleave`, () => {
+    //     polygon
+    //       .animate(500)
+    //       .plot(
+    //         `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
+    //       );
+    //   });
+    // });
   }
 
   function handleSVGmouseMove(event) {
