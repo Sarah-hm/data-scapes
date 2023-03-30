@@ -1,8 +1,10 @@
 window.onload = (event) => {
-  const draw = SVG().addTo("#svg-container").size("100%", "100%");
   // let group = draw.group();
   let movingElement;
   let backgroundPolygons = [];
+
+  let drawNewLine = SVG().addTo("#svg-container").size("100%", "100%");
+  let lines = [];
 
   let dataloaded = false;
   let stopDataCheck = false;
@@ -97,9 +99,28 @@ window.onload = (event) => {
         data[i].yPos = centercoords.y;
       }
 
-      drawRhizomeLinks(data);
+      for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data[i].link.length; j++) {
+          //create a new line between rhizome items
+          console.log(data[i].link[j]);
+
+          let coreObject = document.querySelector(
+            `[data-att="${data[i].dataAtt}"]`
+          );
+          let targetObject = document.querySelector(
+            `[data-att="${data[i].link[j]}"]`
+          );
+          let targetObjectCoords = getElCenter(targetObject);
+
+          let x1 = data[i].xPos;
+          let y1 = data[i].yPos;
+          let x2 = targetObjectCoords.x;
+          let y2 = targetObjectCoords.y;
+
+          lines.push(new Line(x1, y1, x2, y2, coreObject, targetObject));
+        }
+      }
       dataloaded = true;
-      console.log(dataloaded);
     })
     .catch((error) => console.error(error));
 
@@ -118,16 +139,11 @@ window.onload = (event) => {
   }, 500);
 
   function handleEvents(rhizomeItems) {
+    for (let i = 0; i < lines.length; i++) {
+      console.log(lines[i]);
+      lines[i].draw(drawNewLine);
+    }
     rhizomeItems.forEach((el) => {
-      let btn = el
-        .querySelector(".rhizome-item-hover-screen")
-        .querySelector("button");
-
-      //   console.log(btn);
-
-      btn.addEventListener("click", () => {
-        console.log("button clicked");
-      });
       // On mouse enter, make title disappear and pullquote appear
       el.addEventListener("mouseenter", handleMouseEnter);
       //On mouse leave, make pullquote disappear and title appear
@@ -218,7 +234,6 @@ window.onload = (event) => {
       }, 750);
     }
   }
-
   // Handle mouse down event
   function handleMouseDown(event) {
     mouseDown = true;
@@ -239,8 +254,30 @@ window.onload = (event) => {
       const deltaX = elRect.width / 2;
       const deltaY = elRect.height / 2;
 
-      movingElement.style.left = event.clientX - deltaX + "px";
-      movingElement.style.top = event.clientY - deltaY + "px";
+      let newX = event.clientX - deltaX;
+      let newY = event.clientY - deltaY;
+
+      movingElement.style.left = newX + "px";
+      movingElement.style.top = newY + "px";
+
+      let currentElement = event.target;
+
+      while (
+        currentElement.className != "rhizome-grid-item rhizome-grid-item-hover"
+      ) {
+        currentElement = currentElement.parentElement;
+      }
+
+      for (let i = 0; i < lines.length; i++) {
+        if (currentElement == lines[i].startObject.object) {
+          //   console.log(newX, newY);
+          lines[i].redrawFromStart(newX, newY);
+        } else if (currentElement == lines[i].endObject.object) {
+          lines[i].redrawFromEnd(newX, newY);
+        }
+      }
+      //redraw the rhizome lines;
+      //   for (let i = 0; i < lines.length; i++) {}
     }
   }
 
@@ -360,28 +397,42 @@ window.onload = (event) => {
   }
 
   function drawRhizomeLinks(data) {
-    console.log(data);
+    // console.log(data);
+    let draw = SVG().addTo("#svg-container").size("100%", "100%");
+    //For every data json entry, run through its link array and create an SVG line between the core element (i) and its linked element (link[j])
     for (let i = 0; i < data.length; i++) {
-      if (data[i].link.includes("visual-complexity")) {
-        let target = document.querySelector('[data-att="visual-complexity"]');
-        targetCoords = getElCenter(target);
-        // console.log(targetCoords);
-        drawLine(data[i].xPos, data[i].yPos, targetCoords.x, targetCoords.y);
+      for (let j = 0; j < data[i].link.length; j++) {
+        // console.log(data[i]);
+        // console.log(data[i].link[j]);
+
+        let coreElement = document.querySelector(
+          `[data-att="${data[i].dataAtt}"]`
+        );
+        let targetElement = document.querySelector(
+          `[data-att="${data[i].link[j]}"]`
+        );
+        coreCoords = getElCenter(coreElement);
+        targetCoords = getElCenter(targetElement);
+
+        draw
+          .line(coreCoords.x, coreCoords.y, targetCoords.x, targetCoords.y)
+          .stroke({ width: 1, color: "black" });
+        // drawLine(coreCoords.x, coreCoords.y, targetCoords.x, targetCoords.y);
+
+        document.addEventListener("mousemove", () => {
+          //   draw.clear();
+          let coreCoords = getElCenter(coreElement);
+          let targetCoords = getElCenter(targetElement);
+          //   console.log(coreCoords);
+          draw
+            .line(coreCoords.x, coreCoords.y, targetCoords.x, targetCoords.y)
+            .stroke({ width: 1, color: "black" });
+        });
       }
     }
-    // if (data.link.includes('visual-complexity')){
-    //     console.log("visual complexity link")
-    // }
-
-    // let coords = getElCenter(container);
-
-    // let polygon = draw.polygon(`${coords.x+50},${coords.y} ${coords.x+100},${coords.y+50} ${coords.x+50},${coords.y+100} ${coords.x},${coords.y+50}`)
-    // polygon.fill('#f06')
   }
 
   function drawLine(x1, y1, x2, y2) {
-    // console.log(x1, y1, x2, y2);
     draw.line(x1, y1, x2, y2).stroke({ width: 1, color: "black" });
-    // line.plot(50, 30, 100, 150)
   }
 }; //window onload
