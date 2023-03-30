@@ -268,6 +268,8 @@ window.onload = (event) => {
         currentElement = currentElement.parentElement;
       }
 
+      newX = newX + elRect.width / 2;
+      newY = newY + elRect.height / 2;
       for (let i = 0; i < lines.length; i++) {
         if (currentElement == lines[i].startObject.object) {
           //   console.log(newX, newY);
