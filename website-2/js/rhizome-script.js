@@ -11,15 +11,9 @@ window.onload = (event) => {
 
   const rhizomeCloud = document.querySelector("#rhizome-cloud-container");
   let blackoutScreen = document.querySelector("#black-out-screen");
-  let rhizomeLines = [];
-  const newSvg = document.createElement(`svg`);
 
   //Draggable
   let mouseDown = false;
-  let mouseX = 0;
-  let mouseY = 0;
-  let elementX = 0;
-  let elementY = 0;
 
   // blackoutScreen.style.backgroundColor = "rgba(0,0,0,1)"
   // setTimeout(()=>{
@@ -124,8 +118,10 @@ window.onload = (event) => {
     })
     .catch((error) => console.error(error));
 
-  //check every second if the data has been loaded
-  setInterval(() => {
+  //check every frame if the data has been loaded
+  checkIfDataIsLoaded();
+
+  function checkIfDataIsLoaded() {
     if (!stopDataCheck) {
       if (dataloaded) {
         //Gotta put a black loading screen or something and then make it disappear after everything is loaded
@@ -134,10 +130,11 @@ window.onload = (event) => {
         let rhizomeItems = document.querySelectorAll(".rhizome-grid-item");
         drawBackgroundShape(rhizomeItems);
         handleEvents(rhizomeItems);
+      } else {
+        requestAnimationFrame(checkIfDataIsLoaded);
       }
     }
-  }, 500);
-
+  }
   function handleEvents(rhizomeItems) {
     for (let i = 0; i < lines.length; i++) {
       console.log(lines[i]);
@@ -154,14 +151,6 @@ window.onload = (event) => {
       el.addEventListener("mouseup", handleMouseUp);
       document.addEventListener("mousemove", handleMouseMove);
     });
-  }
-
-  function getElCenter(el) {
-    // console.log(el)
-    let rect = el.getBoundingClientRect();
-    let x = rect.left + rect.width / 2;
-    let y = rect.top + rect.height / 2;
-    return { x, y };
   }
   //handle mouse enter (hover effect)
   function handleMouseEnter(event) {
@@ -282,7 +271,6 @@ window.onload = (event) => {
       //   for (let i = 0; i < lines.length; i++) {}
     }
   }
-
   function drawBackgroundShape(event, data) {
     let elements = document.querySelectorAll(`.rhizome-grid-item`);
     console.log(elements);
@@ -387,54 +375,12 @@ window.onload = (event) => {
 
       backgroundPolygons.push(backgroundPolygon);
     });
-    handleSVGbackgroundEvents();
   }
-
-  function handleSVGbackgroundEvents(el) {
-    console.log(backgroundPolygons);
-  }
-
-  function handleSVGmouseMove(event) {
-    // console.log(event.target)
-  }
-
-  function drawRhizomeLinks(data) {
-    // console.log(data);
-    let draw = SVG().addTo("#svg-container").size("100%", "100%");
-    //For every data json entry, run through its link array and create an SVG line between the core element (i) and its linked element (link[j])
-    for (let i = 0; i < data.length; i++) {
-      for (let j = 0; j < data[i].link.length; j++) {
-        // console.log(data[i]);
-        // console.log(data[i].link[j]);
-
-        let coreElement = document.querySelector(
-          `[data-att="${data[i].dataAtt}"]`
-        );
-        let targetElement = document.querySelector(
-          `[data-att="${data[i].link[j]}"]`
-        );
-        coreCoords = getElCenter(coreElement);
-        targetCoords = getElCenter(targetElement);
-
-        draw
-          .line(coreCoords.x, coreCoords.y, targetCoords.x, targetCoords.y)
-          .stroke({ width: 1, color: "black" });
-        // drawLine(coreCoords.x, coreCoords.y, targetCoords.x, targetCoords.y);
-
-        document.addEventListener("mousemove", () => {
-          //   draw.clear();
-          let coreCoords = getElCenter(coreElement);
-          let targetCoords = getElCenter(targetElement);
-          //   console.log(coreCoords);
-          draw
-            .line(coreCoords.x, coreCoords.y, targetCoords.x, targetCoords.y)
-            .stroke({ width: 1, color: "black" });
-        });
-      }
-    }
-  }
-
-  function drawLine(x1, y1, x2, y2) {
-    draw.line(x1, y1, x2, y2).stroke({ width: 1, color: "black" });
+  function getElCenter(el) {
+    // console.log(el)
+    let rect = el.getBoundingClientRect();
+    let x = rect.left + rect.width / 2;
+    let y = rect.top + rect.height / 2;
+    return { x, y };
   }
 }; //window onload

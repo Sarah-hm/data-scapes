@@ -1,6 +1,6 @@
 [
   {
-    "title": "data-scapes",
+    "title": "data_scapes",
     "pullquote": "This is the pullquote for data-scapes",
     "description": [
       "This is the first sentence of the description for data-scapes.",
@@ -21,7 +21,7 @@
     ],
     "image": "https://example.com/image1.jpg",
     "dataAtt": "data-feminism",
-    "link": []
+    "link": ["data-scapes", "visual-complexity"]
   },
   {
     "title": "Visual Complexity",
