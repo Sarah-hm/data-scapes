@@ -2,6 +2,7 @@ window.onload = (event) => {
   // let group = draw.group();
   let movingElement;
   let backgroundPolygons = [];
+  let rhizomeItems;
 
   let drawNewLine = SVG().addTo("#svg-container").size("100%", "100%");
   let lines = [];
@@ -29,7 +30,7 @@ window.onload = (event) => {
         //create a new div for every literature review item with a specific data attribute and random position
         let newDiv = document.createElement("div");
 
-        console.log(data[i].dataAtt);
+        // console.log(data[i].dataAtt);
 
         // add a rhizome grid class and their specific data attribute (name)
         newDiv.classList.add("rhizome-grid-item");
@@ -105,7 +106,7 @@ window.onload = (event) => {
       for (let i = 0; i < data.length; i++) {
         for (let j = 0; j < data[i].link.length; j++) {
           //create a new line between rhizome items
-          console.log(data[i].link[j]);
+          // console.log(data[i].link[j]);
 
           let coreObject = document.querySelector(
             `[data-att="${data[i].dataAtt}"]`
@@ -136,7 +137,7 @@ window.onload = (event) => {
         //Gotta put a black loading screen or something and then make it disappear after everything is loaded
         stopDataCheck = true;
 
-        let rhizomeItems = document.querySelectorAll(".rhizome-grid-item");
+        rhizomeItems = document.querySelectorAll(".rhizome-grid-item");
         drawBackgroundShape(rhizomeItems);
         handleEvents(rhizomeItems);
       } else {
@@ -146,7 +147,7 @@ window.onload = (event) => {
   }
   function handleEvents(rhizomeItems) {
     for (let i = 0; i < lines.length; i++) {
-      console.log(lines[i]);
+      // console.log(lines[i]);
       lines[i].draw(drawNewLine);
     }
     rhizomeItems.forEach((el) => {
@@ -159,6 +160,7 @@ window.onload = (event) => {
       el.addEventListener("mousedown", handleMouseDown);
       el.addEventListener("mouseup", handleMouseUp);
       document.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("resize", handleWindowResize);
     });
   }
   //handle mouse enter (hover effect)
@@ -264,18 +266,35 @@ window.onload = (event) => {
       //Redraw line with the current Element's X, Y position (should be whenever the div moves, not only on mouse move)
       newX = newX + elRect.width / 2;
       newY = newY + elRect.height / 2;
-      for (let i = 0; i < lines.length; i++) {
-        if (currentElement == lines[i].startObject.object) {
-          //   console.log(newX, newY);
-          lines[i].redrawFromStart(newX, newY);
-        } else if (currentElement == lines[i].endObject.object) {
-          lines[i].redrawFromEnd(newX, newY);
-        }
-      }
+
       //redraw the rhizome lines;
-      //   for (let i = 0; i < lines.length; i++) {}
+      redrawLines(currentElement, newX, newY);
     }
   }
+
+  function handleWindowResize(event) {
+    rhizomeItems.forEach((el) => {
+      // console.log(el);
+      for (let i = 0; i < lines.length; i++) {
+        let tempAtt = el.getAttribute("data-att");
+        let lineStartObj = lines[i].startObject.object.getAttribute("data-att");
+        let lineEndObj = lines[i].endObject.object.getAttribute("data-att");
+
+        if (tempAtt === lineStartObj) {
+          let elRect = el.getBoundingClientRect();
+          let newX = elRect.left + elRect.width / 2;
+          let newY = elRect.top + elRect.height / 2;
+          redrawLines(el, newX, newY);
+        } else if (tempAtt === lineEndObj) {
+          let elRect = el.getBoundingClientRect();
+          let newX = elRect.left + elRect.width / 2;
+          let newY = elRect.top + elRect.height / 2;
+          redrawLines(el, newX, newY);
+        }
+      }
+    });
+  }
+
   function drawBackgroundShape(elements, data) {
     elements.forEach((el) => {
       let animating = false;
@@ -286,7 +305,7 @@ window.onload = (event) => {
 
       let btn = el.querySelector("button");
 
-      console.log(btn);
+      // console.log(btn);
       //   console.log(el);
       const drawBackground = SVG().addTo(svgBackgroundDiv).size("100%", "100%");
       const drawForeground = SVG().addTo(svgForegroundDiv).size("100%", "100%");
@@ -379,6 +398,17 @@ window.onload = (event) => {
 
       backgroundPolygons.push(backgroundPolygon);
     });
+  }
+
+  function redrawLines(el, x, y) {
+    for (let i = 0; i < lines.length; i++) {
+      if (el == lines[i].startObject.object) {
+        //   console.log(newX, newY);
+        lines[i].redrawFromStart(x, y);
+      } else if (el == lines[i].endObject.object) {
+        lines[i].redrawFromEnd(x, y);
+      }
+    }
   }
   function getElCenter(el) {
     // console.log(el)

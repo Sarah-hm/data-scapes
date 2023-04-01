@@ -24,10 +24,11 @@ class Line {
       )
       .stroke({ width: 3, color: "black" });
 
-    console.log(this.lineDrawn);
+    // console.log(this.lineDrawn);
   }
 
   redrawFromStart(newX, newY) {
+    console.log("redraw from start");
     this.startObject.x = newX;
     this.startObject.y = newY;
 
