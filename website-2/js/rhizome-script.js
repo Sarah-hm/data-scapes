@@ -44,6 +44,15 @@ window.onload = (event) => {
         newDiv.style.left = leftPos;
         newDiv.style.top = topPos;
 
+        //if the rhizome-item selected is data-scapes (the first one), put it in the middle of the screen at first
+        if (i === 0) {
+          let dsPosX = `50%`;
+          let dsPosY = `50%`;
+
+          newDiv.style.left = dsPosX;
+          newDiv.style.top = dsPosY;
+        }
+
         // create an empty h1 and append it to the new div
         let title = document.createElement("h1");
         // let svgBackground = document.createElement("svg");
@@ -214,13 +223,8 @@ window.onload = (event) => {
     }
   }
   function handleMouseLeave(event) {
-    if (!event.target.classList.contains("grid-item-open")) {
-      event.target.classList.remove("rhizome-grid-item-hover");
-      event.target.querySelector(".rhizome-item-hover-screen").style.opacity =
-        "0";
-      setTimeout(() => {
-        event.target.querySelector("h1").style.color = "rgba(0,0,0,1)";
-      }, 750);
+    if (event.target.classList.contains("rhizome-grid-item-hover")) {
+      removeHoverStateRhizomeItems(event.target);
     }
   }
   // Handle mouse down event
@@ -257,6 +261,7 @@ window.onload = (event) => {
         currentElement = currentElement.parentElement;
       }
 
+      //Redraw line with the current Element's X, Y position (should be whenever the div moves, not only on mouse move)
       newX = newX + elRect.width / 2;
       newY = newY + elRect.height / 2;
       for (let i = 0; i < lines.length; i++) {
@@ -271,9 +276,7 @@ window.onload = (event) => {
       //   for (let i = 0; i < lines.length; i++) {}
     }
   }
-  function drawBackgroundShape(event, data) {
-    let elements = document.querySelectorAll(`.rhizome-grid-item`);
-    console.log(elements);
+  function drawBackgroundShape(elements, data) {
     elements.forEach((el) => {
       let animating = false;
       let btnHovering = false;
@@ -349,7 +352,7 @@ window.onload = (event) => {
 
       foregroundPolygon.on(`mouseleave`, (e) => {
         let btnRect = btn.getBoundingClientRect();
-        // console.log(e.clientY);
+
         if (
           e.clientX >= btnRect.left &&
           e.clientX <= btnRect.right &&
@@ -367,10 +370,11 @@ window.onload = (event) => {
             .plot(
               `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
             )
-            .after(function () {});
+            .after(function () {
+              //making sure the hover state is removed from all rhizome items and that all shapes return to original state
+              removeHoverStateRhizomeItems(el);
+            });
         }
-
-        // backgroundPolygon.timeline.finish();
       });
 
       backgroundPolygons.push(backgroundPolygon);
@@ -382,5 +386,13 @@ window.onload = (event) => {
     let x = rect.left + rect.width / 2;
     let y = rect.top + rect.height / 2;
     return { x, y };
+  }
+
+  function removeHoverStateRhizomeItems(el) {
+    el.classList.remove("rhizome-grid-item-hover");
+    el.querySelector(".rhizome-item-hover-screen").style.opacity = "0";
+    setTimeout(() => {
+      el.querySelector("h1").style.color = "rgba(0,0,0,1)";
+    }, 750);
   }
 }; //window onload

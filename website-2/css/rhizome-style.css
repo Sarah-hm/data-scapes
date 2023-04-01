@@ -6,7 +6,7 @@
 }
 
 body {
-  background: white;
+  background: grey;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,40 +37,6 @@ body {
   z-index: -5;
 }
 
-#rhizome-cloud-container {
-  background-color: beige;
-  transition: all 2s ease-in-out;
-  /* display:flex; */
-  width: 100%;
-  height: 100vh;
-  z-index: 0;
-}
-
-#rhizome-item-datascapes {
-  transform-origin: center;
-  position: fixed;
-  top: 35%;
-  left: 35%;
-  /* transition: all 0.1s; */
-  transition: transform 1s;
-}
-
-#rhizome-item-data-fem {
-  /* transform-origin:center; */
-  position: fixed;
-  top: 15%;
-  left: 60%;
-  transition: transform 1s;
-}
-
-#rhizome-item-visual-com {
-  transform-origin: center;
-  position: fixed;
-  top: 15%;
-  left: 25%;
-  transition: transform 1s;
-}
-
 .rhizome-grid-item {
   /* background-color: rgba(255, 255, 255, 0.5);
   border: 2px black solid; */
@@ -82,7 +48,7 @@ body {
   font-size: 1rem;
   font-weight: bold;
   position: fixed;
-  width: 20%;
+  width: 10%;
   height: 20vh;
   z-index: 0;
   transition: all 1s ease-in-out;
@@ -116,7 +82,11 @@ body {
   z-index: 5;
 }
 
-.svg-background svg polygon {
+.rhizome-item-hover-screen {
+  position: absolute;
+  top: 20%;
+  opacity: 0;
+  transition: opacity 0.75s;
 }
 
 .rhizome-grid-item h1,
@@ -124,24 +94,26 @@ body {
   font-size: 1.5rem;
   position: absolute;
   text-align: center;
-  top: 30%;
+  top: 35%;
+  margin: auto;
   z-index: 1;
   color: rgba(0, 0, 0, 1);
   transition: color 0.75s ease-in;
 }
 
 .rhizome-item-hover-screen h2 {
-  position: absolute;
-  top: 20%;
+  text-align: center;
+  margin: auto;
+  width: 60%;
   z-index: 2;
   color: rgba(0, 0, 0, 1);
   font-size: 1rem;
   transition: color 0.75s ease-out;
 }
 
-.rhizome-item-hover-screen {
-  opacity: 0;
-  transition: opacity 0.75s;
+.rhizome-item-hover-screen button {
+  width: 40%;
+  z-index: 5;
 }
 
 .rhizome-grid-item-hover {
@@ -153,17 +125,6 @@ body {
   transform: scale(1);
 }
 
-.grid-item-open-transition {
-  background-color: transparent;
-  transform-origin: top left;
-  /* z-index:1000; */
-  /* transform: scale(3); */
-  width: 60%;
-  /* height: 90vh; */
-  z-index: 1000;
-  transition: all 2s;
-}
-
 .rhizome-item-focus {
   transform-origin: top right;
   position: fixed;
@@ -171,11 +132,4 @@ body {
   height: 90vh;
   left: 5%;
   top: 5vh;
-}
-
-.rhizome-item-hover-screen button {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 5000;
 }
