@@ -28,7 +28,6 @@ class Line {
   }
 
   redrawFromStart(newX, newY) {
-    console.log("redraw from start");
     this.startObject.x = newX;
     this.startObject.y = newY;
 

@@ -6,7 +6,7 @@
 }
 
 body {
-  background: grey;
+  background: #808080;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,7 +70,6 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  /* z-index: -500; */
   transition: all 1s;
 }
 
@@ -111,14 +110,10 @@ body {
   transition: color 0.75s ease-out;
 }
 
-.rhizome-item-hover-screen button {
-  width: 40%;
-  z-index: 5;
-}
-
 .rhizome-grid-item-hover {
   transform: scale(1.25);
   cursor: grab;
+  display: flex;
 }
 
 .grid-item-closed {
@@ -132,4 +127,15 @@ body {
   height: 90vh;
   left: 5%;
   top: 5vh;
+}
+
+.rhizome-item-hover-screen button {
+  position: absolute;
+  width: 40%;
+  top: 75%;
+  left: 30%;
+  z-index: 10;
+}
+.button-clicked {
+  transform: scale(5);
 }

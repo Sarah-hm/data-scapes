@@ -4,6 +4,16 @@ window.onload = (event) => {
   let backgroundPolygons = [];
   let rhizomeItems;
 
+  //svg rhizome points
+  let p1;
+  let p2;
+  let p3;
+  let p4;
+  let p5;
+  let p6;
+  let p7;
+  let p8;
+
   let drawNewLine = SVG().addTo("#svg-container").size("100%", "100%");
   let lines = [];
 
@@ -37,8 +47,10 @@ window.onload = (event) => {
         newDiv.setAttribute(`data-att`, `${data[i].dataAtt}`);
 
         // set random position in x,y
-        let leftPos = Math.floor(Math.random() * window.innerWidth) + "px";
-        let topPos = Math.floor(Math.random() * window.innerHeight) + "px";
+        // let leftPos = Math.floor(Math.random() * window.innerWidth) + "px";
+        // let topPos = Math.floor(Math.random() * window.innerHeight) + "px";
+        let leftPos = Math.floor(Math.random() * 100) + "%";
+        let topPos = Math.floor(Math.random() * 100) + "%";
 
         newDiv.style.position = "fixed";
         newDiv.style.transition = "transform 1s";
@@ -47,8 +59,8 @@ window.onload = (event) => {
 
         //if the rhizome-item selected is data-scapes (the first one), put it in the middle of the screen at first
         if (i === 0) {
-          let dsPosX = `50%`;
-          let dsPosY = `50%`;
+          let dsPosX = `45%`;
+          let dsPosY = `45%`;
 
           newDiv.style.left = dsPosX;
           newDiv.style.top = dsPosY;
@@ -103,11 +115,10 @@ window.onload = (event) => {
         data[i].yPos = centercoords.y;
       }
 
+      //links all rhizome items from their links and data-attribute
+
       for (let i = 0; i < data.length; i++) {
         for (let j = 0; j < data[i].link.length; j++) {
-          //create a new line between rhizome items
-          // console.log(data[i].link[j]);
-
           let coreObject = document.querySelector(
             `[data-att="${data[i].dataAtt}"]`
           );
@@ -159,6 +170,7 @@ window.onload = (event) => {
       //hover state + draggable + button click to change state
       el.addEventListener("mousedown", handleMouseDown);
       el.addEventListener("mouseup", handleMouseUp);
+      el.querySelector("button").addEventListener("click", handleButtonPressed);
       document.addEventListener("mousemove", handleMouseMove);
       window.addEventListener("resize", handleWindowResize);
     });
@@ -271,10 +283,19 @@ window.onload = (event) => {
       redrawLines(currentElement, newX, newY);
     }
   }
-
+  function handleButtonPressed(event) {
+    console.log(event.target);
+    let currentElement = event.target;
+    while (
+      currentElement.className != "rhizome-grid-item rhizome-grid-item-hover"
+    ) {
+      currentElement = currentElement.parentElement;
+    }
+    currentElement.classList.add("button-clicked");
+    removeHoverStateRhizomeItems(currentElement);
+  }
   function handleWindowResize(event) {
     rhizomeItems.forEach((el) => {
-      // console.log(el);
       for (let i = 0; i < lines.length; i++) {
         let tempAtt = el.getAttribute("data-att");
         let lineStartObj = lines[i].startObject.object.getAttribute("data-att");
@@ -310,58 +331,32 @@ window.onload = (event) => {
       const drawBackground = SVG().addTo(svgBackgroundDiv).size("100%", "100%");
       const drawForeground = SVG().addTo(svgForegroundDiv).size("100%", "100%");
 
-      let lgDist = 86;
-      let shDist = 35.5;
+      let lgDist = 100 / 2;
+      let shDist = 60 / 2;
 
-      let p1 = {
-        oct: { x: -shDist, y: -lgDist },
-        rect: { x: -lgDist, y: -lgDist },
-      };
-      let p2 = {
-        oct: { x: shDist, y: -lgDist },
-        rect: { x: lgDist, y: -lgDist },
-      };
-      let p3 = {
-        oct: { x: lgDist, y: -shDist },
-        rect: { x: lgDist, y: -lgDist },
-      };
-      let p4 = {
-        oct: { x: lgDist, y: shDist },
-        rect: { x: lgDist, y: lgDist },
-      };
-      let p5 = {
-        oct: { x: shDist, y: lgDist },
-        rect: { x: lgDist, y: lgDist },
-      };
-      let p6 = {
-        oct: { x: -shDist, y: lgDist },
-        rect: { x: -lgDist, y: lgDist },
-      };
-      let p7 = {
-        oct: { x: -lgDist, y: shDist },
-        rect: { x: -lgDist, y: lgDist },
-      };
-      let p8 = {
-        oct: { x: -lgDist, y: -shDist },
-        rect: { x: -lgDist, y: -lgDist },
-      };
+      calculateSVGRhizomepoints(lgDist, shDist);
 
       let foregroundPolygon = drawForeground.polygon(
-        `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
+        `${p1.hex.x},${p1.hex.y} ${p2.hex.x},${p2.hex.y} ${p3.hex.x},${p3.hex.y} ${p4.hex.x},${p4.hex.y} ${p5.hex.x},${p5.hex.y} ${p6.hex.x},${p6.hex.y} ${p7.hex.x},${p7.hex.y} ${p8.hex.x},${p8.hex.y}`
       );
       foregroundPolygon.fill("transparent");
       let backgroundPolygon = drawBackground.polygon(
-        `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
+        `${p1.hex.x},${p1.hex.y} ${p2.hex.x},${p2.hex.y} ${p3.hex.x},${p3.hex.y} ${p4.hex.x},${p4.hex.y} ${p5.hex.x},${p5.hex.y} ${p6.hex.x},${p6.hex.y} ${p7.hex.x},${p7.hex.y} ${p8.hex.x},${p8.hex.y}`
       );
       backgroundPolygon.fill("#fff");
+      backgroundPolygon.stroke({ color: "#808080", width: 2 });
 
       foregroundPolygon.on(`mouseover`, () => {
         if (!animating) {
+          lgDist = 100 / 1.5;
+          shDist = 100 / 1.5;
+          calculateSVGRhizomepoints(lgDist, shDist);
+
           animating = true;
           backgroundPolygon
             .animate(500)
             .plot(
-              `${p1.rect.x},${p1.rect.y} ${p2.rect.x},${p2.rect.y} ${p3.rect.x},${p3.rect.y} ${p4.rect.x},${p4.rect.y} ${p5.rect.x},${p5.rect.y} ${p6.rect.x},${p6.rect.y} ${p7.rect.x},${p7.rect.y} ${p8.rect.x},${p8.rect.y}`
+              `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
             )
             .after(function () {
               animating = false;
@@ -384,10 +379,17 @@ window.onload = (event) => {
           btnHovering = false;
         }
         if (!btnHovering) {
+          lgDist = 100;
+          shDist = 66;
+
+          lgDist = 100 / 2;
+          shDist = 60 / 2;
+          calculateSVGRhizomepoints(lgDist, shDist);
+
           backgroundPolygon
             .animate(500)
             .plot(
-              `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
+              `${p1.hex.x},${p1.hex.y} ${p2.hex.x},${p2.hex.y} ${p3.hex.x},${p3.hex.y} ${p4.hex.x},${p4.hex.y} ${p5.hex.x},${p5.hex.y} ${p6.hex.x},${p6.hex.y} ${p7.hex.x},${p7.hex.y} ${p8.hex.x},${p8.hex.y}`
             )
             .after(function () {
               //making sure the hover state is removed from all rhizome items and that all shapes return to original state
@@ -421,8 +423,54 @@ window.onload = (event) => {
   function removeHoverStateRhizomeItems(el) {
     el.classList.remove("rhizome-grid-item-hover");
     el.querySelector(".rhizome-item-hover-screen").style.opacity = "0";
-    setTimeout(() => {
-      el.querySelector("h1").style.color = "rgba(0,0,0,1)";
-    }, 750);
+    if (!el.classList.contains(`button-clicked`)) {
+      setTimeout(() => {
+        el.querySelector("h1").style.color = "rgba(0,0,0,1)";
+      }, 750);
+    }
+  }
+
+  function calculateSVGRhizomepoints(lgDist, shDist) {
+    p1 = {
+      hex: { x: -lgDist, y: -shDist },
+      oct: { x: -shDist, y: -lgDist },
+      rect: { x: -lgDist, y: -lgDist },
+    };
+    p2 = {
+      hex: { x: 0, y: -lgDist },
+      oct: { x: shDist, y: -lgDist },
+      rect: { x: lgDist, y: -lgDist },
+    };
+    p3 = {
+      hex: { x: 0, y: -lgDist },
+      oct: { x: lgDist, y: -shDist },
+      rect: { x: lgDist, y: -lgDist },
+    };
+    p4 = {
+      hex: { x: lgDist, y: -shDist },
+      oct: { x: lgDist, y: shDist },
+      rect: { x: lgDist, y: lgDist },
+    };
+    p5 = {
+      hex: { x: lgDist, y: shDist },
+      oct: { x: shDist, y: lgDist },
+      rect: { x: lgDist, y: lgDist },
+    };
+    p6 = {
+      hex: { x: 0, y: lgDist },
+      oct: { x: -shDist, y: lgDist },
+      rect: { x: -lgDist, y: lgDist },
+    };
+    p7 = {
+      hex: { x: 0, y: lgDist },
+      oct: { x: -lgDist, y: shDist },
+      rect: { x: -lgDist, y: lgDist },
+    };
+    p8 = {
+      hex: { x: -lgDist, y: shDist },
+      oct: { x: -lgDist, y: -shDist },
+      rect: { x: -lgDist, y: -lgDist },
+    };
+    return { p1, p2, p3, p4, p5, p6, p7, p8 };
   }
 }; //window onload
