@@ -1,0 +1,38 @@
+[
+  {
+    "title": "data_scapes",
+    "pullquote": "This is the pullquote for data-scapes",
+    "description": [
+      "This is the first sentence of the description for data-scapes.",
+      "This is the second sentence of the description for data-scapes.",
+      "This is the third sentence of the description for data-scapes."
+    ],
+    "image": "https://example.com/image1.jpg",
+    "dataAtt": "data-scapes",
+    "link": ["data-feminism", "visual-complexity"]
+  },
+  {
+    "title": "Data Feminism",
+    "pullquote": "This is the pullquote for Data Femnism",
+    "description": [
+      "This is the first sentence of the description for Data Femnism.",
+      "This is the second sentence of the description for Data Femnism.",
+      "This is the third sentence of the description for Data Femnism."
+    ],
+    "image": "https://example.com/image1.jpg",
+    "dataAtt": "data-feminism",
+    "link": ["data-scapes", "visual-complexity"]
+  },
+  {
+    "title": "Visual Complexity",
+    "pullquote": "This is the pullquote for Visual Complexity",
+    "description": [
+      "This is the first sentence of the description for Visual Complexity.",
+      "This is the second sentence of the description for Visual Complexity.",
+      "This is the third sentence of the description for Visual Complexity."
+    ],
+    "image": "https://example.com/image2.jpg",
+    "dataAtt": "visual-complexity",
+    "link": []
+  }
+]
