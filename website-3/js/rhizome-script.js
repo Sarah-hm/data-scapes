@@ -37,6 +37,7 @@ window.onload = (event) => {
     .then((response) => response.json())
     .then((data) => {
       for (let i = 0; i < data.length; i++) {
+        console.log(data);
         //create a new div for every literature review item with a specific data attribute and random position
         let newDiv = document.createElement("div");
 
@@ -176,7 +177,10 @@ window.onload = (event) => {
     });
   }
   //handle mouse enter (hover effect)
+
+  // ==== This entire function isn't triggered at all:  ====
   function handleMouseEnter(event) {
+    console.log("mouse Enter");
     if (!event.target.classList.contains("grid-item-open")) {
       event.target.classList.add("rhizome-grid-item-hover");
       event.target.querySelector("h1").style.color = "rgba(0,0,0,0)";
@@ -186,49 +190,7 @@ window.onload = (event) => {
       let lgDist = 86;
       let shDist = 35.5;
 
-      let p1 = {
-        oct: { x: -shDist, y: -lgDist },
-        rect: { x: -lgDist, y: -lgDist },
-      };
-      let p2 = {
-        oct: { x: shDist, y: -lgDist },
-        rect: { x: lgDist, y: -lgDist },
-      };
-      let p3 = {
-        oct: { x: lgDist, y: -shDist },
-        rect: { x: lgDist, y: -lgDist },
-      };
-      let p4 = {
-        oct: { x: lgDist, y: shDist },
-        rect: { x: lgDist, y: lgDist },
-      };
-      let p5 = {
-        oct: { x: shDist, y: lgDist },
-        rect: { x: lgDist, y: lgDist },
-      };
-      let p6 = {
-        oct: { x: -shDist, y: lgDist },
-        rect: { x: -lgDist, y: lgDist },
-      };
-      let p7 = {
-        oct: { x: -lgDist, y: shDist },
-        rect: { x: -lgDist, y: lgDist },
-      };
-      let p8 = {
-        oct: { x: -lgDist, y: -shDist },
-        rect: { x: -lgDist, y: -lgDist },
-      };
-
-      //   polygon.setAttribute(
-      //     `points`,
-      //     `${p1.rect.x},${p1.rect.y} ${p2.rect.x},${p2.rect.y} ${p3.rect.x},${p3.rect.y} ${p4.rect.x},${p4.rect.y} ${p5.rect.x},${p5.rect.y} ${p6.rect.x},${p6.rect.y} ${p7.rect.x},${p7.rect.y} ${p8.rect.x},${p8.rect.y}`
-      //   );
-
-      //   polygon
-      //     .animate(500)
-      //     .plot(
-      //       `${p1.rect.x},${p1.rect.y} ${p2.rect.x},${p2.rect.y} ${p3.rect.x},${p3.rect.y} ${p4.rect.x},${p4.rect.y} ${p5.rect.x},${p5.rect.y} ${p6.rect.x},${p6.rect.y} ${p7.rect.x},${p7.rect.y} ${p8.rect.x},${p8.rect.y}`
-      //     );
+      calculateSVGRhizomepoints(lgDist, shDist);
 
       setTimeout(() => {
         event.target.querySelector(".rhizome-item-hover-screen").style.opacity =

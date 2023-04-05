@@ -138,4 +138,7 @@ body {
 }
 .button-clicked {
   transform: scale(5);
+  position: fixed;
+  left: 50%;
+  top: 50%;
 }
