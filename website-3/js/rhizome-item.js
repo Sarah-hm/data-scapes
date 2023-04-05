@@ -55,5 +55,7 @@ class RhizomeItem {
     };
   }
 
+  createRhizomeItem() {}
+
   draw(drawNewRhizomeItem) {}
 }

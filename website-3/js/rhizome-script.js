@@ -36,6 +36,7 @@ window.onload = (event) => {
   fetch("data/literature-review.json")
     .then((response) => response.json())
     .then((data) => {
+      //push all the data in their own object
       for (let i = 0; i < data.length; i++) {
         console.log(data);
         //create a new div for every literature review item with a specific data attribute and random position
