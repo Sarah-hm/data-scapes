@@ -2,7 +2,7 @@ window.onload = (event) => {
   // let group = draw.group();
   let movingElement;
   let backgroundPolygons = [];
-  let rhizomeItems;
+  let rhizomeItems = [];
 
   //svg rhizome points
   let p1;
@@ -38,103 +38,73 @@ window.onload = (event) => {
     .then((data) => {
       //push all the data in their own object
       for (let i = 0; i < data.length; i++) {
-        console.log(data);
-        //create a new div for every literature review item with a specific data attribute and random position
-        let newDiv = document.createElement("div");
+        let x;
+        let y;
 
-        // console.log(data[i].dataAtt);
-
-        // add a rhizome grid class and their specific data attribute (name)
-        newDiv.classList.add("rhizome-grid-item");
-        newDiv.setAttribute(`data-att`, `${data[i].dataAtt}`);
-
-        // set random position in x,y
-        // let leftPos = Math.floor(Math.random() * window.innerWidth) + "px";
-        // let topPos = Math.floor(Math.random() * window.innerHeight) + "px";
-        let leftPos = Math.floor(Math.random() * 100) + "%";
-        let topPos = Math.floor(Math.random() * 100) + "%";
-
-        newDiv.style.position = "fixed";
-        newDiv.style.transition = "transform 1s";
-        newDiv.style.left = leftPos;
-        newDiv.style.top = topPos;
-
-        //if the rhizome-item selected is data-scapes (the first one), put it in the middle of the screen at first
+        //if i = data-scapes, hard code it in the middle of the screen
         if (i === 0) {
-          let dsPosX = `45%`;
-          let dsPosY = `45%`;
-
-          newDiv.style.left = dsPosX;
-          newDiv.style.top = dsPosY;
+          x = 45;
+          y = 45;
+        } else {
+          x = Math.floor(Math.random() * 100);
+          y = Math.floor(Math.random() * 100);
         }
 
-        // create an empty h1 and append it to the new div
-        let title = document.createElement("h1");
-        // let svgBackground = document.createElement("svg");
-        let svgBackground = document.createElement("div");
-        svgBackground.classList.add("svg-background");
-        svgBackground.setAttribute(`background-div-att`, `${data[i].dataAtt}`);
+        let lgDist = 100 / 2;
+        let shDist = 60 / 2;
 
-        newDiv.appendChild(title);
-        newDiv.appendChild(svgBackground);
-
-        //append new div to the rhizome cloud
-        rhizomeCloud.appendChild(newDiv);
-
-        //append a hover div (pullquote and button) on the previously created div
-        let container = document.querySelector(
-          `[data-att="${data[i].dataAtt}"]`
+        //push the data, x, y, shDist and lgDist into a new rhizome Item
+        rhizomeItems.push(
+          new RhizomeItem(
+            x,
+            y,
+            data[i].title,
+            data[i].pullquote,
+            data[i].description,
+            data[i].image,
+            data[i].dataAtt,
+            data[i].link,
+            lgDist,
+            shDist,
+            rhizomeCloud,
+            getElCenter,
+            redrawLines
+          )
         );
-        //create a foreground to make an invisible hoverable svg
-        let svgForeground = document.createElement("div");
-        svgForeground.classList.add("svg-foreground");
-        svgForeground.setAttribute(`foreground-div-att`, `${data[i].dataAtt}`);
-
-        //create the hover div (with pullquote and button to access the rhizome item's page)
-        let newDivHoverScreen = document.createElement("div");
-        newDivHoverScreen.classList.add("rhizome-item-hover-screen");
-
-        container.prepend(newDivHoverScreen);
-        container.prepend(svgForeground);
-
-        //put a h2 and button in all hover screen (pullquote and button)
-        let hoverScreenContainer = document
-          .querySelector(`[data-att="${data[i].dataAtt}"]`)
-          .querySelector(".rhizome-item-hover-screen");
-        let pullquote = document.createElement("h2");
-        let btn = document.createElement("button");
-
-        hoverScreenContainer.appendChild(pullquote);
-        hoverScreenContainer.appendChild(btn);
-
-        //Populate all elements with data from json file
-        container.querySelector("h1").innerText = data[i].title;
-        container.querySelector("h2").innerText = data[i].pullquote;
-        container.querySelector("button").innerText = `Learn more`;
-
-        let centercoords = getElCenter(container);
-        data[i].xPos = centercoords.x;
-        data[i].yPos = centercoords.y;
       }
 
       //links all rhizome items from their links and data-attribute
+      //for every rhizome item
+      for (let i = 0; i < rhizomeItems.length; i++) {
+        //Go through all the linked items
+        for (let j = 0; j < rhizomeItems[i].links.length; j++) {
+          //assign the linked item to the targetObj
+          let targetObj = rhizomeItems[i].links[j];
+          //Go through all rhizome items again
+          for (let k = 0; k < rhizomeItems.length; k++) {
+            //If the targetObj matches the rhizome Items's name
+            if (targetObj == rhizomeItems[k].name) {
+              let coreObjCoords = getElCenter(rhizomeItems[i].div);
+              //Make a line between the two elements
+              let targetObjCoords = getElCenter(rhizomeItems[k].div);
 
-      for (let i = 0; i < data.length; i++) {
-        for (let j = 0; j < data[i].link.length; j++) {
-          let coreObject = document.querySelector(
-            `[data-att="${data[i].dataAtt}"]`
-          );
-          let targetObject = document.querySelector(
-            `[data-att="${data[i].link[j]}"]`
-          );
-          let targetObjectCoords = getElCenter(targetObject);
+              let x1 = coreObjCoords.x;
+              let y1 = coreObjCoords.y;
+              let x2 = targetObjCoords.x;
+              let y2 = targetObjCoords.y;
 
-          let x1 = data[i].xPos;
-          let y1 = data[i].yPos;
-          let x2 = targetObjectCoords.x;
-          let y2 = targetObjectCoords.y;
-
-          lines.push(new Line(x1, y1, x2, y2, coreObject, targetObject));
+              lines.push(
+                new Line(
+                  x1,
+                  y1,
+                  x2,
+                  y2,
+                  rhizomeItems[i].div,
+                  rhizomeItems[k].div
+                )
+              );
+            }
+          }
         }
       }
       dataloaded = true;
@@ -150,135 +120,24 @@ window.onload = (event) => {
         //Gotta put a black loading screen or something and then make it disappear after everything is loaded
         stopDataCheck = true;
 
-        rhizomeItems = document.querySelectorAll(".rhizome-grid-item");
-        drawBackgroundShape(rhizomeItems);
-        handleEvents(rhizomeItems);
+        rhizomeItemsDiv = document.querySelectorAll(".rhizome-grid-item");
+        drawBackgroundShape(rhizomeItemsDiv);
+        handleEvents(rhizomeItemsDiv);
       } else {
         requestAnimationFrame(checkIfDataIsLoaded);
       }
     }
   }
+
+  //This could be in the line's constructor:
   function handleEvents(rhizomeItems) {
     for (let i = 0; i < lines.length; i++) {
       // console.log(lines[i]);
       lines[i].draw(drawNewLine);
     }
-    rhizomeItems.forEach((el) => {
-      // On mouse enter, make title disappear and pullquote appear
-      el.addEventListener("mouseenter", handleMouseEnter);
-      //On mouse leave, make pullquote disappear and title appear
-      el.addEventListener("mouseleave", handleMouseLeave);
-
-      //hover state + draggable + button click to change state
-      el.addEventListener("mousedown", handleMouseDown);
-      el.addEventListener("mouseup", handleMouseUp);
-      el.querySelector("button").addEventListener("click", handleButtonPressed);
-      document.addEventListener("mousemove", handleMouseMove);
-      window.addEventListener("resize", handleWindowResize);
-    });
-  }
-  //handle mouse enter (hover effect)
-
-  // ==== This entire function isn't triggered at all:  ====
-  function handleMouseEnter(event) {
-    console.log("mouse Enter");
-    if (!event.target.classList.contains("grid-item-open")) {
-      event.target.classList.add("rhizome-grid-item-hover");
-      event.target.querySelector("h1").style.color = "rgba(0,0,0,0)";
-
-      let polygon = event.target.querySelector("polygon");
-
-      let lgDist = 86;
-      let shDist = 35.5;
-
-      calculateSVGRhizomepoints(lgDist, shDist);
-
-      setTimeout(() => {
-        event.target.querySelector(".rhizome-item-hover-screen").style.opacity =
-          "1";
-      }, 750);
-    }
-  }
-  function handleMouseLeave(event) {
-    if (event.target.classList.contains("rhizome-grid-item-hover")) {
-      removeHoverStateRhizomeItems(event.target);
-    }
-  }
-  // Handle mouse down event
-  function handleMouseDown(event) {
-    mouseDown = true;
-    mouseX = event.clientX;
-    mouseY = event.clientY;
-
-    movingElement = event.target.parentElement.parentElement.parentElement;
-  }
-  // Handle mouse up event
-  function handleMouseUp(event) {
-    mouseDown = false;
-  }
-  // Handle mouse move event
-  function handleMouseMove(event, data) {
-    if (mouseDown) {
-      let elRect = movingElement.getBoundingClientRect();
-
-      const deltaX = elRect.width / 2;
-      const deltaY = elRect.height / 2;
-
-      let newX = event.clientX - deltaX;
-      let newY = event.clientY - deltaY;
-
-      movingElement.style.left = newX + "px";
-      movingElement.style.top = newY + "px";
-
-      let currentElement = event.target;
-
-      while (
-        currentElement.className != "rhizome-grid-item rhizome-grid-item-hover"
-      ) {
-        currentElement = currentElement.parentElement;
-      }
-
-      //Redraw line with the current Element's X, Y position (should be whenever the div moves, not only on mouse move)
-      newX = newX + elRect.width / 2;
-      newY = newY + elRect.height / 2;
-
-      //redraw the rhizome lines;
-      redrawLines(currentElement, newX, newY);
-    }
-  }
-  function handleButtonPressed(event) {
-    console.log(event.target);
-    let currentElement = event.target;
-    while (
-      currentElement.className != "rhizome-grid-item rhizome-grid-item-hover"
-    ) {
-      currentElement = currentElement.parentElement;
-    }
-    currentElement.classList.add("button-clicked");
-    removeHoverStateRhizomeItems(currentElement);
-  }
-  function handleWindowResize(event) {
-    rhizomeItems.forEach((el) => {
-      for (let i = 0; i < lines.length; i++) {
-        let tempAtt = el.getAttribute("data-att");
-        let lineStartObj = lines[i].startObject.object.getAttribute("data-att");
-        let lineEndObj = lines[i].endObject.object.getAttribute("data-att");
-
-        if (tempAtt === lineStartObj) {
-          let elRect = el.getBoundingClientRect();
-          let newX = elRect.left + elRect.width / 2;
-          let newY = elRect.top + elRect.height / 2;
-          redrawLines(el, newX, newY);
-        } else if (tempAtt === lineEndObj) {
-          let elRect = el.getBoundingClientRect();
-          let newX = elRect.left + elRect.width / 2;
-          let newY = elRect.top + elRect.height / 2;
-          redrawLines(el, newX, newY);
-        }
-      }
-    });
   }
 
+  //this could be in the rhizome-item constructor:
   function drawBackgroundShape(elements, data) {
     elements.forEach((el) => {
       let animating = false;
@@ -294,8 +153,8 @@ window.onload = (event) => {
       const drawBackground = SVG().addTo(svgBackgroundDiv).size("100%", "100%");
       const drawForeground = SVG().addTo(svgForegroundDiv).size("100%", "100%");
 
-      let lgDist = 100 / 2;
-      let shDist = 60 / 2;
+      lgDist = 100 / 2;
+      shDist = 60 / 2;
 
       calculateSVGRhizomepoints(lgDist, shDist);
 
@@ -375,6 +234,7 @@ window.onload = (event) => {
       }
     }
   }
+
   function getElCenter(el) {
     // console.log(el)
     let rect = el.getBoundingClientRect();
@@ -383,6 +243,7 @@ window.onload = (event) => {
     return { x, y };
   }
 
+  //this could be removed? It's already a rhizome-item method (class)
   function removeHoverStateRhizomeItems(el) {
     el.classList.remove("rhizome-grid-item-hover");
     el.querySelector(".rhizome-item-hover-screen").style.opacity = "0";
