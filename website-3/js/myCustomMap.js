@@ -6,36 +6,33 @@ class MyMap {
     this.longitude = longitude;
     this.zoomLvl = zoomlvl;
 
-    this.map = L.map("map").setView(
-      [this.latitude, this.longitude],
-      this.zoomLvl
-    );
+    // this.map = L.map("map").setView(
+    //   [this.latitude, this.longitude],
+    //   this.zoomLvl
+    // );
 
     console.log(this.map);
     // this.leafletMap = leafletMap;
     this.line = [];
     this.zoomLvl = 10;
 
+    this.initMap();
     this.setTile();
+    this.zoomOut();
+  }
+
+  setDatascapes() {}
+  initMap(currentCoords) {
+    this.map = L.map("map").setView(
+      [this.latitude, this.longitude],
+      this.zoomLvl
+    );
   }
 
   setTile() {
     L.tileLayer("https://hybrid.concordia.ca/S_HONTOY/tile_blackout.jpg", {
       zIndex: -5,
       opacity: 1,
-      reuseTiles: true,
-    }).addTo(this.map);
-  }
-
-  setDatascapes() {}
-  initMap(currentCoords) {
-    this.map = this.leafletMap.setView(
-      [currentCoords.latitude, currentCoords.longitude],
-      this.zoomLvl
-    );
-    L.tileLayer("https://hybrid.concordia.ca/S_HONTOY/tile_blackout.jpg", {
-      zIndex: -5,
-      opacity: 0.5,
       reuseTiles: true,
     }).addTo(this.map);
   }
@@ -121,15 +118,11 @@ class MyMap {
   zoomOut() {
     if (this.zoomLvl >= 5) {
       this.zoomLvl--;
-      this.map.flyTo(
-        [this.currentCoords.latitude, this.currentCoords.longitude],
-        this.zoomLvl,
-        {
-          animate: true,
-          duration: 1.0,
-        }
-      );
-      setTimeout(() => this.zoomOut(), 1500);
+      this.map.flyTo([this.latitude, this.longitude], this.zoomLvl, {
+        animate: true,
+        duration: 0.5,
+      });
+      setTimeout(() => this.zoomOut(), 750);
     }
   }
 }

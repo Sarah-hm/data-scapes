@@ -92,46 +92,35 @@ fetch("getData.php")
       let map = new MyMap(templat, templng, zoomlvl);
 
       map.initPolyline(line);
-      // map = L.map("map").setView(
-      //   [currentCoords.latitude, currentCoords.longitude],
-      //   zoomLvl
-      // );
-      // L.tileLayer("https://hybrid.concordia.ca/S_HONTOY/tile_blackout.jpg", {
-      //   zIndex: -5,
-      //   opacity: 0.5,
-      //   reuseTiles: true,
-      // }).addTo(map);
-
       loadAndRunNativeLand();
+      // resolve(zoomLvl);
+    });
+    // .then(
+    //   (value) => {
+    //     console.log(value);
+    //     zoomOut(value);
+    //     // Expected output: "Success!"
+    //   },
+    //   (reason) => {
+    //     console.error(reason); // Error!
+    //   }
+    // )
+    // .then(() => {
+    //   // make the screen go to black
 
-      resolve(zoomLvl);
-    })
-      .then(
-        (value) => {
-          console.log(value);
-          zoomOut(value);
-          // Expected output: "Success!"
-        },
-        (reason) => {
-          console.error(reason); // Error!
-        }
-      )
-      .then(() => {
-        // make the screen go to black
+    //   console.log("hello");
+    // });
 
-        console.log("hello");
-      });
-
-    function zoomOut(zoomlvl) {
-      zoomLvl--;
-      map.flyTo([currentCoords.latitude, currentCoords.longitude], zoomLvl, {
-        animate: true,
-        duration: 1.0,
-      });
-      if (zoomLvl >= 5) {
-        setTimeout(zoomOut(zoomLvl), 1500);
-      }
-    }
+    // function zoomOut(zoomlvl) {
+    //   zoomLvl--;
+    //   map.flyTo([currentCoords.latitude, currentCoords.longitude], zoomLvl, {
+    //     animate: true,
+    //     duration: 1.0,
+    //   });
+    //   if (zoomLvl >= 5) {
+    //     setTimeout(zoomOut(zoomLvl), 1500);
+    //   }
+    // }
 
     // Wrapping around the international date line if it's a shorter distance;
     // new L.Wrapped.Polyline(line, { color: "red", weight: "0.2" }).addTo(map);
