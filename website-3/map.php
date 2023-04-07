@@ -13,7 +13,9 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
      crossorigin=""/>
+     <script src="js/myCustomMap.js"></script>
      <script src="js/ds-script.js"></script>
+
         <!-- css class for different zoom lvls -->  
      <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
@@ -35,6 +37,7 @@
 
     <!-- All my lil javascript, classes, and suches -->
     <!-- <script src="js/rhizome-script.js"></script> -->
+ 
     <script src="js/Rhizome-item.js"></script>
     <script src="js/line.js"></script>
   
