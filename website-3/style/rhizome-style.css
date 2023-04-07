@@ -116,17 +116,14 @@ body {
   display: flex;
 }
 
-.grid-item-closed {
-  transform: scale(1);
-}
-
 .rhizome-item-focus {
-  transform-origin: top right;
-  position: fixed;
+  /* transform-origin: top right; */
+  position: absolute;
   width: 90%;
   height: 90vh;
   left: 5%;
   top: 5vh;
+  z-index: 5000;
 }
 
 .rhizome-item-hover-screen button {
@@ -135,10 +132,4 @@ body {
   top: 75%;
   left: 30%;
   z-index: 10;
-}
-.button-clicked {
-  transform: scale(5);
-  position: fixed;
-  left: 50%;
-  top: 50%;
 }

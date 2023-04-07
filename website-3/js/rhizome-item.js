@@ -19,6 +19,10 @@ class RhizomeItem {
 
     this.x = x;
     this.y = y;
+
+    //Keep original position before focussing on item when it's clicked
+    this.originCoords = null;
+
     this.title = title;
     this.pullquote = pullquote;
     this.description = desc;
@@ -85,6 +89,7 @@ class RhizomeItem {
     this.redrawLines = redrawLines;
     this.getElCenter = getElCenter;
     this.createRhizomeItem();
+    this.createSVGbackground();
     this.handleMouseEnter();
     this.handleMouseLeave();
     this.handleMouseDown();
@@ -98,8 +103,6 @@ class RhizomeItem {
     //create a new div for every literature review item with a specific data attribute and random position
     this.div = document.createElement("div");
 
-    // console.log(data[i].dataAtt);
-
     // add a rhizome grid class and their specific data attribute (name)
     this.div.classList.add("rhizome-grid-item");
     this.div.setAttribute(`data-att`, `${this.name}`);
@@ -112,7 +115,6 @@ class RhizomeItem {
 
     // create an empty h1 and append it to the new div
     this.titleElement = document.createElement("h1");
-    // let svgBackground = document.createElement("svg");
     this.svgBackground = document.createElement("div");
     this.svgBackground.classList.add("svg-background");
     this.svgBackground.setAttribute(`background-div-att`, `${this.name}`);
@@ -153,12 +155,90 @@ class RhizomeItem {
     this.container.querySelector("button").innerText = `Learn more`;
   }
 
+  createSVGbackground() {
+    let self = this;
+    let animating = false;
+    let btnHovering = false;
+
+    const drawBackground = SVG().addTo(this.svgBackground).size("100%", "100%");
+    const drawForeground = SVG().addTo(this.svgForeground).size("100%", "100%");
+
+    this.lgDist = 100 / 2;
+    this.shDist = 60 / 2;
+
+    this.calculateSVGRhizomepoints(this.lgDist, this.shDist);
+
+    let foregroundPolygon = drawForeground.polygon(
+      `${this.p1.hex.x},${this.p1.hex.y} ${this.p2.hex.x},${this.p2.hex.y} ${this.p3.hex.x},${this.p3.hex.y} ${this.p4.hex.x},${this.p4.hex.y} ${this.p5.hex.x},${this.p5.hex.y} ${this.p6.hex.x},${this.p6.hex.y} ${this.p7.hex.x},${this.p7.hex.y} ${this.p8.hex.x},${this.p8.hex.y}`
+    );
+    foregroundPolygon.fill("transparent");
+    let backgroundPolygon = drawBackground.polygon(
+      `${this.p1.hex.x},${this.p1.hex.y} ${this.p2.hex.x},${this.p2.hex.y} ${this.p3.hex.x},${this.p3.hex.y} ${this.p4.hex.x},${this.p4.hex.y} ${this.p5.hex.x},${this.p5.hex.y} ${this.p6.hex.x},${this.p6.hex.y} ${this.p7.hex.x},${this.p7.hex.y} ${this.p8.hex.x},${this.p8.hex.y}`
+    );
+    backgroundPolygon.fill("#fff");
+    backgroundPolygon.stroke({ color: "#808080", width: 2 });
+
+    foregroundPolygon.on(`mouseover`, () => {
+      if (!animating) {
+        self.lgDist = 100 / 1.5;
+        self.shDist = 100 / 1.5;
+        self.calculateSVGRhizomepoints(self.lgDist, self.shDist);
+
+        animating = true;
+        backgroundPolygon
+          .animate(500)
+          .plot(
+            `${self.p1.oct.x},${self.p1.oct.y} ${self.p2.oct.x},${self.p2.oct.y} ${self.p3.oct.x},${self.p3.oct.y} ${self.p4.oct.x},${self.p4.oct.y} ${self.p5.oct.x},${self.p5.oct.y} ${self.p6.oct.x},${self.p6.oct.y} ${self.p7.oct.x},${self.p7.oct.y} ${self.p8.oct.x},${self.p8.oct.y}`
+          )
+          .after(function () {
+            animating = false;
+          });
+      }
+    });
+
+    foregroundPolygon.on(`mouseleave`, (e) => {
+      let btnRect = self.btnElement.getBoundingClientRect();
+
+      if (
+        e.clientX >= btnRect.left &&
+        e.clientX <= btnRect.right &&
+        e.clientY >= btnRect.top &&
+        e.clientY <= btnRect.bottom
+      ) {
+        console.log(btnHovering);
+        btnHovering = true;
+      } else {
+        btnHovering = false;
+      }
+      if (!btnHovering) {
+        // lgDist = 100;
+        // shDist = 66;
+
+        self.lgDist = 100 / 2;
+        self.shDist = 60 / 2;
+        self.calculateSVGRhizomepoints(self.lgDist, self.shDist);
+
+        backgroundPolygon
+          .animate(500)
+          .plot(
+            `${self.p1.hex.x},${self.p1.hex.y} ${self.p2.hex.x},${self.p2.hex.y} ${self.p3.hex.x},${self.p3.hex.y} ${self.p4.hex.x},${self.p4.hex.y} ${self.p5.hex.x},${self.p5.hex.y} ${self.p6.hex.x},${self.p6.hex.y} ${self.p7.hex.x},${self.p7.hex.y} ${self.p8.hex.x},${self.p8.hex.y}`
+          )
+          .after(function () {
+            //making sure the hover state is removed from all rhizome items and that all shapes return to original state
+            self.removeHoverStateRhizomeItems(self.div);
+          });
+      }
+    });
+
+    // this.backgroundPolygons.push(backgroundPolygon);
+  }
+
   handleMouseEnter() {
     console.log("here");
     let self = this;
     this.div.addEventListener("mouseenter", () => {
       console.log("mouse has entered through class");
-      if (!self.div.classList.contains("grid-item-open")) {
+      if (!self.parentContainer.classList.contains("rhizome-item-open")) {
         self.div.classList.add("rhizome-grid-item-hover");
         self.titleElement.style.color = "rgba(0,0,0,0)";
         self.divHoverScreen.style.opacity = `1`;
@@ -169,8 +249,10 @@ class RhizomeItem {
   handleMouseLeave() {
     let self = this;
     this.div.addEventListener("mouseleave", () => {
-      if (self.div.classList.contains("rhizome-grid-item-hover")) {
-        self.removeHoverStateRhizomeItems(self.div);
+      if (!self.parentContainer.classList.contains("rhizome-item-open")) {
+        if (self.div.classList.contains("rhizome-grid-item-hover")) {
+          self.removeHoverStateRhizomeItems(self.div);
+        }
       }
     });
   }
@@ -178,13 +260,13 @@ class RhizomeItem {
   handleMouseDown() {
     let self = this;
     this.div.addEventListener("mousedown", (event) => {
-      console.log(event.clientX);
-      self.mouseDown = true;
+      if (!self.parentContainer.classList.contains("rhizome-item-open")) {
+        console.log(event.clientX);
+        self.mouseDown = true;
 
-      let mouseX = event.clientX;
-      let mouseY = event.clientY;
-
-      // let movingElement = self.div;
+        let mouseX = event.clientX;
+        let mouseY = event.clientY;
+      }
     });
   }
 
@@ -198,24 +280,26 @@ class RhizomeItem {
   handleMouseMove() {
     let self = this;
     document.addEventListener("mousemove", (event) => {
-      if (self.mouseDown) {
-        let elRect = self.div.getBoundingClientRect();
+      if (!self.parentContainer.classList.contains("rhizome-item-open")) {
+        if (self.mouseDown) {
+          let elRect = self.div.getBoundingClientRect();
 
-        const deltaX = elRect.width / 2;
-        const deltaY = elRect.height / 2;
+          const deltaX = elRect.width / 2;
+          const deltaY = elRect.height / 2;
 
-        let newX = event.clientX - deltaX;
-        let newY = event.clientY - deltaY;
+          let newX = event.clientX - deltaX;
+          let newY = event.clientY - deltaY;
 
-        self.div.style.left = newX + "px";
-        self.div.style.top = newY + "px";
+          self.div.style.left = newX + "px";
+          self.div.style.top = newY + "px";
 
-        //Redraw line with the current Element's X, Y position (should be whenever the div moves, not only on mouse move)
-        newX = newX + elRect.width / 2;
-        newY = newY + elRect.height / 2;
+          //Redraw line with the current Element's X, Y position (should be whenever the div moves, not only on mouse move)
+          newX = newX + elRect.width / 2;
+          newY = newY + elRect.height / 2;
 
-        //redraw the rhizome lines;
-        this.redrawLines(self.div, newX, newY);
+          //redraw the rhizome lines;
+          this.redrawLines(self.div, newX, newY);
+        }
       }
     });
   }
@@ -223,8 +307,27 @@ class RhizomeItem {
   handleBtnClick() {
     let self = this;
     this.btnElement.addEventListener("click", () => {
-      self.div.classList.add("button-clicked");
-      self.removeHoverStateRhizomeItems(self.div);
+      if (!self.parentContainer.classList.contains("rhizome-item-open")) {
+        //remember original position
+        self.originCoords = self.getElCenter(self.div);
+        self.parentContainer.classList.add("rhizome-item-open");
+        // self.removeHoverStateRhizomeItems(self.div);
+        //make div bigger;
+        self.div.classList.add("rhizome-item-focus");
+        //make polygon bigger,
+      } else {
+        self.parentContainer.classList.remove("rhizome-item-open");
+        self.div.classList.remove("rhizome-item-focus");
+
+        self.div.style.left = `${self.originCoords.x}px`;
+        self.div.style.top = `${self.originCoords.y}px`;
+
+        self.lgDist = "1000";
+        self.shDist = "1000";
+
+        //lines dont redraw
+        self.redrawLines(self.div, self.originCoords.x, self.originCoords.y);
+      }
     });
   }
 
@@ -247,5 +350,51 @@ class RhizomeItem {
         this.titleElement.style.color = "rgba(0,0,0,1)";
       }, 750);
     }
+  }
+
+  calculateSVGRhizomepoints(lgDist, shDist) {
+    this.p1 = {
+      hex: { x: -lgDist, y: -shDist },
+      oct: { x: -shDist, y: -lgDist },
+      rect: { x: -lgDist, y: -lgDist },
+    };
+    this.p2 = {
+      hex: { x: 0, y: -lgDist },
+      oct: { x: shDist, y: -lgDist },
+      rect: { x: lgDist, y: -lgDist },
+    };
+    this.p3 = {
+      hex: { x: 0, y: -lgDist },
+      oct: { x: lgDist, y: -shDist },
+      rect: { x: lgDist, y: -lgDist },
+    };
+    this.p4 = {
+      hex: { x: lgDist, y: -shDist },
+      oct: { x: lgDist, y: shDist },
+      rect: { x: lgDist, y: lgDist },
+    };
+    this.p5 = {
+      hex: { x: lgDist, y: shDist },
+      oct: { x: shDist, y: lgDist },
+      rect: { x: lgDist, y: lgDist },
+    };
+    this.p6 = {
+      hex: { x: 0, y: lgDist },
+      oct: { x: -shDist, y: lgDist },
+      rect: { x: -lgDist, y: lgDist },
+    };
+    this.p7 = {
+      hex: { x: 0, y: lgDist },
+      oct: { x: -lgDist, y: shDist },
+      rect: { x: -lgDist, y: lgDist },
+    };
+    this.p8 = {
+      hex: { x: -lgDist, y: shDist },
+      oct: { x: -lgDist, y: -shDist },
+      rect: { x: -lgDist, y: -lgDist },
+    };
+
+    return this.p1;
+    return { p1, p2, p3, p4, p5, p6, p7, p8 };
   }
 }

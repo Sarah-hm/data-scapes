@@ -120,8 +120,8 @@ window.onload = (event) => {
         //Gotta put a black loading screen or something and then make it disappear after everything is loaded
         stopDataCheck = true;
 
-        rhizomeItemsDiv = document.querySelectorAll(".rhizome-grid-item");
-        drawBackgroundShape(rhizomeItemsDiv);
+        let rhizomeItemsDiv = document.querySelectorAll(".rhizome-grid-item");
+        //        drawBackgroundShape(rhizomeItemsDiv);
         handleEvents(rhizomeItemsDiv);
       } else {
         requestAnimationFrame(checkIfDataIsLoaded);
