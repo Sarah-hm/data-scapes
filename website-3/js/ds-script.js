@@ -79,15 +79,20 @@ fetch("getData.php")
     let zoomLvl = 10;
 
     const loadMap = new Promise((resolve, reject) => {
-      map = L.map("map").setView(
-        [currentCoords.latitude, currentCoords.longitude],
-        zoomLvl
-      );
-      L.tileLayer("https://hybrid.concordia.ca/S_HONTOY/tile_blackout.jpg", {
-        zIndex: -5,
-        opacity: 0.5,
-        reuseTiles: true,
-      }).addTo(map);
+      let templat = `45.508888`;
+      let templng = `-73.561668`;
+      let zoomlvl = `15`;
+
+      let map = new MyMap(templat, templng, zoomlvl);
+      // map = L.map("map").setView(
+      //   [currentCoords.latitude, currentCoords.longitude],
+      //   zoomLvl
+      // );
+      // L.tileLayer("https://hybrid.concordia.ca/S_HONTOY/tile_blackout.jpg", {
+      //   zIndex: -5,
+      //   opacity: 0.5,
+      //   reuseTiles: true,
+      // }).addTo(map);
 
       loadAndRunNativeLand();
 

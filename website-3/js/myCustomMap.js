@@ -1,5 +1,21 @@
 class MyMap {
-  constructor() {
+  constructor(latitude, longitude, zoomlvl) {
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.zoomLvl = zoomlvl;
+
+    this.map = L.map("map").setView(
+      [this.latitude, this.longitude],
+      this.zoomLvl
+    );
+
+    L.tileLayer("https://hybrid.concordia.ca/S_HONTOY/tile_blackout.jpg", {
+      zIndex: -5,
+      opacity: 0.5,
+      reuseTiles: true,
+    }).addTo(this.map);
+
+    console.log(this.map);
     // this.leafletMap = leafletMap;
     this.line = [];
     this.zoomLvl = 10;
