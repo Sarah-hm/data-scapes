@@ -8,3 +8,8 @@
   width: 100%;
   height: 100vh;
 }
+
+.z14 {
+  transform: scale(5);
+  display: none;
+}

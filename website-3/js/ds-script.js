@@ -109,48 +109,16 @@ function fetchGeolocation() {
       navigator.geolocation.getCurrentPosition(function (position) {
         let latitude = position.coords.latitude;
         let longitude = position.coords.longitude;
-
-        console.log(latitude, longitude);
-
-        //Create the map using the latitude and longitude previously calculated
-        // let mapProp = {
-        //   //center on montreal
-        //   center: new google.maps.LatLng(latitude, longitude),
-        //   zoom: zoomLvl,
-        //   mapId: mapID,
-        //   disableDefaultUI: true,
-        //   // streetViewControl: false,
-        // };
-        // map = new google.maps.Map(document.getElementById("map"), mapProp);
-        // //only adds marker if geolocation was enabled, hence new user and new location
-        // addMarker(latitude, longitude);
-
-        // //load JSON file of Native lands (territories) and display them on the map;
-        // loadAndRunNativeLand();
-
-        // //traces the path of all users, adding this last one as the most recent entry
-        // tracingWebPath(latitude, longitude);
         resolve({ latitude, longitude });
       }); // IF GEO
 
-      //If geolocation is not enabled by the user, make the map centered around downtown Tiohtià:ke
+      //If geolocation is not enabled by the user, use the public IP address from IP API
     } else {
-      //If user doesn't let geolocation, set their location to downtown Tiohtià:ke (should be last signed in user?)
-      // latitude = 45.508888;
-      // longitude = -73.561668;
+      console.log("we shall use your public IP address then :) ");
 
-      console.log("no geolocation");
-
-      // //Create the map using the latitude and longitude previously calculated
-      // let mapProp = {
-      //   //center on montreal
-      //   center: new google.maps.LatLng(latitude, longitude),
-      //   zoom: zoomLvl,
-      //   mapId: mapID,
-      // };
-      // map = new google.maps.Map(document.getElementById("map"), mapProp);
-      // //traces the path of all users
-      // tracingWebPath(latitude, longitude);
+      let latitude = null;
+      let longitude = null;
+      resolve({ latitude, longitude });
     } // iF NO GEO
   });
 }
