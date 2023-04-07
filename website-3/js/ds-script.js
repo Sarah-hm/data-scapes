@@ -5,7 +5,7 @@
 // let latitude = null;
 // let longitude = null;
 
-//COMMENTED OUT THE POSTING ==
+// ====== COMMENTED OUT THE POSTING ========= DO NOT REMOVE
 // postData();
 
 // async function postData() {
@@ -28,9 +28,43 @@
 //   let resp = await response.text();
 //   console.log(resp);
 // }
+// ====== COMMENTED OUT THE POSTING ========= DO NOT REMOVE
 
+// Declare some variables globally to pass them around
+//Everything from the IP API
+let publicIPAddress;
+let clientIPAddress;
+
+let endpoint =
+  "http://ip-api.com/json/?fields=status,message,continent,country,countryCode,regionName,city,district,zip,lat,lon,timezone,offset,isp,org,as,mobile,proxy,hosting,query";
+
+let xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function () {
+  if (this.readyState == 4 && this.status == 200) {
+    var response = JSON.parse(this.responseText);
+    if (response.status !== "success") {
+      console.log("query failed: " + response.message);
+      return;
+    } else {
+      console.log(response);
+    }
+    // // Redirect
+    // if (response.countryCode == "US") {
+    //   window.location.replace("https://google.com/");
+    // }
+    // if (response.countryCode == "CA") {
+    //   window.location.replace("https://google.ca/");
+    // }
+  }
+};
+xhr.open("GET", endpoint, true);
+xhr.send();
+
+//Everything for the leaflet and map
 //We get the data from the txt file
 let map;
+
+// ========== geolocation and shtuff
 
 fetch("getData.php")
   .then((response) => response.text())
@@ -191,7 +225,7 @@ function loadAndRunNativeLand() {
           // );
           // let terrFillColor = territoryColors[territoryFillColorIndex];
           let terrFillColor = "#454B1B";
-          console.log(geomArray);
+          // console.log(geomArray);
           let polygon = L.polygon(line, {
             color: "black",
           }).addTo(map);
