@@ -33,51 +33,36 @@
 // Declare some variables globally to pass them around
 //Everything from the IP API
 let publicIPAddress;
-let clientIPAddress;
+let clientInfo = {
+  ipAddress: null,
+  lat: null,
+  long: null,
+  continent: null,
+  region: null,
+  city: null,
+  streetName: null,
+};
 
+//Get info from public IP address,
 let endpoint =
   "http://ip-api.com/json/?fields=status,message,continent,country,countryCode,regionName,city,district,zip,lat,lon,timezone,offset,isp,org,as,mobile,proxy,hosting,query";
-
-let xhr = new XMLHttpRequest();
-xhr.onreadystatechange = function () {
-  if (this.readyState == 4 && this.status == 200) {
-    var response = JSON.parse(this.responseText);
-    if (response.status !== "success") {
-      console.log("query failed: " + response.message);
-      return;
-    } else {
-      console.log(response);
-    }
-    // // Redirect
-    // if (response.countryCode == "US") {
-    //   window.location.replace("https://google.com/");
-    // }
-    // if (response.countryCode == "CA") {
-    //   window.location.replace("https://google.ca/");
-    // }
-  }
-};
-xhr.open("GET", endpoint, true);
-xhr.send();
 
 //Everything for the leaflet and map
 //We get the data from the txt file
 let map;
-
 // ========== geolocation and shtuff
 
 fetch("getData.php")
   .then((response) => response.text())
   .then(async (data) => {
-    //Do something with the data
-    // console.log(data);
     let parsedJSON = JSON.parse(data);
 
+    // let publicIPinfo = await getPublicIP();
+    // console.log(publicIPinfo);
     // console.log(parsedJSON);
-
     let currentCoords = await fetchGeolocation();
     // console.log(currentCoords);
-
+    console.log(currentCoords);
     //set the empty line array that is going to create the path
     let line = [];
     //  console.log(parsedJSON);
@@ -157,23 +142,90 @@ fetch("getData.php")
 function fetchGeolocation() {
   return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
+      console.log("we're getting the geolocation");
       //If user enabled geolocation, set lat/long to their current position, send data to database, and send to tracing Path function
-      navigator.geolocation.getCurrentPosition(function (position) {
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
-        resolve({ latitude, longitude });
-      }); // IF GEO
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          console.log("we're allowing the geolocation");
+          let latitude = position.coords.latitude;
+          let longitude = position.coords.longitude;
+          resolve({ latitude, longitude });
+        },
+        function (error) {
+          console.log(error);
+          let xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              var response = JSON.parse(this.responseText);
+              if (response.status !== "success") {
+                console.log("query failed: " + response.message);
+                return;
+              } else {
+                console.log(response);
+                clientInfo = {
+                  ipAddress: response.query,
+                  lat: response.lat,
+                  long: response.lon,
+                  continent: response.continent,
+                  region: response.regionName,
+                  city: response.city,
+                };
+                console.log(clientInfo);
+              }
+              console.log(clientInfo);
+            }
+            console.log(clientInfo);
+          };
+          console.log(clientInfo);
+          xhr.open("GET", endpoint, true);
+          xhr.send(clientInfo);
+
+          let latitude = clientInfo.lat;
+          let longitude = clientInfo.long;
+
+          resolve({ latitude, longitude });
+        }
+      );
+      // IF GEO
 
       //If geolocation is not enabled by the user, use the public IP address from IP API
-    } else {
-      console.log("we shall use your public IP address then :) ");
-
-      let latitude = null;
-      let longitude = null;
-      resolve({ latitude, longitude });
-    } // iF NO GEO
+    }
   });
 }
+
+// function getPublicIP() {
+//   return new Promise((resolve, reject) => {
+//     let xhr = new XMLHttpRequest();
+//     xhr.onreadystatechange = function () {
+//       if (this.readyState == 4 && this.status == 200) {
+//         var response = JSON.parse(this.responseText);
+//         if (response.status !== "success") {
+//           console.log("query failed: " + response.message);
+//           return;
+//         } else {
+//           console.log(response);
+//           clientInfo = {
+//             ipAddress: response.query,
+//             lat: response.lat,
+//             long: response.lon,
+//             continent: response.continent,
+//             region: response.regionName,
+//             city: response.city,
+//           };
+//           console.log(clientInfo);
+//         }
+//         console.log(clientInfo);
+//       }
+//       console.log(clientInfo);
+//     };
+//     console.log(clientInfo);
+//     xhr.open("GET", endpoint, true);
+//     xhr.send(clientInfo);
+
+//     // console.log(latitude, longitude);
+//     resolve({ clientInfo });
+//   });
+// }
 
 function loadAndRunNativeLand() {
   // https://native-land.ca/api/index.php?maps=territories
@@ -228,6 +280,9 @@ function loadAndRunNativeLand() {
           // console.log(geomArray);
           let polygon = L.polygon(line, {
             color: "black",
+            fillOpacity: 0.1,
+            stroke: false,
+            className: "native-land-polygons",
           }).addTo(map);
           addListenersOnPolygon(polygon, link);
           // console.log(polygon);
@@ -245,5 +300,14 @@ function loadAndRunNativeLand() {
 function addListenersOnPolygon(polygon, link) {
   polygon.on("click", function (event) {
     window.open(link, "_blank").focus();
+  });
+  polygon.on("mouseover", function (event) {
+    console.log(event.target);
+    event.target.setStyle({
+      color: "black",
+      fillOpacity: 0.5,
+      stroke: false,
+      className: "native-land-polygons",
+    });
   });
 }
