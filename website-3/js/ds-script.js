@@ -49,8 +49,14 @@ let endpoint =
 
 //Everything for the leaflet and map
 //We get the data from the txt file
-let map;
+// let map;
 // ========== geolocation and shtuff
+
+// let templat = `45.508888`;
+// let templng = `-73.561668`;
+// let zoomlvl = `15`;
+
+// let map = new MyMap(templat, templng, zoomlvl);
 
 fetch("getData.php")
   .then((response) => response.text())
@@ -84,6 +90,8 @@ fetch("getData.php")
       let zoomlvl = `15`;
 
       let map = new MyMap(templat, templng, zoomlvl);
+
+      map.initPolyline(line);
       // map = L.map("map").setView(
       //   [currentCoords.latitude, currentCoords.longitude],
       //   zoomLvl
@@ -95,12 +103,6 @@ fetch("getData.php")
       // }).addTo(map);
 
       loadAndRunNativeLand();
-
-      let polyline = L.polyline(line, {
-        color: "white",
-        weight: "0.2",
-        zindex: 5000,
-      }).addTo(map);
 
       resolve(zoomLvl);
     })
@@ -268,6 +270,7 @@ function loadAndRunNativeLand() {
             // console.log(lati);
             // console.log(long);
           } //FOR GEOMARRAY (coordinates)
+
           let terrFillColor = "#454B1B";
           // console.log(geomArray);
           let polygon = L.polygon(line, {

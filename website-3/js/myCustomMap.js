@@ -1,5 +1,7 @@
 class MyMap {
   constructor(latitude, longitude, zoomlvl) {
+    let dataScapesData = null;
+
     this.latitude = latitude;
     this.longitude = longitude;
     this.zoomLvl = zoomlvl;
@@ -9,25 +11,23 @@ class MyMap {
       this.zoomLvl
     );
 
-    L.tileLayer("https://hybrid.concordia.ca/S_HONTOY/tile_blackout.jpg", {
-      zIndex: -5,
-      opacity: 0.5,
-      reuseTiles: true,
-    }).addTo(this.map);
-
     console.log(this.map);
     // this.leafletMap = leafletMap;
     this.line = [];
     this.zoomLvl = 10;
+
+    this.setTile();
   }
 
-  // async loadAndInit() {
-  //   this.initMap(currentCoords);
-  //   this.loadAndRunNativeLand();
-  //   this.initPolyline();
-  //   this.zoomOut();
-  // }
+  setTile() {
+    L.tileLayer("https://hybrid.concordia.ca/S_HONTOY/tile_blackout.jpg", {
+      zIndex: -5,
+      opacity: 1,
+      reuseTiles: true,
+    }).addTo(this.map);
+  }
 
+  setDatascapes() {}
   initMap(currentCoords) {
     this.map = this.leafletMap.setView(
       [currentCoords.latitude, currentCoords.longitude],
