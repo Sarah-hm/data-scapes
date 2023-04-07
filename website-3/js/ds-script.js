@@ -209,8 +209,7 @@ function loadAndRunNativeLand() {
 }
 
 function addListenersOnPolygon(polygon, link) {
-  console.log(polygon);
-  google.maps.event.addListener(polygon, "click", function (event) {
+  polygon.on("click", function (event) {
     window.open(link, "_blank").focus();
   });
 }
