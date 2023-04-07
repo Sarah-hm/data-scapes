@@ -10,26 +10,23 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 // ====== COMMENTED OUT THE POSTING ========= DO NOT REMOVE
 // postData();
 
-// async function postData() {
-//   latitude = "01";
-//   longitude = "02";
-
-//   const response = await fetch(`postData.php`, {
-//     method: "POST", // *GET, POST, PUT, DELETE, etc.
-//     mode: "cors", // no-cors, *cors, same-origin
-//     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-//     credentials: "same-origin", // include, *same-origin, omit
-//     //headers: {
-//     //"Content-Type": "application/json",
-//     // 'Content-Type': 'application/x-www-form-urlencoded',
-//     //},
-//     redirect: "follow", // manual, *follow, error
-//     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-//     body: new URLSearchParams({ latitude: latitude, longitude: longitude }), // body data type must match "Content-Type" header
-//   });
-//   let resp = await response.text();
-//   console.log(resp);
-// }
+async function postData(latitude, longitude) {
+  const response = await fetch(`postData.php`, {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, *cors, same-origin
+    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: "same-origin", // include, *same-origin, omit
+    //headers: {
+    //"Content-Type": "application/json",
+    // 'Content-Type': 'application/x-www-form-urlencoded',
+    //},
+    redirect: "follow", // manual, *follow, error
+    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: new URLSearchParams({ latitude: latitude, longitude: longitude }), // body data type must match "Content-Type" header
+  });
+  let resp = await response.text();
+  console.log(resp);
+}
 // ====== COMMENTED OUT THE POSTING ========= DO NOT REMOVE
 
 // Declare some variables globally to pass them around
@@ -51,30 +48,18 @@ let endpoint =
 
 let map;
 let nativeLandPolys = [];
-//Everything for the leaflet and map
-//We get the data from the txt file
-// let map;
-// ========== geolocation and shtuff
 
-// let templat = `45.508888`;
-// let templng = `-73.561668`;
-// let zoomlvl = `15`;
+let clientCoords = await fetchGeolocation();
 
-console.log(d3);
-
-// let map = new MyMap(templat, templng, zoomlvl);
-
+//Get datascapes data and create the map
 fetch("getData.php")
   .then((response) => response.text())
   .then(async (data) => {
     let parsedJSON = JSON.parse(data);
 
-    // let publicIPinfo = await getPublicIP();
-    // console.log(publicIPinfo);
-    // console.log(parsedJSON);
-    let currentCoords = await fetchGeolocation();
+    // let currentCoords = await fetchGeolocation();
     // console.log(currentCoords);
-    console.log(currentCoords);
+    // console.log(currentCoords);
     //set the empty line array that is going to create the path
     let line = [];
     //  console.log(parsedJSON);
@@ -88,15 +73,9 @@ fetch("getData.php")
     }
     // console.log(line);
 
-    let zoomLvl = 10;
-
     const loadMap = new Promise((resolve, reject) => {
-      let templat = `45.508888`;
-      let templng = `-73.561668`;
-      let zoomlvl = `15`;
-
-      map = new MyMap(templat, templng, zoomlvl);
-
+      console.log(clientCoords);
+      map = new MyMap(clientCoords.latitude, clientCoords.longitude);
       map.initPolyline(line);
     });
     // == DATA_SCAPES DATA FETCH ==
@@ -155,6 +134,9 @@ fetch("getData.php")
   })
   .catch((error) => console.error(error));
 
+let ipIPAinfo = await getPublicIP();
+console.log(ipIPAinfo);
+
 function fetchGeolocation() {
   return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
@@ -166,41 +148,38 @@ function fetchGeolocation() {
           let latitude = position.coords.latitude;
           let longitude = position.coords.longitude;
           resolve({ latitude, longitude });
-        },
-        function (error) {
-          console.log(error);
-          let xhr = new XMLHttpRequest();
-          xhr.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-              var response = JSON.parse(this.responseText);
-              if (response.status !== "success") {
-                console.log("query failed: " + response.message);
-                return;
-              } else {
-                console.log(response);
-                clientInfo = {
-                  ipAddress: response.query,
-                  lat: response.lat,
-                  long: response.lon,
-                  continent: response.continent,
-                  region: response.regionName,
-                  city: response.city,
-                };
-                console.log(clientInfo);
-              }
-              console.log(clientInfo);
-            }
-            console.log(clientInfo);
-          };
-          console.log(clientInfo);
-          xhr.open("GET", endpoint, true);
-          xhr.send(clientInfo);
-
-          let latitude = clientInfo.lat;
-          let longitude = clientInfo.long;
-
-          resolve({ latitude, longitude });
         }
+        // function (error) {
+        //   console.log(error);
+        //   let xhr = new XMLHttpRequest();
+        //   xhr.onreadystatechange = function () {
+        //     if (this.readyState == 4 && this.status == 200) {
+        //       var response = JSON.parse(this.responseText);
+        //       if (response.status !== "success") {
+        //         console.log("query failed: " + response.message);
+        //         return;
+        //       } else {
+        //         console.log(response);
+        //         clientInfo = {
+        //           ipAddress: response.query,
+        //           lat: response.lat,
+        //           long: response.lon,
+        //           continent: response.continent,
+        //           region: response.regionName,
+        //           city: response.city,
+        //         };
+        //       }
+        //     }
+        //   };
+        //   xhr.open("GET", endpoint, true);
+        //   xhr.send(clientInfo);
+
+        //   console.log(clientInfo);
+        //   let latitude = clientInfo.lat;
+        //   let longitude = clientInfo.long;
+
+        //   resolve({ latitude, longitude });
+        // }
       );
       // IF GEO
 
@@ -209,46 +188,51 @@ function fetchGeolocation() {
   });
 }
 
-// function getPublicIP() {
-//   return new Promise((resolve, reject) => {
-//     let xhr = new XMLHttpRequest();
-//     xhr.onreadystatechange = function () {
-//       if (this.readyState == 4 && this.status == 200) {
-//         var response = JSON.parse(this.responseText);
-//         if (response.status !== "success") {
-//           console.log("query failed: " + response.message);
-//           return;
-//         } else {
-//           console.log(response);
-//           clientInfo = {
-//             ipAddress: response.query,
-//             lat: response.lat,
-//             long: response.lon,
-//             continent: response.continent,
-//             region: response.regionName,
-//             city: response.city,
-//           };
-//           console.log(clientInfo);
-//         }
-//         console.log(clientInfo);
-//       }
-//       console.log(clientInfo);
-//     };
-//     console.log(clientInfo);
-//     xhr.open("GET", endpoint, true);
-//     xhr.send(clientInfo);
-
-//     // console.log(latitude, longitude);
-//     resolve({ clientInfo });
-//   });
-// }
+function getPublicIP() {
+  return new Promise((resolve, reject) => {
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        var response = JSON.parse(this.responseText);
+        if (response.status !== "success") {
+          console.log("query failed: " + response.message);
+          return;
+        } else {
+          console.log(response);
+          clientInfo = {
+            ipAddress: response.query,
+            lat: response.lat,
+            long: response.lon,
+            continent: response.continent,
+            region: response.regionName,
+            city: response.city,
+          };
+          map.setupPublicIPInfo(
+            clientInfo.ipAddress,
+            clientInfo.lat,
+            clientInfo.long,
+            clientInfo.continent,
+            clientInfo.region,
+            clientInfo.city
+          );
+        }
+      }
+    };
+    console.log(clientInfo);
+    xhr.open("GET", endpoint, true);
+    xhr.send(clientInfo);
+    console.log(clientInfo);
+    // console.log(latitude, longitude);
+    resolve({ clientInfo });
+  });
+}
 
 function addListenersOnPolygon(polygon, link) {
   polygon.on("click", function (event) {
     window.open(link, "_blank").focus();
   });
   polygon.on("mouseover", function (event) {
-    console.log(event.target);
+    // console.log(event.target);
     event.target.setStyle({
       color: "white",
       fillOpacity: 0.5,

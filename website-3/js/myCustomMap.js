@@ -1,18 +1,26 @@
 class MyMap {
-  constructor(latitude, longitude, zoomlvl, d3) {
+  constructor(latitude, longitude) {
     // this.d3 = d3;
     this.nativeLandLayer = true;
     this.datascapesPoints = [];
 
     this.latitude = latitude;
     this.longitude = longitude;
-    this.zoomLvl = zoomlvl;
     this.zoomOutLvl = 3;
     this.currentTile = null;
 
     this.style;
     this.line = [];
-    this.zoomLvl = 10;
+    this.zoomLvl = 15;
+
+    this.ipInfo = {
+      publicIP: null,
+      lat: null,
+      lng: null,
+      continent: null,
+      region: null,
+      city: null,
+    };
 
     this.initMap();
     this.setBlackTile();
@@ -86,16 +94,29 @@ class MyMap {
       zindex: 5000,
       className: "data-scapes-polyline",
     }).addTo(this.map);
-    this.conversionLatLngtoPoints(datascapesData);
+    // this.conversionLatLngtoPoints(datascapesData);
   }
 
+  setupPublicIPInfo(ipAddress, lat, lng, continent, region, city) {
+    this.ipInfo = {
+      ipAddress: ipAddress,
+      lat: lat,
+      lng: lng,
+      continent: continent,
+      region: region,
+      city: city,
+    };
+
+    console.log(this.ipInfo);
+  }
+  // latlngtolayerpoint not a function? broken?
   conversionLatLngtoPoints(datascapesData) {
     console.log(datascapesData.length);
 
     for (let i = 0; i < datascapesData.length; i++) {
       console.log(datascapesData[i]);
       this.point = latLngToLayerPoint(datascapesData[i]);
-      console.log(point);
+      // console.log(point);
     }
     //latLngToLayerPoint
   }
@@ -105,18 +126,13 @@ class MyMap {
       this.zoomLvl--;
       this.map.flyTo([this.latitude, this.longitude], this.zoomLvl, {
         animate: true,
-        duration: 1,
+        duration: 0.75,
       });
-      setTimeout(() => this.zoomOut(), 1250);
+      setTimeout(() => this.zoomOut(), 850);
     } else if (this.zoomLvl <= this.zoomOutLvl) {
       // Go to black;
-      console.log(this.polyline);
+      // console.log(this.polyline);
       this.setWorldMapTile();
-      setTimeout(() => {
-        console.log(this.currentTile);
-        this.currentTile({ opacity: 1.0 });
-      }, 1000);
-      //put native land
     }
   }
 }
