@@ -30,6 +30,7 @@
 // }
 
 //We get the data from the txt file
+let map;
 
 fetch("getData.php")
   .then((response) => response.text())
@@ -65,18 +66,58 @@ fetch("getData.php")
     //  });
     //  webPath.setMap(map);
 
-    let map = L.map("map").setView(
-      [currentCoords.latitude, currentCoords.longitude],
-      13
-    );
+    let zoomLvl = 10;
 
-    L.tileLayer("https://hybrid.concordia.ca/S_HONTOY/tile_blackout.jpg", {
-      attribution: "mine :)",
-    }).addTo(map);
+    const loadMap = new Promise((resolve, reject) => {
+      map = L.map("map").setView(
+        [currentCoords.latitude, currentCoords.longitude],
+        zoomLvl
+      );
+      L.tileLayer("https://hybrid.concordia.ca/S_HONTOY/tile_blackout.jpg", {
+        attribution: "mine :)",
+      }).addTo(map);
 
-    let polyline = L.polyline(line, { color: "white", weight: "0.2" }).addTo(
-      map
-    );
+      let polyline = L.polyline(line, {
+        color: "white",
+        weight: "0.2",
+      }).addTo(map);
+      resolve(zoomLvl);
+    })
+      .then(
+        (value) => {
+          console.log(value);
+          zoomOut(value);
+          // Expected output: "Success!"
+        },
+        (reason) => {
+          console.error(reason); // Error!
+        }
+      )
+      .then(() => {
+        // make the screen go to black
+
+        console.log("hello");
+      });
+
+    function zoomOut(zoomlvl) {
+      zoomLvl--;
+      map.flyTo([currentCoords.latitude, currentCoords.longitude], zoomLvl, {
+        animate: true,
+        duration: 1.0,
+      });
+      if (zoomLvl >= 5) {
+        setTimeout(zoomOut(zoomLvl), 1500);
+      }
+    }
+
+    // map.flyTo([currentCoords.latitude, currentCoords.longitude], 10, {
+    //   animate: true,
+    //   duration: 5,
+    // });
+    // zoomIn(zoomLvl);
+
+    // Wrapping around the international date line if it's a shorter distance;
+    // new L.Wrapped.Polyline(line, { color: "red", weight: "0.2" }).addTo(map);
 
     // L.tileLayer(
     //   "https://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",

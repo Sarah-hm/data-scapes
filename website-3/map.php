@@ -14,14 +14,13 @@
      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
      crossorigin=""/>
      <script src="js/ds-script.js"></script>
-        <!-- css class for different zoom lvls -->
-
+        <!-- css class for different zoom lvls -->  
      <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
      crossorigin=""></script>
      <!-- Leaflet plug-ins -->
-
-     <script scr="libraries/leaflet.zoomcss.js"></script>      <!-- inutile  -->
+    <!-- <script src = "libraries/Leaflet.Antimeridian/dist/leaflet.antimeridian-src.js" ></script> -->
+     <!-- <script scr="libraries/leaflet.zoomcss.js"></script>      inutile  -->
     <!-- Ajax : will try to make it useless :) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- Google maps -->
@@ -41,7 +40,7 @@
   
 </head>
 <body>
-<div id="map" class = "zoom-class">
+<div id="map" >
 
 </div>
 
