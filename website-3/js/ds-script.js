@@ -49,76 +49,9 @@ let endpoint =
 
 //Everything for the leaflet and map
 //We get the data from the txt file
-
-// let leafletMap = L.map("map");
-
-// const myMap = new MyMap();
-
-let tempLat = `45.508888`;
-let tempLong = `-73.561668`;
-let zoomLvl = 10;
-
-// let leafletMap = L.map("map").setView([tempLat, tempLong], zoomLvl);
-// L.tileLayer("https://hybrid.concordia.ca/S_HONTOY/tile_blackout.jpg", {
-//   zIndex: -5,
-//   opacity: 0.5,
-//   reuseTiles: true,
-// }).addTo(leafletMap);
-
-// console.log(myMap);
-// // let tempLat = `45.508888`;
-// // let tempLong = `-73.561668`;
-// myMap.initMap(tempLat, tempLong);
-// map.loadAndInit();
+let map;
 // ========== geolocation and shtuff
 
-// //Fetch data from native-land, send it to map object
-// fetch("https://native-land.ca/api/index.php?maps=territories")
-//   .then((response) => response.json())
-//   .then((data) => {
-//     console.log(data);
-//     //Run through data and divide the polygons (puts it in temp) data.length
-//     for (let i = 0; i < data.length; i++) {
-//       // console.log(i);
-//       //console.log(data[i]);
-//       let link = data[i].properties.description;
-
-//       // console.log(data[i].geometry.coordinates)
-//       let temp = data[i].geometry.coordinates;
-//       //  let geomArray = data[i].geometry.coordinates[0];
-//       // console.log(temp);
-//       //Puts all polygon lines (in temp) into their own arrays (geomArray)
-//       for (let j = 0; j < temp.length; j++) {
-//         //console.log (temp[j]);
-//         let geomArray = temp[j];
-//         //set the empty line array that is going to create the path
-//         let line = [];
-//         //Parse all the lines' coordinates (latitude, longitude) and push them into the array
-//         for (let k = 0; k < geomArray.length; k++) {
-//           //  console.log(geomArray[k])
-//           let coordinates = geomArray[k];
-//           let long = parseFloat(coordinates[0]);
-//           let lati = parseFloat(coordinates[1]);
-//           let coords = { lat: lati, lng: long };
-//           line.push(coords);
-//           // console.log(lati);
-//           // console.log(long);
-//         } //FOR GEOMARRAY (coordinates)
-//         let terrFillColor = "#454B1B";
-//         // console.log(geomArray);
-//         let polygon = L.polygon(line, {
-//           zindex: 0,
-//           color: "black",
-//           fillOpacity: 0.1,
-//           stroke: false,
-//           className: "native-land-polygons",
-//         }).addTo(map);
-//         addListenersOnPolygon(polygon, link);
-//       }
-//     }
-//   });
-
-//Fetch data from data-scapes, send it to map object
 fetch("getData.php")
   .then((response) => response.text())
   .then(async (data) => {
@@ -156,15 +89,13 @@ fetch("getData.php")
         reuseTiles: true,
       }).addTo(map);
 
-      // loadAndRunNativeLand();
+      loadAndRunNativeLand();
 
-      // myMap.initPolyline(line);
-
-      // let polyline = L.polyline(line, {
-      //   color: "white",
-      //   weight: "0.2",
-      //   zindex: 5000,
-      // }).addTo(map);
+      let polyline = L.polyline(line, {
+        color: "white",
+        weight: "0.2",
+        zindex: 5000,
+      }).addTo(map);
 
       resolve(zoomLvl);
     })
@@ -183,31 +114,31 @@ fetch("getData.php")
 
         console.log("hello");
       });
-  });
-function zoomOut(zoomlvl) {
-  zoomLvl--;
-  map.flyTo([currentCoords.latitude, currentCoords.longitude], zoomLvl, {
-    animate: true,
-    duration: 1.0,
-  });
-  if (zoomLvl >= 5) {
-    setTimeout(zoomOut(zoomLvl), 1500);
-  }
-}
 
-//     // Wrapping around the international date line if it's a shorter distance;
-//     // new L.Wrapped.Polyline(line, { color: "red", weight: "0.2" }).addTo(map);
+    function zoomOut(zoomlvl) {
+      zoomLvl--;
+      map.flyTo([currentCoords.latitude, currentCoords.longitude], zoomLvl, {
+        animate: true,
+        duration: 1.0,
+      });
+      if (zoomLvl >= 5) {
+        setTimeout(zoomOut(zoomLvl), 1500);
+      }
+    }
 
-//     // === keep : greyed out world map
-//     // L.tileLayer(
-//     //   "https://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
-//     //   {
-//     //     attribution:
-//     //       "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
-//     //   }
-//     // ).addTo(map);
-//   })
-//   .catch((error) => console.error(error));
+    // Wrapping around the international date line if it's a shorter distance;
+    // new L.Wrapped.Polyline(line, { color: "red", weight: "0.2" }).addTo(map);
+
+    // === keep : greyed out world map
+    // L.tileLayer(
+    //   "https://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+    //   {
+    //     attribution:
+    //       "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+    //   }
+    // ).addTo(map);
+  })
+  .catch((error) => console.error(error));
 
 function fetchGeolocation() {
   return new Promise((resolve, reject) => {
@@ -240,9 +171,13 @@ function fetchGeolocation() {
                   region: response.regionName,
                   city: response.city,
                 };
+                console.log(clientInfo);
               }
+              console.log(clientInfo);
             }
+            console.log(clientInfo);
           };
+          console.log(clientInfo);
           xhr.open("GET", endpoint, true);
           xhr.send(clientInfo);
 
@@ -259,120 +194,120 @@ function fetchGeolocation() {
   });
 }
 
-// // function getPublicIP() {
-// //   return new Promise((resolve, reject) => {
-// //     let xhr = new XMLHttpRequest();
-// //     xhr.onreadystatechange = function () {
-// //       if (this.readyState == 4 && this.status == 200) {
-// //         var response = JSON.parse(this.responseText);
-// //         if (response.status !== "success") {
-// //           console.log("query failed: " + response.message);
-// //           return;
-// //         } else {
-// //           console.log(response);
-// //           clientInfo = {
-// //             ipAddress: response.query,
-// //             lat: response.lat,
-// //             long: response.lon,
-// //             continent: response.continent,
-// //             region: response.regionName,
-// //             city: response.city,
-// //           };
-// //           console.log(clientInfo);
-// //         }
-// //         console.log(clientInfo);
-// //       }
-// //       console.log(clientInfo);
-// //     };
-// //     console.log(clientInfo);
-// //     xhr.open("GET", endpoint, true);
-// //     xhr.send(clientInfo);
+// function getPublicIP() {
+//   return new Promise((resolve, reject) => {
+//     let xhr = new XMLHttpRequest();
+//     xhr.onreadystatechange = function () {
+//       if (this.readyState == 4 && this.status == 200) {
+//         var response = JSON.parse(this.responseText);
+//         if (response.status !== "success") {
+//           console.log("query failed: " + response.message);
+//           return;
+//         } else {
+//           console.log(response);
+//           clientInfo = {
+//             ipAddress: response.query,
+//             lat: response.lat,
+//             long: response.lon,
+//             continent: response.continent,
+//             region: response.regionName,
+//             city: response.city,
+//           };
+//           console.log(clientInfo);
+//         }
+//         console.log(clientInfo);
+//       }
+//       console.log(clientInfo);
+//     };
+//     console.log(clientInfo);
+//     xhr.open("GET", endpoint, true);
+//     xhr.send(clientInfo);
 
-// //     // console.log(latitude, longitude);
-// //     resolve({ clientInfo });
-// //   });
-// // }
-
-// function loadAndRunNativeLand() {
-//   // https://native-land.ca/api/index.php?maps=territories
-
-//   $.get(
-//     "https://native-land.ca/api/index.php?maps=territories",
-//     function (data) {
-//       //success
-//       //step 1: console.log the result
-//       //console.log(data.length);
-//       //set boolean to true
-//       //loaded = true;
-
-//       // parse data into object
-//       // console.log(data);
-//       // console.log(map);
-
-//       //Run through data and divide the polygons (puts it in temp) data.length
-//       for (let i = 0; i < data.length; i++) {
-//         // console.log(i);
-//         //console.log(data[i]);
-//         let link = data[i].properties.description;
-
-//         // console.log(data[i].geometry.coordinates)
-//         let temp = data[i].geometry.coordinates;
-//         //  let geomArray = data[i].geometry.coordinates[0];
-//         // console.log(temp);
-//         //Puts all polygon lines (in temp) into their own arrays (geomArray)
-//         for (let j = 0; j < temp.length; j++) {
-//           //console.log (temp[j]);
-//           let geomArray = temp[j];
-//           //set the empty line array that is going to create the path
-//           let line = [];
-//           //Parse all the lines' coordinates (latitude, longitude) and push them into the array
-//           for (let k = 0; k < geomArray.length; k++) {
-//             //  console.log(geomArray[k])
-//             let coordinates = geomArray[k];
-//             let long = parseFloat(coordinates[0]);
-//             let lati = parseFloat(coordinates[1]);
-//             let coords = { lat: lati, lng: long };
-//             line.push(coords);
-//             // console.log(lati);
-//             // console.log(long);
-//           } //FOR GEOMARRAY (coordinates)
-
-//           // let territoryFillColorIndex = Math.floor(
-//           //   Math.random() * territoryColors.length
-//           // );
-//           // let terrFillColor = territoryColors[territoryFillColorIndex];
-//           let terrFillColor = "#454B1B";
-//           // console.log(geomArray);
-//           let polygon = L.polygon(line, {
-//             zindex: 0,
-//             color: "black",
-//             fillOpacity: 0.1,
-//             stroke: false,
-//             className: "native-land-polygons",
-//           }).addTo(map);
-//           addListenersOnPolygon(polygon, link);
-//           // console.log(polygon);
-//         } // FOR temp (lines)
-//       } // FOR data (polygons)
-//     } // GET function
-//   ) //GET
-//     //fail
-//     .fail(function () {
-//       console.log("error");
-//     });
-// }
-
-// function addListenersOnPolygon(polygon, link) {
-//   polygon.on("click", function (event) {
-//     window.open(link, "_blank").focus();
-//   });
-//   polygon.on("mouseover", function (event) {
-//     console.log(event.target);
-//     event.target.setStyle({
-//       color: "black",
-//       fillOpacity: 0.5,
-//       stroke: false,
-//       className: "native-land-polygons",
-//     });
+//     // console.log(latitude, longitude);
+//     resolve({ clientInfo });
 //   });
 // }
+
+function loadAndRunNativeLand() {
+  // https://native-land.ca/api/index.php?maps=territories
+
+  $.get(
+    "https://native-land.ca/api/index.php?maps=territories",
+    function (data) {
+      //success
+      //step 1: console.log the result
+      //console.log(data.length);
+      //set boolean to true
+      //loaded = true;
+
+      // parse data into object
+      // console.log(data);
+      // console.log(map);
+
+      //Run through data and divide the polygons (puts it in temp) data.length
+      for (let i = 0; i < data.length; i++) {
+        // console.log(i);
+        //console.log(data[i]);
+        let link = data[i].properties.description;
+
+        // console.log(data[i].geometry.coordinates)
+        let temp = data[i].geometry.coordinates;
+        //  let geomArray = data[i].geometry.coordinates[0];
+        // console.log(temp);
+        //Puts all polygon lines (in temp) into their own arrays (geomArray)
+        for (let j = 0; j < temp.length; j++) {
+          //console.log (temp[j]);
+          let geomArray = temp[j];
+          //set the empty line array that is going to create the path
+          let line = [];
+          //Parse all the lines' coordinates (latitude, longitude) and push them into the array
+          for (let k = 0; k < geomArray.length; k++) {
+            //  console.log(geomArray[k])
+            let coordinates = geomArray[k];
+            let long = parseFloat(coordinates[0]);
+            let lati = parseFloat(coordinates[1]);
+            let coords = { lat: lati, lng: long };
+            line.push(coords);
+            // console.log(lati);
+            // console.log(long);
+          } //FOR GEOMARRAY (coordinates)
+
+          // let territoryFillColorIndex = Math.floor(
+          //   Math.random() * territoryColors.length
+          // );
+          // let terrFillColor = territoryColors[territoryFillColorIndex];
+          let terrFillColor = "#454B1B";
+          // console.log(geomArray);
+          let polygon = L.polygon(line, {
+            zindex: 0,
+            color: "black",
+            fillOpacity: 0.1,
+            stroke: false,
+            className: "native-land-polygons",
+          }).addTo(map);
+          addListenersOnPolygon(polygon, link);
+          // console.log(polygon);
+        } // FOR temp (lines)
+      } // FOR data (polygons)
+    } // GET function
+  ) //GET
+    //fail
+    .fail(function () {
+      console.log("error");
+    });
+}
+
+function addListenersOnPolygon(polygon, link) {
+  polygon.on("click", function (event) {
+    window.open(link, "_blank").focus();
+  });
+  polygon.on("mouseover", function (event) {
+    console.log(event.target);
+    event.target.setStyle({
+      color: "black",
+      fillOpacity: 0.5,
+      stroke: false,
+      className: "native-land-polygons",
+    });
+  });
+}
