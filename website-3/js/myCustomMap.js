@@ -1,55 +1,19 @@
 class MyMap {
   constructor() {
+    // this.leafletMap = leafletMap;
     this.line = [];
     this.zoomLvl = 10;
   }
 
-  async loadAndInit() {
-    const parsedJSON = await this.fetchData();
-    const currentCoords = await this.fetchGeolocation();
-    this.parseData(parsedJSON);
-    this.initMap(currentCoords);
-    this.loadAndRunNativeLand();
-    this.initPolyline();
-    this.zoomOut();
-  }
-
-  async fetchData() {
-    const response = await fetch("getData.php");
-    return JSON.parse(await response.text());
-  }
-
-  async fetchGeolocation() {
-    return new Promise((resolve, reject) => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            resolve({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            });
-          },
-          (error) => {
-            // handle error
-            resolve({ latitude: 0, longitude: 0 });
-          }
-        );
-      } else {
-        resolve({ latitude: 0, longitude: 0 });
-      }
-    });
-  }
-
-  parseData(parsedJSON) {
-    for (let i = 0; i < parsedJSON.length - 1; i++) {
-      const lati = parseFloat(parsedJSON[i].latitude);
-      const long = parseFloat(parsedJSON[i].longitude);
-      this.line.push({ lat: lati, lng: long });
-    }
-  }
+  // async loadAndInit() {
+  //   this.initMap(currentCoords);
+  //   this.loadAndRunNativeLand();
+  //   this.initPolyline();
+  //   this.zoomOut();
+  // }
 
   initMap(currentCoords) {
-    this.map = L.map("map").setView(
+    this.map = this.leafletMap.setView(
       [currentCoords.latitude, currentCoords.longitude],
       this.zoomLvl
     );
@@ -130,8 +94,8 @@ class MyMap {
       });
   }
 
-  initPolyline() {
-    this.polyline = L.polyline(this.line, {
+  initPolyline(line) {
+    this.polyline = L.polyline(line, {
       color: "white",
       weight: "0.2",
       zindex: 5000,

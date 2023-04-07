@@ -49,87 +49,151 @@ let endpoint =
 
 //Everything for the leaflet and map
 //We get the data from the txt file
-// let map;
 
-const myMap = new MyMap();
-console.log(myMap);
-myMap.loadAndInit();
+// let leafletMap = L.map("map");
+
+// const myMap = new MyMap();
+
+let tempLat = `45.508888`;
+let tempLong = `-73.561668`;
+let zoomLvl = 10;
+
+// let leafletMap = L.map("map").setView([tempLat, tempLong], zoomLvl);
+// L.tileLayer("https://hybrid.concordia.ca/S_HONTOY/tile_blackout.jpg", {
+//   zIndex: -5,
+//   opacity: 0.5,
+//   reuseTiles: true,
+// }).addTo(leafletMap);
+
+// console.log(myMap);
+// // let tempLat = `45.508888`;
+// // let tempLong = `-73.561668`;
+// myMap.initMap(tempLat, tempLong);
 // map.loadAndInit();
 // ========== geolocation and shtuff
 
-// fetch("getData.php")
-//   .then((response) => response.text())
-//   .then(async (data) => {
-//     let parsedJSON = JSON.parse(data);
+// //Fetch data from native-land, send it to map object
+// fetch("https://native-land.ca/api/index.php?maps=territories")
+//   .then((response) => response.json())
+//   .then((data) => {
+//     console.log(data);
+//     //Run through data and divide the polygons (puts it in temp) data.length
+//     for (let i = 0; i < data.length; i++) {
+//       // console.log(i);
+//       //console.log(data[i]);
+//       let link = data[i].properties.description;
 
-//     // let publicIPinfo = await getPublicIP();
-//     // console.log(publicIPinfo);
-//     // console.log(parsedJSON);
-//     let currentCoords = await fetchGeolocation();
-//     // console.log(currentCoords);
-//     console.log(currentCoords);
-//     //set the empty line array that is going to create the path
-//     let line = [];
-//     //  console.log(parsedJSON);
-//     for (let i = 0; i < parsedJSON.length - 1; i++) {
-//       let lati = parseFloat(parsedJSON[i].latitude);
-//       let long = parseFloat(parsedJSON[i].longitude);
-
-//       // console.log(lati, long);
-//       let coords = { lat: lati, lng: long };
-//       line.push(coords);
-//     }
-//     // console.log(line);
-
-//     let zoomLvl = 10;
-
-//     const loadMap = new Promise((resolve, reject) => {
-//       map = L.map("map").setView(
-//         [currentCoords.latitude, currentCoords.longitude],
-//         zoomLvl
-//       );
-//       L.tileLayer("https://hybrid.concordia.ca/S_HONTOY/tile_blackout.jpg", {
-//         zIndex: -5,
-//         opacity: 0.5,
-//         reuseTiles: true,
-//       }).addTo(map);
-
-//       // loadAndRunNativeLand();
-
-//       let polyline = L.polyline(line, {
-//         color: "white",
-//         weight: "0.2",
-//         zindex: 5000,
-//       }).addTo(map);
-
-//       resolve(zoomLvl);
-//     })
-//       .then(
-//         (value) => {
-//           console.log(value);
-//           zoomOut(value);
-//           // Expected output: "Success!"
-//         },
-//         (reason) => {
-//           console.error(reason); // Error!
-//         }
-//       )
-//       .then(() => {
-//         // make the screen go to black
-
-//         console.log("hello");
-//       });
-
-//     function zoomOut(zoomlvl) {
-//       zoomLvl--;
-//       map.flyTo([currentCoords.latitude, currentCoords.longitude], zoomLvl, {
-//         animate: true,
-//         duration: 1.0,
-//       });
-//       if (zoomLvl >= 5) {
-//         setTimeout(zoomOut(zoomLvl), 1500);
+//       // console.log(data[i].geometry.coordinates)
+//       let temp = data[i].geometry.coordinates;
+//       //  let geomArray = data[i].geometry.coordinates[0];
+//       // console.log(temp);
+//       //Puts all polygon lines (in temp) into their own arrays (geomArray)
+//       for (let j = 0; j < temp.length; j++) {
+//         //console.log (temp[j]);
+//         let geomArray = temp[j];
+//         //set the empty line array that is going to create the path
+//         let line = [];
+//         //Parse all the lines' coordinates (latitude, longitude) and push them into the array
+//         for (let k = 0; k < geomArray.length; k++) {
+//           //  console.log(geomArray[k])
+//           let coordinates = geomArray[k];
+//           let long = parseFloat(coordinates[0]);
+//           let lati = parseFloat(coordinates[1]);
+//           let coords = { lat: lati, lng: long };
+//           line.push(coords);
+//           // console.log(lati);
+//           // console.log(long);
+//         } //FOR GEOMARRAY (coordinates)
+//         let terrFillColor = "#454B1B";
+//         // console.log(geomArray);
+//         let polygon = L.polygon(line, {
+//           zindex: 0,
+//           color: "black",
+//           fillOpacity: 0.1,
+//           stroke: false,
+//           className: "native-land-polygons",
+//         }).addTo(map);
+//         addListenersOnPolygon(polygon, link);
 //       }
 //     }
+//   });
+
+//Fetch data from data-scapes, send it to map object
+fetch("getData.php")
+  .then((response) => response.text())
+  .then(async (data) => {
+    let parsedJSON = JSON.parse(data);
+
+    // let publicIPinfo = await getPublicIP();
+    // console.log(publicIPinfo);
+    // console.log(parsedJSON);
+    let currentCoords = await fetchGeolocation();
+    // console.log(currentCoords);
+    console.log(currentCoords);
+    //set the empty line array that is going to create the path
+    let line = [];
+    //  console.log(parsedJSON);
+    for (let i = 0; i < parsedJSON.length - 1; i++) {
+      let lati = parseFloat(parsedJSON[i].latitude);
+      let long = parseFloat(parsedJSON[i].longitude);
+
+      // console.log(lati, long);
+      let coords = { lat: lati, lng: long };
+      line.push(coords);
+    }
+    // console.log(line);
+
+    let zoomLvl = 10;
+
+    const loadMap = new Promise((resolve, reject) => {
+      map = L.map("map").setView(
+        [currentCoords.latitude, currentCoords.longitude],
+        zoomLvl
+      );
+      L.tileLayer("https://hybrid.concordia.ca/S_HONTOY/tile_blackout.jpg", {
+        zIndex: -5,
+        opacity: 0.5,
+        reuseTiles: true,
+      }).addTo(map);
+
+      // loadAndRunNativeLand();
+
+      // myMap.initPolyline(line);
+
+      // let polyline = L.polyline(line, {
+      //   color: "white",
+      //   weight: "0.2",
+      //   zindex: 5000,
+      // }).addTo(map);
+
+      resolve(zoomLvl);
+    })
+      .then(
+        (value) => {
+          console.log(value);
+          zoomOut(value);
+          // Expected output: "Success!"
+        },
+        (reason) => {
+          console.error(reason); // Error!
+        }
+      )
+      .then(() => {
+        // make the screen go to black
+
+        console.log("hello");
+      });
+  });
+function zoomOut(zoomlvl) {
+  zoomLvl--;
+  map.flyTo([currentCoords.latitude, currentCoords.longitude], zoomLvl, {
+    animate: true,
+    duration: 1.0,
+  });
+  if (zoomLvl >= 5) {
+    setTimeout(zoomOut(zoomLvl), 1500);
+  }
+}
 
 //     // Wrapping around the international date line if it's a shorter distance;
 //     // new L.Wrapped.Polyline(line, { color: "red", weight: "0.2" }).addTo(map);
@@ -145,59 +209,55 @@ myMap.loadAndInit();
 //   })
 //   .catch((error) => console.error(error));
 
-// function fetchGeolocation() {
-//   return new Promise((resolve, reject) => {
-//     if (navigator.geolocation) {
-//       console.log("we're getting the geolocation");
-//       //If user enabled geolocation, set lat/long to their current position, send data to database, and send to tracing Path function
-//       navigator.geolocation.getCurrentPosition(
-//         function (position) {
-//           console.log("we're allowing the geolocation");
-//           let latitude = position.coords.latitude;
-//           let longitude = position.coords.longitude;
-//           resolve({ latitude, longitude });
-//         },
-//         function (error) {
-//           console.log(error);
-//           let xhr = new XMLHttpRequest();
-//           xhr.onreadystatechange = function () {
-//             if (this.readyState == 4 && this.status == 200) {
-//               var response = JSON.parse(this.responseText);
-//               if (response.status !== "success") {
-//                 console.log("query failed: " + response.message);
-//                 return;
-//               } else {
-//                 console.log(response);
-//                 clientInfo = {
-//                   ipAddress: response.query,
-//                   lat: response.lat,
-//                   long: response.lon,
-//                   continent: response.continent,
-//                   region: response.regionName,
-//                   city: response.city,
-//                 };
-//                 console.log(clientInfo);
-//               }
-//               console.log(clientInfo);
-//             }
-//             console.log(clientInfo);
-//           };
-//           console.log(clientInfo);
-//           xhr.open("GET", endpoint, true);
-//           xhr.send(clientInfo);
+function fetchGeolocation() {
+  return new Promise((resolve, reject) => {
+    if (navigator.geolocation) {
+      console.log("we're getting the geolocation");
+      //If user enabled geolocation, set lat/long to their current position, send data to database, and send to tracing Path function
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          console.log("we're allowing the geolocation");
+          let latitude = position.coords.latitude;
+          let longitude = position.coords.longitude;
+          resolve({ latitude, longitude });
+        },
+        function (error) {
+          console.log(error);
+          let xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              var response = JSON.parse(this.responseText);
+              if (response.status !== "success") {
+                console.log("query failed: " + response.message);
+                return;
+              } else {
+                console.log(response);
+                clientInfo = {
+                  ipAddress: response.query,
+                  lat: response.lat,
+                  long: response.lon,
+                  continent: response.continent,
+                  region: response.regionName,
+                  city: response.city,
+                };
+              }
+            }
+          };
+          xhr.open("GET", endpoint, true);
+          xhr.send(clientInfo);
 
-//           let latitude = clientInfo.lat;
-//           let longitude = clientInfo.long;
+          let latitude = clientInfo.lat;
+          let longitude = clientInfo.long;
 
-//           resolve({ latitude, longitude });
-//         }
-//       );
-//       // IF GEO
+          resolve({ latitude, longitude });
+        }
+      );
+      // IF GEO
 
-//       //If geolocation is not enabled by the user, use the public IP address from IP API
-//     }
-//   });
-// }
+      //If geolocation is not enabled by the user, use the public IP address from IP API
+    }
+  });
+}
 
 // // function getPublicIP() {
 // //   return new Promise((resolve, reject) => {
