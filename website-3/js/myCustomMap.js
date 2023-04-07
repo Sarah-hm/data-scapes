@@ -5,7 +5,10 @@ class MyMap {
     this.latitude = latitude;
     this.longitude = longitude;
     this.zoomLvl = zoomlvl;
+    this.zoomOutLvl = 5;
+    this.currentTile = null;
 
+    this.style;
     // this.map = L.map("map").setView(
     //   [this.latitude, this.longitude],
     //   this.zoomLvl
@@ -17,7 +20,7 @@ class MyMap {
     this.zoomLvl = 10;
 
     this.initMap();
-    this.setTile();
+    this.setBlackTile();
     this.zoomOut();
   }
 
@@ -29,12 +32,26 @@ class MyMap {
     );
   }
 
-  setTile() {
-    L.tileLayer("https://hybrid.concordia.ca/S_HONTOY/tile_blackout.jpg", {
-      zIndex: -5,
-      opacity: 1,
-      reuseTiles: true,
-    }).addTo(this.map);
+  setBlackTile() {
+    this.currentTile = L.tileLayer(
+      "https://hybrid.concordia.ca/S_HONTOY/tile_blackout.jpg",
+      {
+        zIndex: -5,
+        opacity: 1,
+        reuseTiles: true,
+      }
+    ).addTo(this.map);
+  }
+
+  setWorldMapTile() {
+    this.currentTile = L.tileLayer(
+      "https://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+      {
+        zIndex: -5,
+        opacity: 1,
+        reuseTiles: true,
+      }
+    ).addTo(this.map);
   }
 
   loadAndRunNativeLand() {
@@ -116,13 +133,18 @@ class MyMap {
   }
 
   zoomOut() {
-    if (this.zoomLvl >= 5) {
+    if (this.zoomLvl > this.zoomOutLvl) {
       this.zoomLvl--;
       this.map.flyTo([this.latitude, this.longitude], this.zoomLvl, {
         animate: true,
         duration: 0.5,
       });
       setTimeout(() => this.zoomOut(), 750);
+    } else if (this.zoomLvl <= this.zoomOutLvl) {
+      // Go to black;
+      console.log(this.polyline);
+      this.setWorldMapTile();
+      //put native land
     }
   }
 }
