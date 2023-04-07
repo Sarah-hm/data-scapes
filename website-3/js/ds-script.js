@@ -39,10 +39,10 @@ fetch("getData.php")
     // console.log(data);
     let parsedJSON = JSON.parse(data);
 
-    console.log(parsedJSON);
+    // console.log(parsedJSON);
 
     let currentCoords = await fetchGeolocation();
-    console.log(currentCoords);
+    // console.log(currentCoords);
 
     //set the empty line array that is going to create the path
     let line = [];
@@ -55,16 +55,7 @@ fetch("getData.php")
       let coords = { lat: lati, lng: long };
       line.push(coords);
     }
-    console.log(line);
-
-    //  }
-    //  let webPath = new google.maps.Polyline({
-    //    path:line,
-    //    strokeColor:"#F2F2F2",
-    //    strokeOpacity:0.8,
-    //    strokeWeight:2
-    //  });
-    //  webPath.setMap(map);
+    // console.log(line);
 
     let zoomLvl = 10;
 
@@ -74,13 +65,18 @@ fetch("getData.php")
         zoomLvl
       );
       L.tileLayer("https://hybrid.concordia.ca/S_HONTOY/tile_blackout.jpg", {
-        attribution: "mine :)",
+        zIndex: -5,
+        opacity: 0.5,
+        reuseTiles: true,
       }).addTo(map);
 
       let polyline = L.polyline(line, {
         color: "white",
         weight: "0.2",
       }).addTo(map);
+
+      loadAndRunNativeLand();
+
       resolve(zoomLvl);
     })
       .then(
@@ -110,15 +106,10 @@ fetch("getData.php")
       }
     }
 
-    // map.flyTo([currentCoords.latitude, currentCoords.longitude], 10, {
-    //   animate: true,
-    //   duration: 5,
-    // });
-    // zoomIn(zoomLvl);
-
     // Wrapping around the international date line if it's a shorter distance;
     // new L.Wrapped.Polyline(line, { color: "red", weight: "0.2" }).addTo(map);
 
+    // === keep : greyed out world map
     // L.tileLayer(
     //   "https://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
     //   {
@@ -126,20 +117,6 @@ fetch("getData.php")
     //       "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
     //   }
     // ).addTo(map);
-
-    // L.tileLayer(
-    //   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-    //   {
-    //     attribution:
-    //       "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
-    //   }
-    // ).addTo(map);
-
-    // L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    //   maxZoom: 19,
-    //   attribution:
-    //     '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    // }).addTo(map);
   })
   .catch((error) => console.error(error));
 
@@ -161,5 +138,79 @@ function fetchGeolocation() {
       let longitude = null;
       resolve({ latitude, longitude });
     } // iF NO GEO
+  });
+}
+
+function loadAndRunNativeLand() {
+  // https://native-land.ca/api/index.php?maps=territories
+
+  $.get(
+    "https://native-land.ca/api/index.php?maps=territories",
+    function (data) {
+      //success
+      //step 1: console.log the result
+      //console.log(data.length);
+      //set boolean to true
+      //loaded = true;
+
+      // parse data into object
+      // console.log(data);
+      // console.log(map);
+      let polygonLayer = L.geoJSON().addTo(map);
+
+      //Run through data and divide the polygons (puts it in temp) data.length
+      for (let i = 0; i < data.length; i++) {
+        // console.log(i);
+        //console.log(data[i]);
+        let link = data[i].properties.description;
+
+        // console.log(data[i].geometry.coordinates)
+        let temp = data[i].geometry.coordinates;
+        //  let geomArray = data[i].geometry.coordinates[0];
+        // console.log(temp);
+        //Puts all polygon lines (in temp) into their own arrays (geomArray)
+        for (let j = 0; j < temp.length; j++) {
+          //console.log (temp[j]);
+          let geomArray = temp[j];
+          //set the empty line array that is going to create the path
+          let line = [];
+          //Parse all the lines' coordinates (latitude, longitude) and push them into the array
+          for (let k = 0; k < geomArray.length; k++) {
+            //  console.log(geomArray[k])
+            let coordinates = geomArray[k];
+            let long = parseFloat(coordinates[0]);
+            let lati = parseFloat(coordinates[1]);
+            let coords = { lat: lati, lng: long };
+            line.push(coords);
+            // console.log(lati);
+            // console.log(long);
+          } //FOR GEOMARRAY (coordinates)
+
+          // let territoryFillColorIndex = Math.floor(
+          //   Math.random() * territoryColors.length
+          // );
+          // let terrFillColor = territoryColors[territoryFillColorIndex];
+          let terrFillColor = "#454B1B";
+          console.log(geomArray);
+          let polygon = L.polygon(line, {
+            color: "black",
+          }).addTo(map);
+          addListenersOnPolygon(polygon, link);
+          // console.log(polygon);
+        } // FOR temp (lines)
+      } // FOR data (polygons)
+      console.log("native-land done ");
+    } // GET function
+  ) //GET
+    //fail
+    .fail(function () {
+      console.log("error");
+    });
+}
+
+function addListenersOnPolygon(polygon, link) {
+  console.log(polygon);
+  google.maps.event.addListener(polygon, "click", function (event) {
+    window.open(link, "_blank").focus();
   });
 }
