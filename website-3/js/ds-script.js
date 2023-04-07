@@ -1,3 +1,5 @@
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
 // window.onload = (event) => {
 // url: "index.php",
 // type: "get", //send it through get method
@@ -47,6 +49,8 @@ let clientInfo = {
 let endpoint =
   "http://ip-api.com/json/?fields=status,message,continent,country,countryCode,regionName,city,district,zip,lat,lon,timezone,offset,isp,org,as,mobile,proxy,hosting,query";
 
+let map;
+let nativeLandPolys = [];
 //Everything for the leaflet and map
 //We get the data from the txt file
 // let map;
@@ -55,6 +59,8 @@ let endpoint =
 // let templat = `45.508888`;
 // let templng = `-73.561668`;
 // let zoomlvl = `15`;
+
+console.log(d3);
 
 // let map = new MyMap(templat, templng, zoomlvl);
 
@@ -89,7 +95,7 @@ fetch("getData.php")
       let templng = `-73.561668`;
       let zoomlvl = `15`;
 
-      let map = new MyMap(templat, templng, zoomlvl);
+      map = new MyMap(templat, templng, zoomlvl);
 
       map.initPolyline(line);
       loadAndRunNativeLand();
@@ -268,10 +274,14 @@ function loadAndRunNativeLand() {
             fillOpacity: 0.1,
             stroke: false,
             className: "native-land-polygons",
-          }).addTo(map);
+          });
+          nativeLandPolys.push(polygon);
+
+          // addTo(map);
           addListenersOnPolygon(polygon, link);
         }
       }
+      map.toggleNativeLandLayer(nativeLandPolys);
     });
 }
 
@@ -282,7 +292,7 @@ function addListenersOnPolygon(polygon, link) {
   polygon.on("mouseover", function (event) {
     console.log(event.target);
     event.target.setStyle({
-      color: "black",
+      color: "white",
       fillOpacity: 0.5,
       stroke: false,
       className: "native-land-polygons",

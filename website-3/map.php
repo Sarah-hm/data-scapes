@@ -8,18 +8,22 @@
     <!-- CSS  -->
     <link rel="stylesheet" href="style/rhizome-style.css" />
     <link rel="stylesheet" href="style/ds-style.css" />
-
     <!-- LEAFLET CSS + SCRIPT -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
      crossorigin=""/>
+
+     <script type="module">
+
+      //To be added in the class I add the D3s in 
+    </script>
 
      <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
      crossorigin=""></script>
 
      <script src="js/myCustomMap.js"></script>
-     <script src="js/ds-script.js"></script>
+     <script type = "module"src="js/ds-script.js"></script>
 
         <!-- css class for different zoom lvls -->  
 

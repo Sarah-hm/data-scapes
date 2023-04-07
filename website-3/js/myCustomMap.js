@@ -1,21 +1,15 @@
 class MyMap {
-  constructor(latitude, longitude, zoomlvl) {
-    let dataScapesData = null;
+  constructor(latitude, longitude, zoomlvl, d3) {
+    this.d3 = d3;
+    this.nativeLandLayer = true;
 
     this.latitude = latitude;
     this.longitude = longitude;
     this.zoomLvl = zoomlvl;
-    this.zoomOutLvl = 5;
+    this.zoomOutLvl = 3;
     this.currentTile = null;
 
     this.style;
-    // this.map = L.map("map").setView(
-    //   [this.latitude, this.longitude],
-    //   this.zoomLvl
-    // );
-
-    console.log(this.map);
-    // this.leafletMap = leafletMap;
     this.line = [];
     this.zoomLvl = 10;
 
@@ -28,7 +22,8 @@ class MyMap {
   initMap(currentCoords) {
     this.map = L.map("map").setView(
       [this.latitude, this.longitude],
-      this.zoomLvl
+      this.zoomLvl,
+      {}
     );
   }
 
@@ -48,87 +43,30 @@ class MyMap {
       "https://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
       {
         zIndex: -5,
-        opacity: 1,
+        opacity: 0.8,
         reuseTiles: true,
+        minZoom: 2,
+        maxZoom: 15,
       }
     ).addTo(this.map);
   }
 
-  loadAndRunNativeLand() {
-    console.log("we are running native-land");
-    // implementation
-
-    $.get(
-      "https://native-land.ca/api/index.php?maps=territories",
-      function (data) {
-        //success
-        //step 1: console.log the result
-        //console.log(data.length);
-        //set boolean to true
-        //loaded = true;
-
-        // parse data into object
-        // console.log(data);
-        // console.log(map);
-
-        //Run through data and divide the polygons (puts it in temp) data.length
-        for (let i = 0; i < data.length; i++) {
-          // console.log(i);
-          //console.log(data[i]);
-          let link = data[i].properties.description;
-
-          // console.log(data[i].geometry.coordinates)
-          let temp = data[i].geometry.coordinates;
-          //  let geomArray = data[i].geometry.coordinates[0];
-          // console.log(temp);
-          //Puts all polygon lines (in temp) into their own arrays (geomArray)
-          for (let j = 0; j < temp.length; j++) {
-            //console.log (temp[j]);
-            let geomArray = temp[j];
-            //set the empty line array that is going to create the path
-            let line = [];
-            //Parse all the lines' coordinates (latitude, longitude) and push them into the array
-            for (let k = 0; k < geomArray.length; k++) {
-              //  console.log(geomArray[k])
-              let coordinates = geomArray[k];
-              let long = parseFloat(coordinates[0]);
-              let lati = parseFloat(coordinates[1]);
-              let coords = { lat: lati, lng: long };
-              line.push(coords);
-              // console.log(lati);
-              // console.log(long);
-            } //FOR GEOMARRAY (coordinates)
-
-            // let territoryFillColorIndex = Math.floor(
-            //   Math.random() * territoryColors.length
-            // );
-            // let terrFillColor = territoryColors[territoryFillColorIndex];
-            let terrFillColor = "#454B1B";
-            // console.log(geomArray);
-            let polygon = L.polygon(line, {
-              zindex: 0,
-              color: "black",
-              fillOpacity: 0.1,
-              stroke: false,
-              className: "native-land-polygons",
-            }).addTo(map);
-            addListenersOnPolygon(polygon, link);
-            // console.log(polygon);
-          } // FOR temp (lines)
-        } // FOR data (polygons)
-      } // GET function
-    ) //GET
-      //fail
-      .fail(function () {
-        console.log("error");
-      });
+  toggleNativeLandLayer(nativeLandData) {
+    console.log(nativeLandData);
+    if (this.nativeLandLayer) {
+      for (let i = 0; i < nativeLandData.length; i++) {
+        nativeLandData[i].addTo(this.map);
+      }
+    } else {
+    }
   }
 
-  initPolyline(line) {
-    this.polyline = L.polyline(line, {
+  initPolyline(datascapesData) {
+    this.polyline = L.polyline(datascapesData, {
       color: "white",
       weight: "0.2",
       zindex: 5000,
+      className: "data-scapes-polyline",
     }).addTo(this.map);
   }
 

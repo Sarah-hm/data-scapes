@@ -9,8 +9,6 @@
     <script type="module">
       import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
       //To be added in the class I add the D3s in 
-      let d3div = d3.selectAll("div");
-      console.log(d3div)
     </script>
     <!-- Ajax : will try to make it useless :) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
