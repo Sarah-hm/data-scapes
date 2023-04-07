@@ -231,19 +231,11 @@ function fetchGeolocation() {
 function loadAndRunNativeLand() {
   // https://native-land.ca/api/index.php?maps=territories
 
-  $.get(
-    "https://native-land.ca/api/index.php?maps=territories",
-    function (data) {
-      //success
-      //step 1: console.log the result
-      //console.log(data.length);
-      //set boolean to true
-      //loaded = true;
-
-      // parse data into object
-      // console.log(data);
-      // console.log(map);
-
+  //Fetch data from native-land, send it to map object
+  fetch("https://native-land.ca/api/index.php?maps=territories")
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
       //Run through data and divide the polygons (puts it in temp) data.length
       for (let i = 0; i < data.length; i++) {
         // console.log(i);
@@ -271,11 +263,6 @@ function loadAndRunNativeLand() {
             // console.log(lati);
             // console.log(long);
           } //FOR GEOMARRAY (coordinates)
-
-          // let territoryFillColorIndex = Math.floor(
-          //   Math.random() * territoryColors.length
-          // );
-          // let terrFillColor = territoryColors[territoryFillColorIndex];
           let terrFillColor = "#454B1B";
           // console.log(geomArray);
           let polygon = L.polygon(line, {
@@ -286,14 +273,8 @@ function loadAndRunNativeLand() {
             className: "native-land-polygons",
           }).addTo(map);
           addListenersOnPolygon(polygon, link);
-          // console.log(polygon);
-        } // FOR temp (lines)
-      } // FOR data (polygons)
-    } // GET function
-  ) //GET
-    //fail
-    .fail(function () {
-      console.log("error");
+        }
+      }
     });
 }
 
