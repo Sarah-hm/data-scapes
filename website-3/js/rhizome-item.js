@@ -24,51 +24,72 @@ class RhizomeItem {
     this.img = img;
     this.links = links;
 
-    this.lgDist = lgDist;
-    this.shDist = shDist;
+    this.rhizomeSVGsize = 0.5;
 
-    this.points = {
-      p1: {
-        hex: { x: -this.lgDist, y: -this.shDist },
-        oct: { x: -this.shDist, y: -this.lgDist },
-        rect: { x: -this.lgDist, y: -this.lgDist },
-      },
-      p2: {
-        hex: { x: 0, y: -this.lgDist },
-        oct: { x: this.shDist, y: -this.lgDist },
-        rect: { x: this.lgDist, y: -this.lgDist },
-      },
-      p3: {
-        hex: { x: 0, y: -this.lgDist },
-        oct: { x: this.lgDist, y: -this.shDist },
-        rect: { x: this.lgDist, y: -this.lgDist },
-      },
-      p4: {
-        hex: { x: this.lgDist, y: -this.shDist },
-        oct: { x: this.lgDist, y: this.shDist },
-        rect: { x: this.lgDist, y: this.lgDist },
-      },
-      p5: {
-        hex: { x: this.lgDist, y: this.shDist },
-        oct: { x: this.shDist, y: this.lgDist },
-        rect: { x: this.lgDist, y: this.lgDist },
-      },
-      p6: {
-        hex: { x: 0, y: this.lgDist },
-        oct: { x: -this.shDist, y: this.lgDist },
-        rect: { x: -this.lgDist, y: this.lgDist },
-      },
-      p7: {
-        hex: { x: 0, y: this.lgDist },
-        oct: { x: -this.lgDist, y: this.shDist },
-        rect: { x: -this.lgDist, y: this.lgDist },
-      },
-      p8: {
-        hex: { x: -this.lgDist, y: this.shDist },
-        oct: { x: -this.lgDist, y: -this.shDist },
-        rect: { x: -this.lgDist, y: -this.lgDist },
-      },
+    this.hex = {
+      lgDist: 100 * this.rhizomeSVGsize,
+      midDist: 90 * this.rhizomeSVGsize,
+      shDist: 50 * this.rhizomeSVGsize,
     };
+    this.oct = {
+      lgDist: 100 * this.rhizomeSVGsize,
+      midDist: 86.57 * this.rhizomeSVGsize,
+      shDist: 60 * this.rhizomeSVGsize,
+    };
+    this.rect = {
+      lgDist: (rhizomeCloud.clientWidth / 2) * this.rhizomeSVGsize,
+      midDist: 86.57 * this.rhizomeSVGsize,
+      shDist: (rhizomeCloud.clientWidth / 2) * this.rhizomeSVGsize,
+    };
+
+    this.calculateSVGRhizomepoints(
+      this.hex.lgDist,
+      this.hex.midDist,
+      this.hex.shDist
+    );
+
+    // this.points = {
+    //   p1: {
+    //     hex: { x: -this.lgDist, y: -this.shDist },
+    //     oct: { x: -this.shDist, y: -this.lgDist },
+    //     rect: { x: -this.lgDist, y: -this.lgDist },
+    //   },
+    //   p2: {
+    //     hex: { x: 0, y: -this.lgDist },
+    //     oct: { x: this.shDist, y: -this.lgDist },
+    //     rect: { x: this.lgDist, y: -this.lgDist },
+    //   },
+    //   p3: {
+    //     hex: { x: 0, y: -this.lgDist },
+    //     oct: { x: this.lgDist, y: -this.shDist },
+    //     rect: { x: this.lgDist, y: -this.lgDist },
+    //   },
+    //   p4: {
+    //     hex: { x: this.lgDist, y: -this.shDist },
+    //     oct: { x: this.lgDist, y: this.shDist },
+    //     rect: { x: this.lgDist, y: this.lgDist },
+    //   },
+    //   p5: {
+    //     hex: { x: this.lgDist, y: this.shDist },
+    //     oct: { x: this.shDist, y: this.lgDist },
+    //     rect: { x: this.lgDist, y: this.lgDist },
+    //   },
+    //   p6: {
+    //     hex: { x: 0, y: this.lgDist },
+    //     oct: { x: -this.shDist, y: this.lgDist },
+    //     rect: { x: -this.lgDist, y: this.lgDist },
+    //   },
+    //   p7: {
+    //     hex: { x: 0, y: this.lgDist },
+    //     oct: { x: -this.lgDist, y: this.shDist },
+    //     rect: { x: -this.lgDist, y: this.lgDist },
+    //   },
+    //   p8: {
+    //     hex: { x: -this.lgDist, y: this.shDist },
+    //     oct: { x: -this.lgDist, y: -this.shDist },
+    //     rect: { x: -this.lgDist, y: -this.lgDist },
+    //   },
+    // };
 
     this.parentContainer = rhizomeCloud;
     this.div = null;
@@ -94,6 +115,7 @@ class RhizomeItem {
     this.handleMouseMove();
     this.handleBtnClick();
     this.handleWindowResize();
+    this.addMoveEventListener();
   }
 
   createRhizomeItem() {
@@ -118,7 +140,7 @@ class RhizomeItem {
 
     //If the rhizome-item is data-scapes, create an image;
     if (this.name === "data-scapes") {
-      console.log("it is data-scapes");
+      // console.log("it is data-scapes");
       this.logoElement = document.createElement("img");
       this.logoElement.src = `assets/ds-logo.png`;
       this.logoElement.classList.add("ds-logo-element-rhizome-item");
@@ -130,7 +152,7 @@ class RhizomeItem {
       this.titleElement = document.createElement("h1");
       this.coverElement.appendChild(this.titleElement);
       console.log(this.div);
-      this.div.querySelector("h1").innerText = this.title;
+      // this.div.querySelector("h1").innerText = this.title;
     }
 
     // let svgBackground = document.createElement("svg");
@@ -171,7 +193,7 @@ class RhizomeItem {
     this.divHoverScreen.appendChild(this.btnElement);
 
     //Populate all elements with data from json file
-    this.container.querySelector("h2").innerText = this.pullquote;
+    this.container.querySelector("h2").innerText = this.title;
     this.container.querySelector("button").innerText = `Learn more`;
   }
 
@@ -183,10 +205,11 @@ class RhizomeItem {
     const drawBackground = SVG().addTo(this.svgBackground).size("100%", "100%");
     const drawForeground = SVG().addTo(this.svgForeground).size("100%", "100%");
 
-    this.lgDist = 100 / 2;
-    this.shDist = 60 / 2;
-
-    this.calculateSVGRhizomepoints(this.lgDist, this.shDist);
+    this.calculateSVGRhizomepoints(
+      this.hex.lgDist,
+      this.hex.midDist,
+      this.hex.shDist
+    );
 
     let foregroundPolygon = drawForeground.polygon(
       `${this.p1.hex.x},${this.p1.hex.y} ${this.p2.hex.x},${this.p2.hex.y} ${this.p3.hex.x},${this.p3.hex.y} ${this.p4.hex.x},${this.p4.hex.y} ${this.p5.hex.x},${this.p5.hex.y} ${this.p6.hex.x},${this.p6.hex.y} ${this.p7.hex.x},${this.p7.hex.y} ${this.p8.hex.x},${this.p8.hex.y}`
@@ -200,9 +223,11 @@ class RhizomeItem {
 
     foregroundPolygon.on(`mouseover`, () => {
       if (!animating) {
-        self.lgDist = 100 / 1.5;
-        self.shDist = 100 / 1.5;
-        self.calculateSVGRhizomepoints(self.lgDist, self.shDist);
+        self.calculateSVGRhizomepoints(
+          self.oct.lgDist,
+          self.oct.midDist,
+          self.oct.shDist
+        );
 
         animating = true;
         backgroundPolygon
@@ -231,12 +256,12 @@ class RhizomeItem {
         btnHovering = false;
       }
       if (!btnHovering) {
-        // lgDist = 100;
-        // shDist = 66;
-
-        self.lgDist = 100 / 2;
-        self.shDist = 60 / 2;
-        self.calculateSVGRhizomepoints(self.lgDist, self.shDist);
+        //Return to hex shape SVGs
+        self.calculateSVGRhizomepoints(
+          self.hex.lgDist,
+          self.hex.midDist,
+          self.hex.shDist
+        );
 
         backgroundPolygon
           .animate(500)
@@ -258,8 +283,11 @@ class RhizomeItem {
       console.log("mouse has entered through class");
       if (!self.div.classList.contains("grid-item-open")) {
         self.div.classList.add("rhizome-grid-item-hover");
-        self.coverElement.style.opacity = "1";
-        setTimeout(() => {}, 750);
+        self.coverElement.style.opacity = "0";
+
+        setTimeout(() => {
+          self.divHoverScreen.style.opacity = "1";
+        }, 100);
 
         // self.divHoverScreen.style.opacity = `1`;
       }
@@ -343,24 +371,12 @@ class RhizomeItem {
     el.classList.remove("rhizome-grid-item-hover");
     el.querySelector(".rhizome-item-hover-screen").style.opacity = "0";
     console.log(el.getAttribute("data-att"));
-    let tempAtt = el.getAttribute("data-att");
-    if (tempAtt == "data-scapes") {
-      el.querySelector(".rhizome-item-cover-element").style.opacity = "1";
-    } else {
-      console.log("autre");
-      el.querySelector(".rhizome-item-cover-element").style.opacity = "0";
-    }
-
-    // if (!el.classList.contains(`button-clicked`)) {
-    //   setTimeout(() => {
-    //     el.querySelector(".rhizome-item-cover-element").style.opacity = "1";
-    //   }, 750);
-    // }
+    el.querySelector(".rhizome-item-cover-element").style.opacity = "1";
   }
 
-  calculateSVGRhizomepoints(lgDist, shDist) {
+  calculateSVGRhizomepoints(lgDist, midDist, shDist) {
     this.p1 = {
-      hex: { x: -lgDist, y: -shDist },
+      hex: { x: -midDist, y: -shDist },
       oct: { x: -shDist, y: -lgDist },
       rect: { x: -lgDist, y: -lgDist },
     };
@@ -375,12 +391,12 @@ class RhizomeItem {
       rect: { x: lgDist, y: -lgDist },
     };
     this.p4 = {
-      hex: { x: lgDist, y: -shDist },
+      hex: { x: midDist, y: -shDist },
       oct: { x: lgDist, y: shDist },
       rect: { x: lgDist, y: lgDist },
     };
     this.p5 = {
-      hex: { x: lgDist, y: shDist },
+      hex: { x: midDist, y: shDist },
       oct: { x: shDist, y: lgDist },
       rect: { x: lgDist, y: lgDist },
     };
@@ -395,12 +411,11 @@ class RhizomeItem {
       rect: { x: -lgDist, y: lgDist },
     };
     this.p8 = {
-      hex: { x: -lgDist, y: shDist },
+      hex: { x: -midDist, y: shDist },
       oct: { x: -lgDist, y: -shDist },
       rect: { x: -lgDist, y: -lgDist },
     };
-
-    return this.p1;
-    return { p1, p2, p3, p4, p5, p6, p7, p8 };
   }
+
+  addMoveEventListener() {}
 }
