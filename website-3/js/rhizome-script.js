@@ -246,15 +246,15 @@ window.onload = (event) => {
   }
 
   //this could be removed? It's already a rhizome-item method (class)
-  function removeHoverStateRhizomeItems(el) {
-    el.classList.remove("rhizome-grid-item-hover");
-    el.querySelector(".rhizome-item-hover-screen").style.opacity = "0";
-    if (!el.classList.contains(`button-clicked`)) {
-      setTimeout(() => {
-        el.querySelector("h1").style.color = "rgba(0,0,0,1)";
-      }, 750);
-    }
-  }
+  // function removeHoverStateRhizomeItems(el) {
+  //   el.classList.remove("rhizome-grid-item-hover");
+  //   el.querySelector(".rhizome-item-hover-screen").style.opacity = "0";
+  //   if (!el.classList.contains(`button-clicked`)) {
+  //     setTimeout(() => {
+  //       el.querySelector("h1").style.color = "rgba(0,0,0,1)";
+  //     }, 750);
+  //   }
+  // }
 
   function calculateSVGRhizomepoints(lgDist, shDist) {
     p1 = {

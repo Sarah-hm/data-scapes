@@ -35,7 +35,7 @@ body {
 }
 
 #svg-container {
-  background-color: red;
+  /* background-color: red; */
   position: absolute;
   top: 0px;
   left: 0px;
@@ -105,6 +105,13 @@ body {
   z-index: 5;
 }
 
+.rhizome-item-cover-element {
+  width: 70%;
+  height: 100%;
+  transform-origin: center;
+  /* background-color: cyan; */
+}
+
 .rhizome-item-hover-screen {
   position: absolute;
   top: 20%;
@@ -124,6 +131,10 @@ body {
   transition: color 0.75s ease-in;
 }
 
+.ds-logo-element-rhizome-item {
+  transform: scale(0.4);
+}
+
 .rhizome-item-hover-screen h2 {
   text-align: center;
   margin: auto;
@@ -135,7 +146,7 @@ body {
 }
 
 .rhizome-grid-item-hover {
-  transform: scale(1.25);
+  transform: scale(1);
   cursor: grab;
   display: flex;
 }

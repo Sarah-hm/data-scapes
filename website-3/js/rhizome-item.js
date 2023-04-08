@@ -73,6 +73,8 @@ class RhizomeItem {
 
     this.parentContainer = rhizomeCloud;
     this.div = null;
+    this.coverElement = null;
+    this.logoElement = null;
     this.titleElement = null;
     this.svgBackground = null;
     this.container = null;
@@ -109,14 +111,30 @@ class RhizomeItem {
     this.div.style.left = `${this.x}%`;
     this.div.style.top = `${this.y}%`;
 
-    // create an empty h1 and append it to the new div
-    this.titleElement = document.createElement("h1");
+    this.coverElement = document.createElement("div");
+    this.coverElement.classList.add("rhizome-item-cover-element");
+
+    this.div.appendChild(this.coverElement);
+
+    //If the rhizome-item is data-scapes, create an image;
+    if (this.name === "data-scapes") {
+      console.log("it is data-scapes");
+      this.logoElement = document.createElement("img");
+      this.logoElement.src = `assets/ds-logo.png`;
+      this.logoElement.classList.add("ds-logo-element-rhizome-item");
+      console.log(this.logoElement);
+      this.coverElement.appendChild(this.logoElement);
+    } else {
+      // create an empty h1 and append it to the new div
+      this.titleElement = document.createElement("h1");
+      this.coverElement.appendChild(this.titleElement);
+    }
+
     // let svgBackground = document.createElement("svg");
     this.svgBackground = document.createElement("div");
     this.svgBackground.classList.add("svg-background");
     this.svgBackground.setAttribute(`background-div-att`, `${this.name}`);
 
-    this.div.appendChild(this.titleElement);
     this.div.appendChild(this.svgBackground);
 
     //append new div to the rhizome cloud
@@ -147,9 +165,102 @@ class RhizomeItem {
     this.divHoverScreen.appendChild(this.btnElement);
 
     //Populate all elements with data from json file
-    this.container.querySelector("h1").innerText = this.title;
+
+    //Put the title in h1 if its not ds (because it's a logo)
+    if (!this.name === `data-scapes`) {
+      this.container.querySelector("h1").innerText = this.title;
+    }
+
     this.container.querySelector("h2").innerText = this.pullquote;
     this.container.querySelector("button").innerText = `Learn more`;
+
+    this.createBackgroundSVG();
+  }
+
+  createBackgroundSVG() {
+    let animating = false;
+    let btnHovering = false;
+
+    let svgBackgroundDiv = el.querySelector(".svg-background");
+    let svgForegroundDiv = el.querySelector(".svg-foreground");
+
+    let btn = el.querySelector("button");
+
+    // console.log(btn);
+    //   console.log(el);
+    const drawBackground = SVG().addTo(svgBackgroundDiv).size("100%", "100%");
+    const drawForeground = SVG().addTo(svgForegroundDiv).size("100%", "100%");
+
+    lgDist = 100 / 2;
+    shDist = 60 / 2;
+
+    calculateSVGRhizomepoints(lgDist, shDist);
+
+    let foregroundPolygon = drawForeground.polygon(
+      `${p1.hex.x},${p1.hex.y} ${p2.hex.x},${p2.hex.y} ${p3.hex.x},${p3.hex.y} ${p4.hex.x},${p4.hex.y} ${p5.hex.x},${p5.hex.y} ${p6.hex.x},${p6.hex.y} ${p7.hex.x},${p7.hex.y} ${p8.hex.x},${p8.hex.y}`
+    );
+    foregroundPolygon.fill("transparent");
+    let backgroundPolygon = drawBackground.polygon(
+      `${p1.hex.x},${p1.hex.y} ${p2.hex.x},${p2.hex.y} ${p3.hex.x},${p3.hex.y} ${p4.hex.x},${p4.hex.y} ${p5.hex.x},${p5.hex.y} ${p6.hex.x},${p6.hex.y} ${p7.hex.x},${p7.hex.y} ${p8.hex.x},${p8.hex.y}`
+    );
+    backgroundPolygon.fill({ color: "#fff", opacity: 1 });
+    backgroundPolygon.stroke({ color: "#fff", width: 2 });
+
+    foregroundPolygon.on(`mouseover`, () => {
+      if (!animating) {
+        lgDist = 100 / 1.5;
+        shDist = 100 / 1.5;
+        calculateSVGRhizomepoints(lgDist, shDist);
+
+        animating = true;
+        backgroundPolygon
+          .animate(500)
+          .plot(
+            `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
+          )
+          .fill({ color: "#000", opacity: 0.3 })
+          .after(function () {
+            animating = false;
+          });
+      }
+    });
+
+    foregroundPolygon.on(`mouseleave`, (e) => {
+      let btnRect = btn.getBoundingClientRect();
+
+      if (
+        e.clientX >= btnRect.left &&
+        e.clientX <= btnRect.right &&
+        e.clientY >= btnRect.top &&
+        e.clientY <= btnRect.bottom
+      ) {
+        console.log(btnHovering);
+        btnHovering = true;
+      } else {
+        btnHovering = false;
+      }
+      if (!btnHovering) {
+        lgDist = 100;
+        shDist = 66;
+
+        lgDist = 100 / 2;
+        shDist = 60 / 2;
+        calculateSVGRhizomepoints(lgDist, shDist);
+
+        backgroundPolygon
+          .animate(500)
+          .plot(
+            `${p1.hex.x},${p1.hex.y} ${p2.hex.x},${p2.hex.y} ${p3.hex.x},${p3.hex.y} ${p4.hex.x},${p4.hex.y} ${p5.hex.x},${p5.hex.y} ${p6.hex.x},${p6.hex.y} ${p7.hex.x},${p7.hex.y} ${p8.hex.x},${p8.hex.y}`
+          )
+          .fill({ color: "#fff", opacity: 1 })
+          .after(function () {
+            //making sure the hover state is removed from all rhizome items and that all shapes return to original state
+            removeHoverStateRhizomeItems(el);
+          });
+      }
+    });
+
+    backgroundPolygons.push(backgroundPolygon);
   }
 
   handleMouseEnter() {
@@ -159,7 +270,7 @@ class RhizomeItem {
       console.log("mouse has entered through class");
       if (!self.div.classList.contains("grid-item-open")) {
         self.div.classList.add("rhizome-grid-item-hover");
-        self.titleElement.style.color = "rgba(0,0,0,0)";
+        self.coverElement.style.opacity = "0";
         self.divHoverScreen.style.opacity = `1`;
       }
     });
@@ -243,7 +354,7 @@ class RhizomeItem {
     el.querySelector(".rhizome-item-hover-screen").style.opacity = "0";
     if (!el.classList.contains(`button-clicked`)) {
       setTimeout(() => {
-        this.titleElement.style.color = "rgba(0,0,0,1)";
+        el.querySelector(".rhizome-item-cover-element").style.opacity = "1";
       }, 750);
     }
   }
