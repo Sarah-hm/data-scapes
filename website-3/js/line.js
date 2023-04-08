@@ -22,7 +22,8 @@ class Line {
         this.endObject.x,
         this.endObject.y
       )
-      .stroke({ width: 3, color: "black" });
+      .stroke({ width: 3, color: "black" })
+      .addClass(`rhizome-cloud-line`);
 
     // console.log(this.lineDrawn);
   }

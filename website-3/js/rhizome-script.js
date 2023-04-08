@@ -122,15 +122,15 @@ window.onload = (event) => {
 
         rhizomeItemsDiv = document.querySelectorAll(".rhizome-grid-item");
         drawBackgroundShape(rhizomeItemsDiv);
-        handleEvents(rhizomeItemsDiv);
+        drawLinks();
       } else {
         requestAnimationFrame(checkIfDataIsLoaded);
       }
     }
   }
 
-  //This could be in the line's constructor:
-  function handleEvents(rhizomeItems) {
+  //If data is loaded, draw the links between them
+  function drawLinks() {
     for (let i = 0; i < lines.length; i++) {
       // console.log(lines[i]);
       lines[i].draw(drawNewLine);

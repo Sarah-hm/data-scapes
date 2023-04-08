@@ -38,6 +38,7 @@ body {
 }
 
 .rhizome-grid-item {
+  /* background-color: cyan; */
   /* background-color: rgba(255, 255, 255, 0.5);
   border: 2px black solid; */
   transform-origin: center;
@@ -52,6 +53,29 @@ body {
   height: 20vh;
   z-index: 0;
   transition: all 1s ease-in-out;
+  /* box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6); */
+  transform: translatey(0px);
+  animation: float 10s ease-in-out infinite;
+}
+
+.rhizome-cloud-line {
+  transform: translatey(0px);
+  animation: float 10s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    /* box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6); */
+    transform: translatey(0px);
+  }
+  50% {
+    /* box-shadow: 0 25px 15px 0px rgba(0, 0, 0, 0.2); */
+    transform: translatey(-40px);
+  }
+  100% {
+    /* box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6); */
+    transform: translatey(0px);
+  }
 }
 
 .rhizome-item-background {
