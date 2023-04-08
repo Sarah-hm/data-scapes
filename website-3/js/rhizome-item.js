@@ -1,5 +1,4 @@
 class RhizomeItem {
-  //   constructor(x1, y1, x2, y2, startObject, endObject) {
   constructor(
     x,
     y,
@@ -87,6 +86,7 @@ class RhizomeItem {
     this.redrawLines = redrawLines;
     this.getElCenter = getElCenter;
     this.createRhizomeItem();
+    this.createBackgroundSVG();
     this.handleMouseEnter();
     this.handleMouseLeave();
     this.handleMouseDown();
@@ -124,10 +124,13 @@ class RhizomeItem {
       this.logoElement.classList.add("ds-logo-element-rhizome-item");
       console.log(this.logoElement);
       this.coverElement.appendChild(this.logoElement);
+      this.coverElement.style.opacity = "1";
     } else {
       // create an empty h1 and append it to the new div
       this.titleElement = document.createElement("h1");
       this.coverElement.appendChild(this.titleElement);
+      console.log(this.div);
+      this.div.querySelector("h1").innerText = this.title;
     }
 
     // let svgBackground = document.createElement("svg");
@@ -139,9 +142,12 @@ class RhizomeItem {
 
     //append new div to the rhizome cloud
     this.parentContainer.appendChild(this.div);
+    console.log(this.div);
 
     //append a hover div (pullquote and button) on the previously created div;
     this.container = document.querySelector(`[data-att="${this.name}"]`);
+
+    console.log(this.container);
     //create a foreground to make an invisible hoverable svg;
     this.svgForeground = document.createElement("div");
     this.svgForeground.classList.add("svg-foreground");
@@ -165,60 +171,45 @@ class RhizomeItem {
     this.divHoverScreen.appendChild(this.btnElement);
 
     //Populate all elements with data from json file
-
-    //Put the title in h1 if its not ds (because it's a logo)
-    if (!this.name === `data-scapes`) {
-      this.container.querySelector("h1").innerText = this.title;
-    }
-
     this.container.querySelector("h2").innerText = this.pullquote;
     this.container.querySelector("button").innerText = `Learn more`;
-
-    this.createBackgroundSVG();
   }
 
   createBackgroundSVG() {
+    let self = this;
     let animating = false;
     let btnHovering = false;
 
-    let svgBackgroundDiv = el.querySelector(".svg-background");
-    let svgForegroundDiv = el.querySelector(".svg-foreground");
+    const drawBackground = SVG().addTo(this.svgBackground).size("100%", "100%");
+    const drawForeground = SVG().addTo(this.svgForeground).size("100%", "100%");
 
-    let btn = el.querySelector("button");
+    this.lgDist = 100 / 2;
+    this.shDist = 60 / 2;
 
-    // console.log(btn);
-    //   console.log(el);
-    const drawBackground = SVG().addTo(svgBackgroundDiv).size("100%", "100%");
-    const drawForeground = SVG().addTo(svgForegroundDiv).size("100%", "100%");
-
-    lgDist = 100 / 2;
-    shDist = 60 / 2;
-
-    calculateSVGRhizomepoints(lgDist, shDist);
+    this.calculateSVGRhizomepoints(this.lgDist, this.shDist);
 
     let foregroundPolygon = drawForeground.polygon(
-      `${p1.hex.x},${p1.hex.y} ${p2.hex.x},${p2.hex.y} ${p3.hex.x},${p3.hex.y} ${p4.hex.x},${p4.hex.y} ${p5.hex.x},${p5.hex.y} ${p6.hex.x},${p6.hex.y} ${p7.hex.x},${p7.hex.y} ${p8.hex.x},${p8.hex.y}`
+      `${this.p1.hex.x},${this.p1.hex.y} ${this.p2.hex.x},${this.p2.hex.y} ${this.p3.hex.x},${this.p3.hex.y} ${this.p4.hex.x},${this.p4.hex.y} ${this.p5.hex.x},${this.p5.hex.y} ${this.p6.hex.x},${this.p6.hex.y} ${this.p7.hex.x},${this.p7.hex.y} ${this.p8.hex.x},${this.p8.hex.y}`
     );
     foregroundPolygon.fill("transparent");
     let backgroundPolygon = drawBackground.polygon(
-      `${p1.hex.x},${p1.hex.y} ${p2.hex.x},${p2.hex.y} ${p3.hex.x},${p3.hex.y} ${p4.hex.x},${p4.hex.y} ${p5.hex.x},${p5.hex.y} ${p6.hex.x},${p6.hex.y} ${p7.hex.x},${p7.hex.y} ${p8.hex.x},${p8.hex.y}`
+      `${this.p1.hex.x},${this.p1.hex.y} ${this.p2.hex.x},${this.p2.hex.y} ${this.p3.hex.x},${this.p3.hex.y} ${this.p4.hex.x},${this.p4.hex.y} ${this.p5.hex.x},${this.p5.hex.y} ${this.p6.hex.x},${this.p6.hex.y} ${this.p7.hex.x},${this.p7.hex.y} ${this.p8.hex.x},${this.p8.hex.y}`
     );
-    backgroundPolygon.fill({ color: "#fff", opacity: 1 });
-    backgroundPolygon.stroke({ color: "#fff", width: 2 });
+    backgroundPolygon.fill("#fff");
+    backgroundPolygon.stroke({ color: "#000", width: 2 });
 
     foregroundPolygon.on(`mouseover`, () => {
       if (!animating) {
-        lgDist = 100 / 1.5;
-        shDist = 100 / 1.5;
-        calculateSVGRhizomepoints(lgDist, shDist);
+        self.lgDist = 100 / 1.5;
+        self.shDist = 100 / 1.5;
+        self.calculateSVGRhizomepoints(self.lgDist, self.shDist);
 
         animating = true;
         backgroundPolygon
           .animate(500)
           .plot(
-            `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
+            `${self.p1.oct.x},${self.p1.oct.y} ${self.p2.oct.x},${self.p2.oct.y} ${self.p3.oct.x},${self.p3.oct.y} ${self.p4.oct.x},${self.p4.oct.y} ${self.p5.oct.x},${self.p5.oct.y} ${self.p6.oct.x},${self.p6.oct.y} ${self.p7.oct.x},${self.p7.oct.y} ${self.p8.oct.x},${self.p8.oct.y}`
           )
-          .fill({ color: "#000", opacity: 0.3 })
           .after(function () {
             animating = false;
           });
@@ -226,7 +217,7 @@ class RhizomeItem {
     });
 
     foregroundPolygon.on(`mouseleave`, (e) => {
-      let btnRect = btn.getBoundingClientRect();
+      let btnRect = self.btnElement.getBoundingClientRect();
 
       if (
         e.clientX >= btnRect.left &&
@@ -240,27 +231,24 @@ class RhizomeItem {
         btnHovering = false;
       }
       if (!btnHovering) {
-        lgDist = 100;
-        shDist = 66;
+        // lgDist = 100;
+        // shDist = 66;
 
-        lgDist = 100 / 2;
-        shDist = 60 / 2;
-        calculateSVGRhizomepoints(lgDist, shDist);
+        self.lgDist = 100 / 2;
+        self.shDist = 60 / 2;
+        self.calculateSVGRhizomepoints(self.lgDist, self.shDist);
 
         backgroundPolygon
           .animate(500)
           .plot(
-            `${p1.hex.x},${p1.hex.y} ${p2.hex.x},${p2.hex.y} ${p3.hex.x},${p3.hex.y} ${p4.hex.x},${p4.hex.y} ${p5.hex.x},${p5.hex.y} ${p6.hex.x},${p6.hex.y} ${p7.hex.x},${p7.hex.y} ${p8.hex.x},${p8.hex.y}`
+            `${self.p1.hex.x},${self.p1.hex.y} ${self.p2.hex.x},${self.p2.hex.y} ${self.p3.hex.x},${self.p3.hex.y} ${self.p4.hex.x},${self.p4.hex.y} ${self.p5.hex.x},${self.p5.hex.y} ${self.p6.hex.x},${self.p6.hex.y} ${self.p7.hex.x},${self.p7.hex.y} ${self.p8.hex.x},${self.p8.hex.y}`
           )
-          .fill({ color: "#fff", opacity: 1 })
           .after(function () {
             //making sure the hover state is removed from all rhizome items and that all shapes return to original state
-            removeHoverStateRhizomeItems(el);
+            self.removeHoverStateRhizomeItems(self.div);
           });
       }
     });
-
-    backgroundPolygons.push(backgroundPolygon);
   }
 
   handleMouseEnter() {
@@ -270,8 +258,10 @@ class RhizomeItem {
       console.log("mouse has entered through class");
       if (!self.div.classList.contains("grid-item-open")) {
         self.div.classList.add("rhizome-grid-item-hover");
-        self.coverElement.style.opacity = "0";
-        self.divHoverScreen.style.opacity = `1`;
+        self.coverElement.style.opacity = "1";
+        setTimeout(() => {}, 750);
+
+        // self.divHoverScreen.style.opacity = `1`;
       }
     });
   }
@@ -352,10 +342,65 @@ class RhizomeItem {
   removeHoverStateRhizomeItems(el) {
     el.classList.remove("rhizome-grid-item-hover");
     el.querySelector(".rhizome-item-hover-screen").style.opacity = "0";
-    if (!el.classList.contains(`button-clicked`)) {
-      setTimeout(() => {
-        el.querySelector(".rhizome-item-cover-element").style.opacity = "1";
-      }, 750);
+    console.log(el.getAttribute("data-att"));
+    let tempAtt = el.getAttribute("data-att");
+    if (tempAtt == "data-scapes") {
+      el.querySelector(".rhizome-item-cover-element").style.opacity = "1";
+    } else {
+      console.log("autre");
+      el.querySelector(".rhizome-item-cover-element").style.opacity = "0";
     }
+
+    // if (!el.classList.contains(`button-clicked`)) {
+    //   setTimeout(() => {
+    //     el.querySelector(".rhizome-item-cover-element").style.opacity = "1";
+    //   }, 750);
+    // }
+  }
+
+  calculateSVGRhizomepoints(lgDist, shDist) {
+    this.p1 = {
+      hex: { x: -lgDist, y: -shDist },
+      oct: { x: -shDist, y: -lgDist },
+      rect: { x: -lgDist, y: -lgDist },
+    };
+    this.p2 = {
+      hex: { x: 0, y: -lgDist },
+      oct: { x: shDist, y: -lgDist },
+      rect: { x: lgDist, y: -lgDist },
+    };
+    this.p3 = {
+      hex: { x: 0, y: -lgDist },
+      oct: { x: lgDist, y: -shDist },
+      rect: { x: lgDist, y: -lgDist },
+    };
+    this.p4 = {
+      hex: { x: lgDist, y: -shDist },
+      oct: { x: lgDist, y: shDist },
+      rect: { x: lgDist, y: lgDist },
+    };
+    this.p5 = {
+      hex: { x: lgDist, y: shDist },
+      oct: { x: shDist, y: lgDist },
+      rect: { x: lgDist, y: lgDist },
+    };
+    this.p6 = {
+      hex: { x: 0, y: lgDist },
+      oct: { x: -shDist, y: lgDist },
+      rect: { x: -lgDist, y: lgDist },
+    };
+    this.p7 = {
+      hex: { x: 0, y: lgDist },
+      oct: { x: -lgDist, y: shDist },
+      rect: { x: -lgDist, y: lgDist },
+    };
+    this.p8 = {
+      hex: { x: -lgDist, y: shDist },
+      oct: { x: -lgDist, y: -shDist },
+      rect: { x: -lgDist, y: -lgDist },
+    };
+
+    return this.p1;
+    return { p1, p2, p3, p4, p5, p6, p7, p8 };
   }
 }

@@ -106,9 +106,14 @@ body {
 }
 
 .rhizome-item-cover-element {
+  opacity: 0;
   width: 70%;
   height: 100%;
   transform-origin: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.7s;
   /* background-color: cyan; */
 }
 
@@ -119,8 +124,7 @@ body {
   transition: opacity 0.75s;
 }
 
-.rhizome-grid-item h1,
-.rhizome-grid-h1 {
+.coverElement h1 {
   font-size: 1.5rem;
   position: absolute;
   text-align: center;
@@ -132,7 +136,7 @@ body {
 }
 
 .ds-logo-element-rhizome-item {
-  transform: scale(0.4);
+  transform: scale(0.2);
 }
 
 .rhizome-item-hover-screen h2 {
