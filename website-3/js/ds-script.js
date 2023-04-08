@@ -147,39 +147,36 @@ function fetchGeolocation() {
           console.log("we're allowing the geolocation");
           let latitude = position.coords.latitude;
           let longitude = position.coords.longitude;
-          resolve({ latitude, longitude });
+          resolve({ latitude, longitude }); //resolves properly and runs if geolocation is activated
+        },
+        function (error) {
+          let ipLat = null;
+          let ipLng = null;
+
+          console.log(error);
+          let xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              var response = JSON.parse(this.responseText);
+              if (response.status !== "success") {
+                console.log("query failed: " + response.message);
+                return;
+              } else {
+                ipLat = response.lat;
+                ipLng = response.lon;
+                console.log(ipLat, ipLng); //console.logging the good values, after line 174
+              }
+            }
+          };
+          xhr.open("GET", endpoint, true);
+          xhr.send();
+
+          console.log(ipLng); //console.log(null)
+          let latitude = ipLat;
+          let longitude = ipLng;
+
+          resolve({ latitude, longitude }); //doesn't resolve anything, crashes
         }
-        // function (error) {
-        //   console.log(error);
-        //   let xhr = new XMLHttpRequest();
-        //   xhr.onreadystatechange = function () {
-        //     if (this.readyState == 4 && this.status == 200) {
-        //       var response = JSON.parse(this.responseText);
-        //       if (response.status !== "success") {
-        //         console.log("query failed: " + response.message);
-        //         return;
-        //       } else {
-        //         console.log(response);
-        //         clientInfo = {
-        //           ipAddress: response.query,
-        //           lat: response.lat,
-        //           long: response.lon,
-        //           continent: response.continent,
-        //           region: response.regionName,
-        //           city: response.city,
-        //         };
-        //       }
-        //     }
-        //   };
-        //   xhr.open("GET", endpoint, true);
-        //   xhr.send(clientInfo);
-
-        //   console.log(clientInfo);
-        //   let latitude = clientInfo.lat;
-        //   let longitude = clientInfo.long;
-
-        //   resolve({ latitude, longitude });
-        // }
       );
       // IF GEO
 
