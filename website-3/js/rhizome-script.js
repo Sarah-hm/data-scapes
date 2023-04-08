@@ -46,8 +46,8 @@ window.onload = (event) => {
           x = 45;
           y = 45;
         } else {
-          x = Math.floor(Math.random() * 100);
-          y = Math.floor(Math.random() * 100);
+          x = Math.floor(Math.random() * 80);
+          y = Math.floor(Math.random() * 80);
         }
 
         let lgDist = 100 / 2;
@@ -165,8 +165,8 @@ window.onload = (event) => {
       let backgroundPolygon = drawBackground.polygon(
         `${p1.hex.x},${p1.hex.y} ${p2.hex.x},${p2.hex.y} ${p3.hex.x},${p3.hex.y} ${p4.hex.x},${p4.hex.y} ${p5.hex.x},${p5.hex.y} ${p6.hex.x},${p6.hex.y} ${p7.hex.x},${p7.hex.y} ${p8.hex.x},${p8.hex.y}`
       );
-      backgroundPolygon.fill("#fff");
-      backgroundPolygon.stroke({ color: "#808080", width: 2 });
+      backgroundPolygon.fill({ color: "#fff", opacity: 1 });
+      backgroundPolygon.stroke({ color: "#fff", width: 2 });
 
       foregroundPolygon.on(`mouseover`, () => {
         if (!animating) {
@@ -180,6 +180,7 @@ window.onload = (event) => {
             .plot(
               `${p1.oct.x},${p1.oct.y} ${p2.oct.x},${p2.oct.y} ${p3.oct.x},${p3.oct.y} ${p4.oct.x},${p4.oct.y} ${p5.oct.x},${p5.oct.y} ${p6.oct.x},${p6.oct.y} ${p7.oct.x},${p7.oct.y} ${p8.oct.x},${p8.oct.y}`
             )
+            .fill({ color: "#000", opacity: 0.3 })
             .after(function () {
               animating = false;
             });
@@ -213,6 +214,7 @@ window.onload = (event) => {
             .plot(
               `${p1.hex.x},${p1.hex.y} ${p2.hex.x},${p2.hex.y} ${p3.hex.x},${p3.hex.y} ${p4.hex.x},${p4.hex.y} ${p5.hex.x},${p5.hex.y} ${p6.hex.x},${p6.hex.y} ${p7.hex.x},${p7.hex.y} ${p8.hex.x},${p8.hex.y}`
             )
+            .fill({ color: "#fff", opacity: 1 })
             .after(function () {
               //making sure the hover state is removed from all rhizome items and that all shapes return to original state
               removeHoverStateRhizomeItems(el);

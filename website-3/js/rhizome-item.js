@@ -105,7 +105,6 @@ class RhizomeItem {
     this.div.setAttribute(`data-att`, `${this.name}`);
 
     //Set position, transition, left, top;
-    this.div.style.position = "fixed";
     this.div.style.transition = "transform 1s";
     this.div.style.left = `${this.x}%`;
     this.div.style.top = `${this.y}%`;
