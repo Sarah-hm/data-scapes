@@ -1,6 +1,8 @@
 class MyMap {
   constructor(latitude, longitude) {
     // this.d3 = d3;
+    this.nativeLandData = null;
+    this.ipData = null;
     this.nativeLandLayer = true;
     this.datascapesPoints = [];
 
@@ -77,11 +79,15 @@ class MyMap {
     ).addTo(this.map);
   }
 
-  toggleNativeLandLayer(nativeLandData) {
-    console.log(nativeLandData);
+  toggleNativeLandLayer() {
+    console.log(this.nativeLandData);
     if (this.nativeLandLayer) {
-      for (let i = 0; i < nativeLandData.length; i++) {
-        nativeLandData[i].addTo(this.map);
+      for (let i = 0; i < this.nativeLandData.length; i++) {
+        this.nativeLandData[i].polygon.addTo(this.map);
+        this.addListenersOnPolygon(
+          this.nativeLandData[i].polygon,
+          this.nativeLandData[i].link
+        );
       }
     } else {
     }
@@ -97,17 +103,8 @@ class MyMap {
     // this.conversionLatLngtoPoints(datascapesData);
   }
 
-  setupPublicIPInfo(ipAddress, lat, lng, continent, region, city) {
-    this.ipInfo = {
-      ipAddress: ipAddress,
-      lat: lat,
-      lng: lng,
-      continent: continent,
-      region: region,
-      city: city,
-    };
-
-    console.log(this.ipInfo);
+  toggleIPinfo() {
+    console.log(this.ipData);
   }
   // latlngtolayerpoint not a function? broken?
   conversionLatLngtoPoints(datascapesData) {
@@ -134,5 +131,20 @@ class MyMap {
       // console.log(this.polyline);
       this.setWorldMapTile();
     }
+  }
+
+  addListenersOnPolygon(polygon, link) {
+    polygon.on("click", function (event) {
+      window.open(link, "_blank").focus();
+    });
+    polygon.on("mouseover", function (event) {
+      // console.log(event.target);
+      event.target.setStyle({
+        color: "white",
+        fillOpacity: 0.5,
+        stroke: false,
+        className: "native-land-polygons",
+      });
+    });
   }
 }

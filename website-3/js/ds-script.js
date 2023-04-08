@@ -49,7 +49,33 @@ let endpoint =
 let map;
 let nativeLandPolys = [];
 
+getIPAPIdata();
 let clientCoords = await fetchGeolocation();
+
+function getIPAPIdata() {
+  let xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var response = JSON.parse(this.responseText);
+      if (response.status !== "success") {
+        console.log("query failed: " + response.message);
+        return;
+      } else {
+        console.log(response);
+        clientInfo = {
+          ipAddress: response.query,
+          lat: response.lat,
+          long: response.lon,
+          continent: response.continent,
+          region: response.regionName,
+          city: response.city,
+        };
+        map.ipData = clientInfo;
+        map.toggleIPinfo();
+      }
+    }
+  };
+}
 
 //Get datascapes data and create the map
 fetch("getData.php")
@@ -109,12 +135,8 @@ fetch("getData.php")
               let lati = parseFloat(coordinates[1]);
               let coords = { lat: lati, lng: long };
               line.push(coords);
-              // console.log(lati);
-              // console.log(long);
             } //FOR GEOMARRAY (coordinates)
 
-            let terrFillColor = "#454B1B";
-            // console.log(geomArray);
             let polygon = L.polygon(line, {
               zindex: 0,
               color: "black",
@@ -122,20 +144,17 @@ fetch("getData.php")
               stroke: false,
               className: "native-land-polygons",
             });
-            nativeLandPolys.push(polygon);
-
-            // addTo(map);
-            addListenersOnPolygon(polygon, link);
+            nativeLandPolys.push({ polygon: polygon, link: link });
           }
         }
-        map.toggleNativeLandLayer(nativeLandPolys);
+        //set the data in the map as native land;
+        map.nativeLandData = nativeLandPolys;
+        //toggle the map on
+        map.toggleNativeLandLayer();
       });
     // == NATIVE LAND DATA FETCH ==
   })
   .catch((error) => console.error(error));
-
-let ipIPAinfo = await getPublicIP();
-console.log(ipIPAinfo);
 
 function fetchGeolocation() {
   return new Promise((resolve, reject) => {
@@ -147,7 +166,7 @@ function fetchGeolocation() {
           console.log("we're allowing the geolocation");
           let latitude = position.coords.latitude;
           let longitude = position.coords.longitude;
-          resolve({ latitude, longitude }); //resolves properly and runs if geolocation is activated
+          resolve({ latitude, longitude }); //resolves properly and runs if geolocation is
         },
         function (error) {
           let ipLat = null;
@@ -185,56 +204,13 @@ function fetchGeolocation() {
   });
 }
 
-function getPublicIP() {
-  return new Promise((resolve, reject) => {
-    let xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        var response = JSON.parse(this.responseText);
-        if (response.status !== "success") {
-          console.log("query failed: " + response.message);
-          return;
-        } else {
-          console.log(response);
-          clientInfo = {
-            ipAddress: response.query,
-            lat: response.lat,
-            long: response.lon,
-            continent: response.continent,
-            region: response.regionName,
-            city: response.city,
-          };
-          map.setupPublicIPInfo(
-            clientInfo.ipAddress,
-            clientInfo.lat,
-            clientInfo.long,
-            clientInfo.continent,
-            clientInfo.region,
-            clientInfo.city
-          );
-        }
-      }
-    };
-    console.log(clientInfo);
-    xhr.open("GET", endpoint, true);
-    xhr.send(clientInfo);
-    console.log(clientInfo);
-    // console.log(latitude, longitude);
-    resolve({ clientInfo });
-  });
-}
-
-function addListenersOnPolygon(polygon, link) {
-  polygon.on("click", function (event) {
-    window.open(link, "_blank").focus();
-  });
-  polygon.on("mouseover", function (event) {
-    // console.log(event.target);
-    event.target.setStyle({
-      color: "white",
-      fillOpacity: 0.5,
-      stroke: false,
-      className: "native-land-polygons",
-    });
-  });
-}
+// function getPublicIP() {
+//   return new Promise((resolve, reject) => {
+//     console.log(clientInfo);
+//     xhr.open("GET", endpoint, true);
+//     xhr.send(clientInfo);
+//     console.log(clientInfo);
+//     // console.log(latitude, longitude);
+//     resolve({ clientInfo });
+//   });
+// }
