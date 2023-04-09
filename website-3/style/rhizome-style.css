@@ -7,9 +7,9 @@
 
 body {
   background: #000;
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
 }
 
 /* RHIZOME CLOUD PAGE */
@@ -160,12 +160,17 @@ body {
 }
 
 .rhizome-item-focus {
-  transform-origin: top right;
+  z-index: 4000;
+  background-color: cyan;
+  transform-origin: center;
+  /* transform: translate(-50%, -50%); */
   position: fixed;
+  top: 0px;
+  left: 0px;
   width: 90%;
   height: 90vh;
-  left: 5%;
-  top: 5vh;
+  /* left: 5%; */
+  /* top: 5vh; */
 }
 
 .rhizome-item-hover-screen button {
@@ -176,8 +181,8 @@ body {
   z-index: 10;
 }
 .button-clicked {
-  transform: scale(5);
+  /* transform: scale(5);
   position: fixed;
   left: 50%;
-  top: 50%;
+  top: 50%; */
 }

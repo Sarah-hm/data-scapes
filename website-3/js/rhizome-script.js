@@ -129,9 +129,10 @@ window.onload = (event) => {
   function redrawLines(el, x, y) {
     for (let i = 0; i < lines.length; i++) {
       if (el == lines[i].startObject.object) {
-        //   console.log(newX, newY);
+        console.log(lines[i], "from start");
         lines[i].redrawFromStart(x, y);
       } else if (el == lines[i].endObject.object) {
+        console.log(lines[i], "from end");
         lines[i].redrawFromEnd(x, y);
       }
     }
