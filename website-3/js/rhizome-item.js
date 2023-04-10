@@ -399,76 +399,81 @@ class RhizomeItem {
   handleBtnClick() {
     let self = this;
     this.btnElement.addEventListener("click", () => {
-      //store the current position of the item so it goes back when it closes
-      let tempRect = self.div.getBoundingClientRect();
+      //If data_scapes, send to other function to handle the animation and page change
+      if (self.title === "data_scapes") {
+        self.goToDatascapes();
+      } else {
+        //store the current position of the item so it goes back when it closes
+        let tempRect = self.div.getBoundingClientRect();
 
-      let tempX = tempRect.x;
-      let tempY = tempRect.y;
+        let tempX = tempRect.x;
+        let tempY = tempRect.y;
 
-      //If no item is in focus, bring that item in focus
-      if (!self.div.classList.contains("rhizome-item-focus")) {
-        self.parentContainer.classList.add("button-clicked");
-        console.log("button clicked");
+        //If no item is in focus, bring that item in focus
+        if (!self.div.classList.contains("rhizome-item-focus")) {
+          self.parentContainer.classList.add("button-clicked");
+          console.log("button clicked");
 
-        //resize the rhizome-item to be the full width of the screen and on top of everything
+          //resize the rhizome-item to be the full width of the screen and on top of everything
 
-        self.div.classList.remove("rhizome-grid-item");
-        self.div.classList.add("rhizome-item-focus");
+          self.div.classList.remove("rhizome-grid-item");
+          self.div.classList.add("rhizome-item-focus");
 
-        //change the background svg to rectangle => gotta calculate the full width of the client after having resized the div
-        this.calculateSVGRhizomepoints(
-          this.rect.lgDist,
-          this.rect.midDist,
-          this.rect.shDist
-        );
+          //change the background svg to rectangle => gotta calculate the full width of the client after having resized the div
+          this.calculateSVGRhizomepoints(
+            this.rect.lgDist,
+            this.rect.midDist,
+            this.rect.shDist
+          );
 
-        //make polygon bigger
-        this.backgroundPolygon
-          .animate(500)
-          .plot(
-            `${self.p1.rect.x},${self.p1.rect.y} ${self.p2.rect.x},${self.p2.rect.y} ${self.p3.rect.x},${self.p3.rect.y} ${self.p4.rect.x},${self.p4.rect.y} ${self.p5.rect.x},${self.p5.rect.y} ${self.p6.rect.x},${self.p6.rect.y} ${self.p7.rect.x},${self.p7.rect.y} ${self.p8.rect.x},${self.p8.rect.y}`
-          )
-          .after(function () {
-            //making sure the hover state is removed from all rhizome items and that all shapes return to original state
-            // self.removeHoverStateRhizomeItems(self.div);
+          //make polygon bigger
+          this.backgroundPolygon
+            .animate(500)
+            .plot(
+              `${self.p1.rect.x},${self.p1.rect.y} ${self.p2.rect.x},${self.p2.rect.y} ${self.p3.rect.x},${self.p3.rect.y} ${self.p4.rect.x},${self.p4.rect.y} ${self.p5.rect.x},${self.p5.rect.y} ${self.p6.rect.x},${self.p6.rect.y} ${self.p7.rect.x},${self.p7.rect.y} ${self.p8.rect.x},${self.p8.rect.y}`
+            )
+            .after(function () {
+              //making sure the hover state is removed from all rhizome items and that all shapes return to original state
+              // self.removeHoverStateRhizomeItems(self.div);
+            });
+        }
+        //if button is clicked and an item is in focus, close that item
+        else {
+          self.parentContainer.classList.remove("button-clicked");
+          self.div.classList.add("rhizome-grid-item");
+          self.div.classList.remove("rhizome-item-focus");
+
+          let allItems = document.querySelectorAll(".rhizome-grid-item");
+          let allLines = document.querySelectorAll(".rhizome-cloud-line ");
+
+          allItems.forEach((el) => {
+            console.log(el);
           });
-      }
-      //if button is clicked and an item is in focus, close that item
-      else {
-        self.parentContainer.classList.remove("button-clicked");
-        self.div.classList.add("rhizome-grid-item");
-        self.div.classList.remove("rhizome-item-focus");
+          //change the background svg to rectangle => gotta calculate the full width of the client after having resized the div
+          this.calculateSVGRhizomepoints(
+            this.hex.lgDist,
+            this.hex.midDist,
+            this.hex.shDist
+          );
 
-        let allItems = document.querySelectorAll(".rhizome-grid-item");
-        let allLines = document.querySelectorAll(".rhizome-cloud-line ");
+          //make polygon bigger
+          this.backgroundPolygon
+            .animate(500)
+            .plot(
+              `${self.p1.hex.x},${self.p1.hex.y} ${self.p2.hex.x},${self.p2.hex.y} ${self.p3.hex.x},${self.p3.hex.y} ${self.p4.hex.x},${self.p4.hex.y} ${self.p5.hex.x},${self.p5.hex.y} ${self.p6.hex.x},${self.p6.hex.y} ${self.p7.hex.x},${self.p7.hex.y} ${self.p8.hex.x},${self.p8.hex.y}`
+            )
+            .after(function () {
+              //making sure the hover state is removed from all rhizome items and that all shapes return to original state
+              // self.removeHoverStateRhizomeItems(self.div);
+            });
 
-        allItems.forEach((el) => {
-          console.log(el);
-        });
-        //change the background svg to rectangle => gotta calculate the full width of the client after having resized the div
-        this.calculateSVGRhizomepoints(
-          this.hex.lgDist,
-          this.hex.midDist,
-          this.hex.shDist
-        );
+          //recalculate lines
 
-        //make polygon bigger
-        this.backgroundPolygon
-          .animate(500)
-          .plot(
-            `${self.p1.hex.x},${self.p1.hex.y} ${self.p2.hex.x},${self.p2.hex.y} ${self.p3.hex.x},${self.p3.hex.y} ${self.p4.hex.x},${self.p4.hex.y} ${self.p5.hex.x},${self.p5.hex.y} ${self.p6.hex.x},${self.p6.hex.y} ${self.p7.hex.x},${self.p7.hex.y} ${self.p8.hex.x},${self.p8.hex.y}`
-          )
-          .after(function () {
-            //making sure the hover state is removed from all rhizome items and that all shapes return to original state
-            // self.removeHoverStateRhizomeItems(self.div);
-          });
-
-        //recalculate lines
-
-        for (let i = 0; i < self.links.length; i++) {
-          let newCoords = self.getElCenter(self.div);
-          //Get the center of the end object too!
-          this.redrawLines(self.div, newCoords.x, newCoords.y);
+          for (let i = 0; i < self.links.length; i++) {
+            let newCoords = self.getElCenter(self.div);
+            //Get the center of the end object too!
+            this.redrawLines(self.div, newCoords.x, newCoords.y);
+          }
         }
       }
     });
@@ -572,5 +577,9 @@ class RhizomeItem {
       midDist: 86.57 * this.rhizomeSVGsize,
       shDist: container.height / 3,
     };
+  }
+
+  goToDatascapes() {
+    window.open("https://www.codexworld.com/", "_self");
   }
 }
