@@ -25,7 +25,7 @@ class RhizomeItem {
     console.log(this.description.length);
 
     //only works for the SVGs, div stays the same size
-    this.rhizomeSVGsize = 0.1 * this.description.length;
+    this.rhizomeSVGsize = 0.15 * this.description.length;
     this.divWidth = this.rhizomeSVGsize * 250;
     this.divHeight = this.divWidth;
     this.fontSize = this.divWidth / 7.5;

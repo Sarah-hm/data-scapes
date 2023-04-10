@@ -1,3 +1,15 @@
+button,
+input[type="submit"],
+input[type="reset"] {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -58,9 +70,10 @@ body {
 .rhizome-item-focus {
   z-index: 4000;
   background-color: cyan;
-  /* transform-origin: center; */
-  /* position: absolute; */
-
+  position: relative;
+  top: 0px;
+  left: 0px;
+  transform: translatey(-1000px);
   width: 90%;
   height: 90vh;
   margin: auto;
@@ -168,10 +181,15 @@ body {
 
 .rhizome-item-hover-screen button {
   position: absolute;
-  width: 40%;
-  top: 75%;
-  left: 30%;
+  font-size: 80%;
+  text-align: center;
+  left: 25%;
   z-index: 10;
+  margin: auto;
+  padding: 1%;
+  width: 50%;
+  background-color: black;
+  color: white;
 }
 .button-clicked {
   /* transform: scale(5);
