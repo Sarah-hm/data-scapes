@@ -580,6 +580,6 @@ class RhizomeItem {
   }
 
   goToDatascapes() {
-    window.open("https://www.codexworld.com/", "_self");
+    window.open("map.php", "_self");
   }
 }
