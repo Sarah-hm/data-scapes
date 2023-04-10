@@ -28,34 +28,15 @@ window.onload = (event) => {
     .then((data) => {
       //push all the data in their own object
       for (let i = 0; i < data.length; i++) {
-        let x;
-        let y;
-
-        //if i = data-scapes, hard code it in the middle of the screen
-        if (i === 0) {
-          x = 45;
-          y = 45;
-        } else {
-          x = Math.floor(Math.random() * 80);
-          y = Math.floor(Math.random() * 80);
-        }
-
-        let lgDist = 100 / 2;
-        let shDist = 60 / 2;
-
         //push the data, x, y, shDist and lgDist into a new rhizome Item
         rhizomeItems.push(
           new RhizomeItem(
-            x,
-            y,
             data[i].title,
             data[i].pullquote,
             data[i].description,
             data[i].image,
             data[i].dataAtt,
             data[i].link,
-            lgDist,
-            shDist,
             rhizomeCloud,
             getElCenter,
             redrawLines
@@ -127,13 +108,16 @@ window.onload = (event) => {
   }
 
   function redrawLines(el, x, y) {
+    // console.log(el);
+    let newCoords = getElCenter(el);
+    // console.log(newCoords);
     for (let i = 0; i < lines.length; i++) {
       if (el == lines[i].startObject.object) {
         // console.log(lines[i], "from start");
-        lines[i].redrawFromStart(x, y);
+        lines[i].redrawFromStart(newCoords.x, newCoords.y);
       } else if (el == lines[i].endObject.object) {
         // console.log(lines[i], "from end");
-        lines[i].redrawFromEnd(x, y);
+        lines[i].redrawFromEnd(newCoords.x, newCoords.y);
       }
     }
   }
