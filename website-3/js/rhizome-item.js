@@ -297,23 +297,23 @@ class RhizomeItem {
               //making sure the hover state is removed from all rhizome items and that all shapes return to original state
               self.removeHoverStateRhizomeItems(self.div);
             });
-        }
 
-        if (self.title === "data_scapes") {
-          self.calculateSVGRhizomepoints(
-            self.dsBckg.closed.lgDist,
-            self.dsBckg.closed.midDist,
-            self.dsBckg.closed.shDist
-          );
-          animating = true;
-          this.dsBackground
-            .animate(1000)
-            .plot(
-              `${this.p1.hex.x},${this.p1.hex.y} ${this.p2.hex.x},${this.p2.hex.y} ${this.p3.hex.x},${this.p3.hex.y} ${this.p4.hex.x},${this.p4.hex.y} ${this.p5.hex.x},${this.p5.hex.y} ${this.p6.hex.x},${this.p6.hex.y} ${this.p7.hex.x},${this.p7.hex.y} ${this.p8.hex.x},${this.p8.hex.y}`
-            )
-            .after(function () {
-              animating = false;
-            });
+          if (self.title === "data_scapes") {
+            self.calculateSVGRhizomepoints(
+              self.dsBckg.closed.lgDist,
+              self.dsBckg.closed.midDist,
+              self.dsBckg.closed.shDist
+            );
+            animating = true;
+            this.dsBackground
+              .animate(1000)
+              .plot(
+                `${this.p1.hex.x},${this.p1.hex.y} ${this.p2.hex.x},${this.p2.hex.y} ${this.p3.hex.x},${this.p3.hex.y} ${this.p4.hex.x},${this.p4.hex.y} ${this.p5.hex.x},${this.p5.hex.y} ${this.p6.hex.x},${this.p6.hex.y} ${this.p7.hex.x},${this.p7.hex.y} ${this.p8.hex.x},${this.p8.hex.y}`
+              )
+              .after(function () {
+                animating = false;
+              });
+          }
         }
       }
     });
