@@ -110,7 +110,7 @@ fetch("getData.php")
     fetch("https://native-land.ca/api/index.php?maps=territories")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         //Run through data and divide the polygons (puts it in temp) data.length
         for (let i = 0; i < data.length; i++) {
           // console.log(i);

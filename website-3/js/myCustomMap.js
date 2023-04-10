@@ -159,6 +159,7 @@ class MyMap {
     this.slidersMenu.style.opacity = `1`;
     let self = this;
     //make sliders affect the opacity of the selected layer on change
+    // for native-land slider
     this.slidersMenu
       .querySelector("#native-land-slider")
       .addEventListener("change", (e) => {
@@ -175,6 +176,16 @@ class MyMap {
           });
         }
         //set the polygons opacity to the value
+      });
+
+    // For mercator slider
+    this.slidersMenu
+      .querySelector("#mercator-slider")
+      .addEventListener("change", (e) => {
+        console.log(e.target.value / 100);
+
+        let currentAlpha = e.target.value / 100;
+        self.currentTile.options.opacity = currentAlpha;
       });
   }
 }
