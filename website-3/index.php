@@ -7,6 +7,10 @@
     <title>DATA_SCAPES</title>
     <link rel="icon" type="image/x-icon" href="assets/ds-logo.png">
     <link rel="stylesheet" href="style/rhizome-style.css" />
+    <script type="module">
+      import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+      //To be added in the class I add the D3s in 
+    </script>
     <!-- Ajax : will try to make it useless :) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- Google maps -->
@@ -18,7 +22,6 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-
     <!-- All my lil javascript, classes, and suches -->
     <script src="js/rhizome-script.js"></script>
     <script src="js/Rhizome-item.js"></script>
@@ -31,4 +34,5 @@
       </div>
     </div>
 </body>
+
 </html>

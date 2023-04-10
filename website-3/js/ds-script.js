@@ -1,3 +1,5 @@
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
 // window.onload = (event) => {
 // url: "index.php",
 // type: "get", //send it through get method
@@ -5,44 +7,85 @@
 // let latitude = null;
 // let longitude = null;
 
-//COMMENTED OUT THE POSTING ==
+// ====== COMMENTED OUT THE POSTING ========= DO NOT REMOVE
 // postData();
 
-// async function postData() {
-//   latitude = "01";
-//   longitude = "02";
+async function postData(latitude, longitude) {
+  const response = await fetch(`postData.php`, {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, *cors, same-origin
+    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: "same-origin", // include, *same-origin, omit
+    //headers: {
+    //"Content-Type": "application/json",
+    // 'Content-Type': 'application/x-www-form-urlencoded',
+    //},
+    redirect: "follow", // manual, *follow, error
+    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: new URLSearchParams({ latitude: latitude, longitude: longitude }), // body data type must match "Content-Type" header
+  });
+  let resp = await response.text();
+  console.log(resp);
+}
+// ====== COMMENTED OUT THE POSTING ========= DO NOT REMOVE
 
-//   const response = await fetch(`postData.php`, {
-//     method: "POST", // *GET, POST, PUT, DELETE, etc.
-//     mode: "cors", // no-cors, *cors, same-origin
-//     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-//     credentials: "same-origin", // include, *same-origin, omit
-//     //headers: {
-//     //"Content-Type": "application/json",
-//     // 'Content-Type': 'application/x-www-form-urlencoded',
-//     //},
-//     redirect: "follow", // manual, *follow, error
-//     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-//     body: new URLSearchParams({ latitude: latitude, longitude: longitude }), // body data type must match "Content-Type" header
-//   });
-//   let resp = await response.text();
-//   console.log(resp);
-// }
+// Declare some variables globally to pass them around
+//Everything from the IP API
+let publicIPAddress;
+let clientInfo = {
+  ipAddress: null,
+  lat: null,
+  long: null,
+  continent: null,
+  region: null,
+  city: null,
+  streetName: null,
+};
 
-//We get the data from the txt file
+//Get info from public IP address,
+let endpoint =
+  "http://ip-api.com/json/?fields=status,message,continent,country,countryCode,regionName,city,district,zip,lat,lon,timezone,offset,isp,org,as,mobile,proxy,hosting,query";
 
+let map;
+let nativeLandPolys = [];
+
+getIPAPIdata();
+let clientCoords = await fetchGeolocation();
+
+function getIPAPIdata() {
+  let xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var response = JSON.parse(this.responseText);
+      if (response.status !== "success") {
+        console.log("query failed: " + response.message);
+        return;
+      } else {
+        console.log(response);
+        clientInfo = {
+          ipAddress: response.query,
+          lat: response.lat,
+          long: response.lon,
+          continent: response.continent,
+          region: response.regionName,
+          city: response.city,
+        };
+        map.ipData = clientInfo;
+        map.toggleIPinfo();
+      }
+    }
+  };
+}
+
+//Get datascapes data and create the map
 fetch("getData.php")
   .then((response) => response.text())
   .then(async (data) => {
-    //Do something with the data
-    // console.log(data);
     let parsedJSON = JSON.parse(data);
 
-    console.log(parsedJSON);
-
-    let currentCoords = await fetchGeolocation();
-    console.log(currentCoords);
-
+    // let currentCoords = await fetchGeolocation();
+    // console.log(currentCoords);
+    // console.log(currentCoords);
     //set the empty line array that is going to create the path
     let line = [];
     //  console.log(parsedJSON);
@@ -54,103 +97,120 @@ fetch("getData.php")
       let coords = { lat: lati, lng: long };
       line.push(coords);
     }
-    console.log(line);
+    // console.log(line);
 
-    //  }
-    //  let webPath = new google.maps.Polyline({
-    //    path:line,
-    //    strokeColor:"#F2F2F2",
-    //    strokeOpacity:0.8,
-    //    strokeWeight:2
-    //  });
-    //  webPath.setMap(map);
+    const loadMap = new Promise((resolve, reject) => {
+      console.log(clientCoords);
+      map = new MyMap(clientCoords.latitude, clientCoords.longitude);
+      map.initPolyline(line);
+    });
+    // == DATA_SCAPES DATA FETCH ==
 
-    let map = L.map("map").setView(
-      [currentCoords.latitude, currentCoords.longitude],
-      13
-    );
+    //Fetch data from native-land, send it to map object
+    fetch("https://native-land.ca/api/index.php?maps=territories")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        //Run through data and divide the polygons (puts it in temp) data.length
+        for (let i = 0; i < data.length; i++) {
+          // console.log(i);
+          //console.log(data[i]);
+          let link = data[i].properties.description;
 
-    L.tileLayer("https://hybrid.concordia.ca/S_HONTOY/tile_blackout.jpg", {
-      attribution: "mine :)",
-    }).addTo(map);
+          // console.log(data[i].geometry.coordinates)
+          let temp = data[i].geometry.coordinates;
+          //  let geomArray = data[i].geometry.coordinates[0];
+          // console.log(temp);
+          //Puts all polygon lines (in temp) into their own arrays (geomArray)
+          for (let j = 0; j < temp.length; j++) {
+            //console.log (temp[j]);
+            let geomArray = temp[j];
+            //set the empty line array that is going to create the path
+            let line = [];
+            //Parse all the lines' coordinates (latitude, longitude) and push them into the array
+            for (let k = 0; k < geomArray.length; k++) {
+              //  console.log(geomArray[k])
+              let coordinates = geomArray[k];
+              let long = parseFloat(coordinates[0]);
+              let lati = parseFloat(coordinates[1]);
+              let coords = { lat: lati, lng: long };
+              line.push(coords);
+            } //FOR GEOMARRAY (coordinates)
 
-    let polyline = L.polyline(line, { color: "white", weight: "0.2" }).addTo(
-      map
-    );
-
-    // L.tileLayer(
-    //   "https://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
-    //   {
-    //     attribution:
-    //       "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
-    //   }
-    // ).addTo(map);
-
-    // L.tileLayer(
-    //   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-    //   {
-    //     attribution:
-    //       "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
-    //   }
-    // ).addTo(map);
-
-    // L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    //   maxZoom: 19,
-    //   attribution:
-    //     '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    // }).addTo(map);
+            let polygon = L.polygon(line, {
+              zindex: 0,
+              color: "black",
+              fillOpacity: 0.1,
+              stroke: false,
+              className: "native-land-polygons",
+            });
+            nativeLandPolys.push({ polygon: polygon, link: link });
+          }
+        }
+        //set the data in the map as native land;
+        map.nativeLandData = nativeLandPolys;
+        //toggle the map on
+        map.toggleNativeLandLayer();
+      });
+    // == NATIVE LAND DATA FETCH ==
   })
   .catch((error) => console.error(error));
 
 function fetchGeolocation() {
   return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
+      console.log("we're getting the geolocation");
       //If user enabled geolocation, set lat/long to their current position, send data to database, and send to tracing Path function
-      navigator.geolocation.getCurrentPosition(function (position) {
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          console.log("we're allowing the geolocation");
+          let latitude = position.coords.latitude;
+          let longitude = position.coords.longitude;
+          resolve({ latitude, longitude }); //resolves properly and runs if geolocation is
+        },
+        function (error) {
+          let ipLat = null;
+          let ipLng = null;
 
-        console.log(latitude, longitude);
+          console.log(error);
+          let xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              var response = JSON.parse(this.responseText);
+              if (response.status !== "success") {
+                console.log("query failed: " + response.message);
+                return;
+              } else {
+                ipLat = response.lat;
+                ipLng = response.lon;
+                console.log(ipLat, ipLng); //console.logging the good values, after line 174
+              }
+            }
+          };
+          xhr.open("GET", endpoint, true);
+          xhr.send();
 
-        //Create the map using the latitude and longitude previously calculated
-        // let mapProp = {
-        //   //center on montreal
-        //   center: new google.maps.LatLng(latitude, longitude),
-        //   zoom: zoomLvl,
-        //   mapId: mapID,
-        //   disableDefaultUI: true,
-        //   // streetViewControl: false,
-        // };
-        // map = new google.maps.Map(document.getElementById("map"), mapProp);
-        // //only adds marker if geolocation was enabled, hence new user and new location
-        // addMarker(latitude, longitude);
+          console.log(ipLng); //console.log(null)
+          let latitude = ipLat;
+          let longitude = ipLng;
 
-        // //load JSON file of Native lands (territories) and display them on the map;
-        // loadAndRunNativeLand();
+          resolve({ latitude, longitude }); //doesn't resolve anything, crashes
+        }
+      );
+      // IF GEO
 
-        // //traces the path of all users, adding this last one as the most recent entry
-        // tracingWebPath(latitude, longitude);
-        resolve({ latitude, longitude });
-      }); // IF GEO
-
-      //If geolocation is not enabled by the user, make the map centered around downtown Tiohtià:ke
-    } else {
-      //If user doesn't let geolocation, set their location to downtown Tiohtià:ke (should be last signed in user?)
-      // latitude = 45.508888;
-      // longitude = -73.561668;
-
-      console.log("no geolocation");
-
-      // //Create the map using the latitude and longitude previously calculated
-      // let mapProp = {
-      //   //center on montreal
-      //   center: new google.maps.LatLng(latitude, longitude),
-      //   zoom: zoomLvl,
-      //   mapId: mapID,
-      // };
-      // map = new google.maps.Map(document.getElementById("map"), mapProp);
-      // //traces the path of all users
-      // tracingWebPath(latitude, longitude);
-    } // iF NO GEO
+      //If geolocation is not enabled by the user, use the public IP address from IP API
+    }
   });
 }
+
+// function getPublicIP() {
+//   return new Promise((resolve, reject) => {
+//     console.log(clientInfo);
+//     xhr.open("GET", endpoint, true);
+//     xhr.send(clientInfo);
+//     console.log(clientInfo);
+//     // console.log(latitude, longitude);
+//     resolve({ clientInfo });
+//   });
+// }
