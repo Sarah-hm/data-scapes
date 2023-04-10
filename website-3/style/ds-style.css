@@ -7,4 +7,14 @@
 #map {
   width: 100%;
   height: 100vh;
+  background: black;
 }
+
+.z14 {
+  transform: scale(5);
+  display: none;
+}
+/* 
+.native-land-polygons {
+  transition: all 1s;
+} */
