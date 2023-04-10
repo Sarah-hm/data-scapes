@@ -2,10 +2,12 @@ class MyMap {
   constructor(latitude, longitude) {
     // this.d3 = d3;
     this.nativeLandData = null;
+    this.nativeLandPolys = [];
     this.ipData = null;
     this.nativeLandLayer = true;
     this.datascapesPoints = [];
-
+    this.slidersMenu = document.querySelector("#sliders-container");
+    console.log(this.slidersMenu);
     this.latitude = latitude;
     this.longitude = longitude;
     this.zoomOutLvl = 3;
@@ -27,6 +29,8 @@ class MyMap {
     this.initMap();
     this.setBlackTile();
     this.zoomOut();
+
+    this.explorationState();
   }
 
   setDatascapes() {}
@@ -83,11 +87,13 @@ class MyMap {
     console.log(this.nativeLandData);
     if (this.nativeLandLayer) {
       for (let i = 0; i < this.nativeLandData.length; i++) {
-        this.nativeLandData[i].polygon.addTo(this.map);
+        let nativeLandPoly = this.nativeLandData[i].polygon.addTo(this.map);
         this.addListenersOnPolygon(
           this.nativeLandData[i].polygon,
           this.nativeLandData[i].link
         );
+        this.nativeLandPolys.push(nativeLandPoly);
+        console.log(this.nativeLandPolys);
       }
     } else {
     }
@@ -96,10 +102,12 @@ class MyMap {
   initPolyline(datascapesData) {
     this.polyline = L.polyline(datascapesData, {
       color: "white",
-      weight: "0.2",
-      zindex: 5000,
+      weight: "0.3",
+      zindex: 100,
       className: "data-scapes-polyline",
-    }).addTo(this.map);
+    })
+      .addTo(this.map)
+      .bringToFront();
     // this.conversionLatLngtoPoints(datascapesData);
   }
 
@@ -146,5 +154,9 @@ class MyMap {
         className: "native-land-polygons",
       });
     });
+  }
+
+  explorationState() {
+    this.slidersMenu.style.opacity = `1`;
   }
 }
