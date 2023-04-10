@@ -41,6 +41,21 @@ class RhizomeItem {
       shDist: 60 * this.rhizomeSVGsize,
     };
 
+    this.dsDelta = 10;
+
+    this.dsBckg = {
+      closed: {
+        lgDist: 0,
+        midDist: 0,
+        shDist: 0,
+      },
+      opened: {
+        lgDist: this.hex.lgDist - this.dsDelta,
+        midDist: this.hex.midDist - this.dsDelta * 86.57,
+        shDist: this.hex.shDist - this.dsDelta / 2,
+      },
+    };
+
     this.calculateRectSVGDist();
 
     this.calculateSVGRhizomepoints(
@@ -172,6 +187,9 @@ class RhizomeItem {
 
     const drawBackground = SVG().addTo(this.svgBackground).size("100%", "100%");
     const drawForeground = SVG().addTo(this.svgForeground).size("100%", "100%");
+    const drawDSanimation = SVG()
+      .addTo(this.svgBackground)
+      .size("100%", "100%");
 
     this.calculateSVGRhizomepoints(
       this.hex.lgDist,
@@ -189,6 +207,19 @@ class RhizomeItem {
     this.backgroundPolygon.fill("#fff");
     this.backgroundPolygon.stroke({ color: "#000", width: 2 });
 
+    //create the black background if the rhizome item is data_scapes
+    if (this.title === "data_scapes") {
+      this.calculateSVGRhizomepoints(
+        this.dsBckg.closed.lgDist,
+        this.dsBckg.closed.midDist,
+        this.dsBckg.closed.shDist
+      );
+      this.dsBackground = drawDSanimation.polygon(
+        `${this.p1.hex.x},${this.p1.hex.y} ${this.p2.hex.x},${this.p2.hex.y} ${this.p3.hex.x},${this.p3.hex.y} ${this.p4.hex.x},${this.p4.hex.y} ${this.p5.hex.x},${this.p5.hex.y} ${this.p6.hex.x},${this.p6.hex.y} ${this.p7.hex.x},${this.p7.hex.y} ${this.p8.hex.x},${this.p8.hex.y}`
+      );
+      this.dsBackground.fill("black");
+    }
+
     this.foregroundPolygon.on(`mouseover`, () => {
       if (!this.parentContainer.classList.contains("button-clicked")) {
         if (!animating) {
@@ -197,7 +228,6 @@ class RhizomeItem {
             self.oct.midDist,
             self.oct.shDist
           );
-
           animating = true;
           this.backgroundPolygon
             .animate(500)
@@ -208,6 +238,30 @@ class RhizomeItem {
               animating = false;
             });
         }
+
+        //if data_scapes, also animate the background svg:
+        if (self.title === "data_scapes") {
+          self.calculateSVGRhizomepoints(
+            self.dsBckg.opened.lgDist,
+            self.dsBckg.opened.midDist,
+            self.dsBckg.opened.shDist
+          );
+          animating = true;
+          this.dsBackground
+            .animate(500)
+            .plot(
+              `${self.p1.oct.x},${self.p1.oct.y} ${self.p2.oct.x},${self.p2.oct.y} ${self.p3.oct.x},${self.p3.oct.y} ${self.p4.oct.x},${self.p4.oct.y} ${self.p5.oct.x},${self.p5.oct.y} ${self.p6.oct.x},${self.p6.oct.y} ${self.p7.oct.x},${self.p7.oct.y} ${self.p8.oct.x},${self.p8.oct.y}`
+            )
+            .after(function () {
+              animating = false;
+            });
+        }
+      }
+
+      // If data_scapes is mouse over'd, animate the black oct from 0 to open
+      if (self.title === "data_scapes") {
+        //change to full oct shape - 10 indent;
+        console.log("we are changing data_scapes on mouse over");
       }
     });
 
@@ -242,6 +296,23 @@ class RhizomeItem {
             .after(function () {
               //making sure the hover state is removed from all rhizome items and that all shapes return to original state
               self.removeHoverStateRhizomeItems(self.div);
+            });
+        }
+
+        if (self.title === "data_scapes") {
+          self.calculateSVGRhizomepoints(
+            self.dsBckg.closed.lgDist,
+            self.dsBckg.closed.midDist,
+            self.dsBckg.closed.shDist
+          );
+          animating = true;
+          this.dsBackground
+            .animate(1000)
+            .plot(
+              `${this.p1.hex.x},${this.p1.hex.y} ${this.p2.hex.x},${this.p2.hex.y} ${this.p3.hex.x},${this.p3.hex.y} ${this.p4.hex.x},${this.p4.hex.y} ${this.p5.hex.x},${this.p5.hex.y} ${this.p6.hex.x},${this.p6.hex.y} ${this.p7.hex.x},${this.p7.hex.y} ${this.p8.hex.x},${this.p8.hex.y}`
+            )
+            .after(function () {
+              animating = false;
             });
         }
       }
