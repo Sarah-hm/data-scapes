@@ -7,9 +7,6 @@
 
 body {
   background: #000;
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
 }
 
 /* RHIZOME CLOUD PAGE */
@@ -28,14 +25,11 @@ body {
 }
 
 #rhizome-cloud-container {
-  /* position: absolute; */
-  /* background-color: cyan; */
   width: 90%;
   height: 90vh;
 }
 
 #svg-container {
-  /* background-color: red; */
   position: absolute;
   top: 0px;
   left: 0px;
@@ -59,6 +53,19 @@ body {
   transition: all 1s ease-in-out;
   transform: translatey(0px);
   animation: float 10s ease-in-out infinite;
+}
+
+.rhizome-item-focus {
+  z-index: 4000;
+  background-color: cyan;
+  /* transform-origin: center; */
+  /* position: absolute; */
+
+  width: 90%;
+  height: 90vh;
+  margin: auto;
+  padding: auto;
+  transition: all 1s;
 }
 
 .rhizome-cloud-line {
@@ -157,20 +164,6 @@ body {
 
 .grid-item-closed {
   transform: scale(1);
-}
-
-.rhizome-item-focus {
-  z-index: 4000;
-  background-color: cyan;
-  transform-origin: center;
-  /* transform: translate(-50%, -50%); */
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 90%;
-  height: 90vh;
-  /* left: 5%; */
-  /* top: 5vh; */
 }
 
 .rhizome-item-hover-screen button {

@@ -3,7 +3,11 @@
     "title": "data_scapes",
     "pullquote": "This is the pullquote for data-scapes",
     "description": [
-      "This is the first sentence of the description for data-scapes.",
+      "This is a decoy description so the code registers the item as having information and makes it bigger :)",
+      "This is the second sentence of the description for data-scapes.",
+      "This is the second sentence of the description for data-scapes.",
+      "This is the second sentence of the description for data-scapes.",
+      "This is the second sentence of the description for data-scapes.",
       "This is the second sentence of the description for data-scapes.",
       "This is the third sentence of the description for data-scapes."
     ],
@@ -22,6 +26,8 @@
     "description": [
       "This is the first sentence of the description for Data Femnism.",
       "This is the second sentence of the description for Data Femnism.",
+      "This is the third sentence of the description for Data Femnism.",
+      "This is the third sentence of the description for Data Femnism.",
       "This is the third sentence of the description for Data Femnism."
     ],
     "image": "https://example.com/image1.jpg",
