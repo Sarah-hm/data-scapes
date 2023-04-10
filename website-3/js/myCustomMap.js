@@ -84,7 +84,7 @@ class MyMap {
   }
 
   toggleNativeLandLayer() {
-    console.log(this.nativeLandData);
+    // console.log(this.nativeLandData);
     if (this.nativeLandLayer) {
       for (let i = 0; i < this.nativeLandData.length; i++) {
         let nativeLandPoly = this.nativeLandData[i].polygon.addTo(this.map);
@@ -93,7 +93,6 @@ class MyMap {
           this.nativeLandData[i].link
         );
         this.nativeLandPolys.push(nativeLandPoly);
-        console.log(this.nativeLandPolys);
       }
     } else {
     }
@@ -158,5 +157,24 @@ class MyMap {
 
   explorationState() {
     this.slidersMenu.style.opacity = `1`;
+    let self = this;
+    //make sliders affect the opacity of the selected layer on change
+    this.slidersMenu
+      .querySelector("#native-land-slider")
+      .addEventListener("change", (e) => {
+        console.log(e.target.value / 100);
+
+        let currentAlpha = e.target.value / 100;
+        for (let i = 0; i < self.nativeLandPolys.length; i++) {
+          console.log(currentAlpha);
+          self.nativeLandPolys[i].setStyle({
+            color: "white",
+            fillOpacity: currentAlpha,
+            stroke: false,
+            className: "native-land-polygons",
+          });
+        }
+        //set the polygons opacity to the value
+      });
   }
 }

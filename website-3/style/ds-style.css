@@ -37,7 +37,7 @@ input[type="range"]::-ms-track {
 
 #sliders-container {
   position: fixed;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.6);
   z-index: 1000;
   width: 80%;
   left: 10%;
@@ -50,27 +50,29 @@ input[type="range"]::-ms-track {
   transition: opacity 1s;
 }
 
-.toggleMenu {
-  position: fixed;
-  top: 3vh;
-  left: 11%;
-  height: 3%;
-  width: 3%;
-  transform-origin: center;
-  transform: rotate(180deg);
-  cursor: pointer;
-  fill: black;
-}
-
 .slider {
   display: flex;
-  width: 80%;
-  height: 50%;
+  width: 100%;
+  height: 40%;
+}
+
+.toggleMenu {
+  width: 100%;
+  display: flex;
+  padding-left: 0.5%;
+}
+
+.toggleMenu svg {
+  cursor: pointer;
+  transform-origin: center;
+  transform: rotate(180deg);
 }
 
 .slider h1 {
-  width: 20%;
-  /* font-size: 0.9rem; */
+  text-align: right;
+  width: 10%;
+  font-size: 1.5rem;
+  margin-right: 2%;
 }
 
 .slider input {
