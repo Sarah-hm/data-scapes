@@ -28,34 +28,15 @@ window.onload = (event) => {
     .then((data) => {
       //push all the data in their own object
       for (let i = 0; i < data.length; i++) {
-        let x;
-        let y;
-
-        //if i = data-scapes, hard code it in the middle of the screen
-        if (i === 0) {
-          x = 45;
-          y = 45;
-        } else {
-          x = Math.floor(Math.random() * 80);
-          y = Math.floor(Math.random() * 80);
-        }
-
-        let lgDist = 100 / 2;
-        let shDist = 60 / 2;
-
         //push the data, x, y, shDist and lgDist into a new rhizome Item
         rhizomeItems.push(
           new RhizomeItem(
-            x,
-            y,
             data[i].title,
             data[i].pullquote,
             data[i].description,
             data[i].image,
             data[i].dataAtt,
             data[i].link,
-            lgDist,
-            shDist,
             rhizomeCloud,
             getElCenter,
             redrawLines

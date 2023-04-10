@@ -1,28 +1,26 @@
 class RhizomeItem {
   constructor(
-    x,
-    y,
     title,
     pullquote,
     desc,
     img,
     dataAtt,
     links,
-    lgDist,
-    shDist,
     rhizomeCloud,
     getElCenter,
     redrawLines
   ) {
     this.name = dataAtt;
 
-    this.x = x;
-    this.y = y;
+    this.x = null;
+    this.y = null;
     this.title = title;
     this.pullquote = pullquote;
     this.description = desc;
     this.img = img;
     this.links = links;
+
+    this.parentContainer = rhizomeCloud;
 
     console.log(this.description.length);
 
@@ -30,6 +28,7 @@ class RhizomeItem {
     this.rhizomeSVGsize = 0.1 * this.description.length;
     this.divWidth = this.rhizomeSVGsize * 250;
     this.divHeight = this.divWidth;
+    this.fontSize = this.divWidth / 7.5;
 
     this.hex = {
       lgDist: 100 * this.rhizomeSVGsize,
@@ -41,11 +40,8 @@ class RhizomeItem {
       midDist: 86.57 * this.rhizomeSVGsize,
       shDist: 60 * this.rhizomeSVGsize,
     };
-    this.rect = {
-      lgDist: (rhizomeCloud.clientWidth / 2) * this.rhizomeSVGsize,
-      midDist: 86.57 * this.rhizomeSVGsize,
-      shDist: (rhizomeCloud.clientWidth / 2) * this.rhizomeSVGsize,
-    };
+
+    this.calculateRectSVGDist();
 
     this.calculateSVGRhizomepoints(
       this.hex.lgDist,
@@ -87,8 +83,6 @@ class RhizomeItem {
     //create a new div for every literature review item with a specific data attribute and random position
     this.div = document.createElement("div");
 
-    // console.log(data[i].dataAtt);
-
     // add a rhizome grid class and their specific data attribute (name)
     this.div.classList.add("rhizome-grid-item");
     this.div.style.width = `${this.divWidth}px`;
@@ -97,8 +91,13 @@ class RhizomeItem {
 
     //Set position, transition, left, top;
     this.div.style.transition = "transform 1s";
-    this.div.style.left = `${this.x}%`;
-    this.div.style.top = `${this.y}%`;
+
+    //Randomize a position for the div within the parent container
+    this.randomizeDivPos();
+
+    //set the in that position (in px)
+    this.div.style.left = `${this.x}px`;
+    this.div.style.top = `${this.y}px`;
 
     this.coverElement = document.createElement("div");
     this.coverElement.classList.add("rhizome-item-cover-element");
@@ -480,6 +479,27 @@ class RhizomeItem {
       hex: { x: -midDist, y: shDist },
       oct: { x: -lgDist, y: -shDist },
       rect: { x: -lgDist, y: -lgDist },
+    };
+  }
+
+  randomizeDivPos() {
+    let container = this.parentContainer.getBoundingClientRect();
+    this.x = Math.floor(Math.random() * container.width);
+    this.y = Math.floor(Math.random() * container.height);
+    console.log(this.title);
+    if (this.title === "data_scapes") {
+      this.x = container.width / 2;
+      this.y = container.height / 2;
+    }
+  }
+
+  calculateRectSVGDist() {
+    console.log(this.parentContainer);
+    let container = this.parentContainer.getBoundingClientRect();
+    this.rect = {
+      lgDist: container.width / 3,
+      midDist: 86.57 * this.rhizomeSVGsize,
+      shDist: container.height / 3,
     };
   }
 }
