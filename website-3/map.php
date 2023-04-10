@@ -8,15 +8,28 @@
     <!-- CSS  -->
     <link rel="stylesheet" href="style/rhizome-style.css" />
     <link rel="stylesheet" href="style/ds-style.css" />
-
     <!-- LEAFLET CSS + SCRIPT -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
      crossorigin=""/>
-     <script src="js/ds-script.js"></script>
+
+     <script type="module">
+
+      //To be added in the class I add the D3s in 
+    </script>
+
      <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
      crossorigin=""></script>
+
+     <script src="js/myCustomMap.js"></script>
+     <script type = "module"src="js/ds-script.js"></script>
+
+        <!-- css class for different zoom lvls -->  
+
+     <!-- Leaflet plug-ins -->
+    <!-- <script src = "libraries/Leaflet.Antimeridian/dist/leaflet.antimeridian-src.js" ></script> -->
+     <!-- <script scr="libraries/leaflet.zoomcss.js"></script>      inutile  -->
     <!-- Ajax : will try to make it useless :) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- Google maps -->
@@ -31,12 +44,13 @@
 
     <!-- All my lil javascript, classes, and suches -->
     <!-- <script src="js/rhizome-script.js"></script> -->
+ 
     <script src="js/Rhizome-item.js"></script>
     <script src="js/line.js"></script>
   
 </head>
 <body>
-<div id="map">
+<div id="map" >
 
 </div>
 
