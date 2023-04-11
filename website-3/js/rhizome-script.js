@@ -78,33 +78,96 @@ window.onload = (event) => {
         }
       }
       dataloaded = true;
+      checkIfDataIsLoaded();
     })
     .catch((error) => console.error(error));
 
   //check every frame if the data has been loaded
-  checkIfDataIsLoaded();
 
   function checkIfDataIsLoaded() {
+    console.log(drawNewLine);
     if (!stopDataCheck) {
-      if (dataloaded) {
-        //Gotta put a black loading screen or something and then make it disappear after everything is loaded
-        stopDataCheck = true;
+      //Gotta put a black loading screen or something and then make it disappear after everything is loaded
+      stopDataCheck = true;
 
-        // rhizomeItemsDiv = document.querySelectorAll(".rhizome-grid-item");
-        //  drawBackgroundShape(rhizomeItemsDiv);
-        drawLinks();
-      } else {
-        requestAnimationFrame(checkIfDataIsLoaded);
-      }
+      // rhizomeItemsDiv = document.querySelectorAll(".rhizome-grid-item");
+      //  drawBackgroundShape(rhizomeItemsDiv);
+      drawLinks(lines, drawNewLine);
+      addEventListeners();
+
+      requestAnimationFrame(getRhizomeItemsPos);
     }
   }
 
   //If data is loaded, draw the links between them
-  function drawLinks() {
+  function drawLinks(lines, drawNewLine) {
+    console.log(lines);
     for (let i = 0; i < lines.length; i++) {
       // console.log(lines[i]);
       lines[i].draw(drawNewLine);
     }
+  }
+
+  function addEventListeners() {
+    let rhizomeInfoBoxOpened = false;
+    document
+      .querySelector(`#rhizome-info-icon`)
+      .addEventListener("click", () => {
+        if (!rhizomeInfoBoxOpened) {
+          document.querySelector(`#rhizome-info-box`).style.top = `10vh`;
+          rhizomeInfoBoxOpened = true;
+        } else {
+          document.querySelector(`#rhizome-info-box`).style.top = `110vh`;
+          rhizomeInfoBoxOpened = false;
+        }
+      });
+
+    let self = this;
+    let goBackBtn = document.querySelector(`#ds-popup-go-back-btn`);
+    let shareIPGeolocBtn = document.querySelector("#share-public-geolocation");
+    let sharePersGeolocBtn = document.querySelector(
+      "#share-personal-geolocation"
+    );
+
+    console.log(goBackBtn);
+
+    goBackBtn.addEventListener("click", () => {
+      console.log("clickidiclack");
+      document.querySelector("#ds-info-box").style.display = "none";
+      document.querySelector("#rhizome-cloud-container").style.transform =
+        "scale(1)";
+    });
+
+    shareIPGeolocBtn.addEventListener("click", () => {
+      // set black out screen while zooming out
+      document.querySelector("#rhizome-cloud-container").style.transform =
+        "scale(7)";
+      // get ip address, send it to geolocation.txt and make it the new marker
+      // and go to map.php
+      document.querySelector("#black-out-screen").style.display = "block";
+
+      setTimeout(() => {
+        document.querySelector("#black-out-screen").style.opacity = "1";
+      }, 1000);
+
+      setTimeout(() => {
+        window.open("map.php", "_self");
+      }, 1000);
+    });
+
+    sharePersGeolocBtn.addEventListener("click", () => {
+      // set black out screen while zooming out
+      document.querySelector("#rhizome-cloud-container").style.transform =
+        "scale(7)";
+      setTimeout(() => {
+        document.querySelector("#black-out-screen").style.opacity = "1";
+      }, 1000);
+      // get geolocation, send it to geolocation.txt and make it the new marker
+      // and go to map.php
+      setTimeout(() => {
+        window.open("map.php", "_self");
+      }, 1000);
+    });
   }
 
   function redrawLines(el, x, y) {
@@ -126,4 +189,41 @@ window.onload = (event) => {
     let y = rect.top + rect.height / 2;
     return { x, y };
   }
-}; //window onload
+
+  function getRhizomeItemsPos() {
+    //console.log("go");
+    for (let i = 0; i < rhizomeItems.length; i++) {
+      checkXandYRhizomeitems(rhizomeItems[i]);
+    }
+    requestAnimationFrame(getRhizomeItemsPos);
+  }
+  // requestAnimationFrame(checkXandYRhizomeitems);
+
+  function checkXandYRhizomeitems(el) {
+    // console.log("go");
+
+    let rect = getElCenter(el.div);
+    console.log(rect);
+    let currentX = rect.x;
+    let currentY = rect.y;
+
+    let oldX = el.oldX;
+    let oldY = el.oldY;
+
+    // console.log(currentX);
+
+    if (currentX !== oldX || currentY !== oldY) {
+      console.log("this ain't the same");
+
+      el.oldX = currentX;
+      el.oldY = currentY;
+
+      //redraw lines linked
+      for (let i = 0; i < el.links.length; i++) {
+        // let newCoords = el.getElCenter(el.div);
+        //Get the center of the end object too!
+        el.redrawLines(el.div, currentX, currentY);
+      }
+    }
+  } //window onload
+};

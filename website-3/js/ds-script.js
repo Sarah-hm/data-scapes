@@ -1,4 +1,4 @@
-import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+//import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 // window.onload = (event) => {
 // url: "index.php",
@@ -102,7 +102,7 @@ fetch("getData.php")
     // console.log(line);
 
     const loadMap = new Promise((resolve, reject) => {
-      console.log(clientCoords);
+      // console.log(clientCoords);
       map = new MyMap(clientCoords.latitude, clientCoords.longitude);
       map.initPolyline(line);
     });
@@ -269,9 +269,9 @@ function addEventListeners() {
     }
   });
 
-  window.addEventListener("click", (event) => {
-    console.log(event.target);
-  });
+  // window.addEventListener("click", (event) => {
+  //   console.log(event.target);
+  // });
 
   nlInfoBoxIcon.addEventListener("click", () => {
     nlInfoBox.style.top = `30vh`;

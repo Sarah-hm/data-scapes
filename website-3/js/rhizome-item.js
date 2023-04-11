@@ -14,6 +14,8 @@ class RhizomeItem {
 
     this.x = null;
     this.y = null;
+    this.oldX = null;
+    this.oldY = null;
     this.title = title;
     this.pullquote = pullquote;
     this.description = desc;
@@ -80,6 +82,9 @@ class RhizomeItem {
     this.foregroundPolygon = null;
     this.backgroundPolygon = null;
 
+    //only for data-scapes, once it is clicked
+    this.dsPopup = null;
+
     let mouseDown = false;
     this.redrawLines = redrawLines;
     this.getElCenter = getElCenter;
@@ -90,6 +95,10 @@ class RhizomeItem {
     this.handleMouseDown();
     this.handleMouseUp();
     this.handleMouseMove();
+
+    this.tempX = null;
+    this.tempY = null;
+    this.temptRect = null;
     this.handleBtnClick();
     this.handleWindowResize();
   }
@@ -389,8 +398,13 @@ class RhizomeItem {
           newX = newX + elRect.width / 2;
           newY = newY + elRect.height / 2;
 
+          self.x = newX;
+          self.y = newY;
+
+          console.log(self.x);
+
           //redraw the rhizome lines;
-          this.redrawLines(self.div, newX, newY);
+          this.redrawLines(self.div, self.x, self.y);
         }
       }
     });
@@ -398,25 +412,29 @@ class RhizomeItem {
 
   handleBtnClick() {
     let self = this;
-    this.btnElement.addEventListener("click", () => {
+    this.btnElement.addEventListener("click", (e) => {
       //If data_scapes, send to other function to handle the animation and page change
       if (self.title === "data_scapes") {
         self.goToDatascapes();
       } else {
-        //store the current position of the item so it goes back when it closes
-        let tempRect = self.div.getBoundingClientRect();
-
-        let tempX = tempRect.x;
-        let tempY = tempRect.y;
+        console.log(self.div);
 
         //If no item is in focus, bring that item in focus
         if (!self.div.classList.contains("rhizome-item-focus")) {
+          //store the current position of the item so it goes back when it closes
+          self.tempRect = self.div.getBoundingClientRect();
+          console.log(self.tempRect);
+          self.tempX = self.tempRect.x;
+          self.tempY = self.tempRect.y;
           self.parentContainer.classList.add("button-clicked");
           console.log("button clicked");
 
           //resize the rhizome-item to be the full width of the screen and on top of everything
 
           self.div.classList.remove("rhizome-grid-item");
+          self.div.classList.remove("rhizome-grid-item-hover");
+          self.div.style = "";
+
           self.div.classList.add("rhizome-item-focus");
 
           //change the background svg to rectangle => gotta calculate the full width of the client after having resized the div
@@ -441,6 +459,7 @@ class RhizomeItem {
         else {
           self.parentContainer.classList.remove("button-clicked");
           self.div.classList.add("rhizome-grid-item");
+          self.div.style = `transition: transform 1s ease 0s; left:${self.tempX}px; top: ${self.tempY}px `;
           self.div.classList.remove("rhizome-item-focus");
 
           let allItems = document.querySelectorAll(".rhizome-grid-item");
@@ -471,8 +490,10 @@ class RhizomeItem {
 
           for (let i = 0; i < self.links.length; i++) {
             let newCoords = self.getElCenter(self.div);
+            self.x = newCoords.x;
+            self.y = newCoords.y;
             //Get the center of the end object too!
-            this.redrawLines(self.div, newCoords.x, newCoords.y);
+            this.redrawLines(self.div, self.x, self.y);
           }
         }
       }
@@ -503,8 +524,12 @@ class RhizomeItem {
       // console.log(self.links);
       for (let i = 0; i < self.links.length; i++) {
         let newCoords = self.getElCenter(self.div);
+
+        self.x = newCoords.x;
+        self.y = newCoords.y;
+
         //Get the center of the end object too!
-        this.redrawLines(self.div, newCoords.x, newCoords.y);
+        this.redrawLines(self.div, self.x, self.y);
       }
     });
   }
@@ -567,6 +592,8 @@ class RhizomeItem {
       this.x = container.width / 2;
       this.y = container.height / 2;
     }
+    this.oldX = this.x;
+    this.oldY = this.y;
   }
 
   calculateRectSVGDist() {
@@ -580,15 +607,16 @@ class RhizomeItem {
   }
 
   goToDatascapes() {
+    this.dsPopup = document.querySelector("#ds-geolocation-sharing-ack");
+    this.addListenersDSPopup();
     let fadeAnim = document.querySelector(`#black-out-screen`);
-
-    this.parentContainer.style.transform = "scale(5)";
+    this.parentContainer.style.transform = "scale(3)";
 
     console.log(fadeAnim);
     // fadeAnim.style.display = `block`;
     // fadeAnim.style.opacity = `1`;
     setTimeout(() => {
-      window.open("map.php", "_self");
+      document.querySelector("#ds-info-box").style.display = "block";
     }, 1500);
   }
 }

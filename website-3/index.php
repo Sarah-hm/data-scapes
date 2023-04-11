@@ -30,6 +30,26 @@
 </head>
 <body>
 <div id="black-out-screen"></div>
+<div class = "infoIcon" id="rhizome-info-icon"><?xml version="1.0" ?><svg id = "rhizome-info-box-icon" height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h48v48h-48z" fill="none"/><path  d="M22 34h4v-12h-4v12zm2-30c-11.05 0-20 8.95-20 20s8.95 20 20 20 20-8.95 20-20-8.95-20-20-20zm0 36c-8.82 0-16-7.18-16-16s7.18-16 16-16 16 7.18 16 16-7.18 16-16 16zm-2-22h4v-4h-4v4z"/></svg></div>
+<div class="info-box" id = "rhizome-info-box">
+    <div class="info-box-inner-container"></div>
+  </div>
+
+<div class="info-box" id = "ds-info-box">
+    <div class="info-box-inner-container">
+        <h1>Share your geolocation acknowledgement</h1>
+  <p>I'm stealing your geolocation whether or not you want it, bitchbaby.</p>
+  <div id="button-ctn">
+  <button id="ds-popup-go-back-btn">Go back</button>
+  <button id="share-public-geolocation">Share public IP geolocation</button>
+  <button id="share-personal-geolocation">Share my personal geolocation</button>
+  </div>
+    </div>
+  </div>
+
+
+
+
 <div id="rhizome-cloud-container">
       <div id="svg-container">
       </div>
