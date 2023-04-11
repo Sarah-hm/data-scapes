@@ -219,12 +219,31 @@ function fetchGeolocation() {
 
 //== event listeners about buttons and other shenanigans ===
 function addEventListeners() {
+  let layersMenuOpened = false;
+  let layersMenuIcon = document.querySelector("#layersMenuIcon");
+
+  let layerMenuCtn = document.querySelector("#sliders-container");
+  let layersCtn = document.querySelector("#sliders-subcontainer");
   let nlInfoBoxIcon = document.querySelector("#nl-info-box-icon");
   let nlInfoBox = document.querySelector("#nl-info-box");
   let mrctInfoBoxIcon = document.querySelector("#mrct-info-box-icon");
   let mrctInfoBox = document.querySelector("#mrct-info-box");
 
   let infoBoxClsBtn = document.querySelectorAll(".closeButton");
+
+  layersMenuIcon.addEventListener("click", () => {
+    if (layersMenuOpened) {
+      layersCtn.style.display = "none";
+      layerMenuCtn.style.height = "100px";
+      layersMenuIcon.style.transform = "rotate(0deg)";
+      layersMenuOpened = false;
+    } else {
+      layersCtn.style.display = "flex";
+      layerMenuCtn.style.height = "100%";
+      layersMenuIcon.style.transform = "rotate(180deg)";
+      layersMenuOpened = true;
+    }
+  });
 
   window.addEventListener("click", (event) => {
     console.log(event.target);

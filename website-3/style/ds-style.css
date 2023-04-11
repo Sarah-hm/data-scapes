@@ -51,6 +51,16 @@ input[type="range"]::-ms-track {
   transition: opacity 1s;
 }
 
+#sliders-subcontainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  transition: height 0.75s ease-in;
+}
+
 .slider {
   display: flex;
   margin: 1%;
@@ -65,11 +75,12 @@ input[type="range"]::-ms-track {
   padding-left: 0.5%;
 }
 
-.toggleMenu svg {
+#layersMenuIcon {
   cursor: pointer;
   transform-origin: center;
   transform: rotate(180deg);
   fill: white;
+  transition: transform 0.5s;
 }
 
 .slider h1 {
