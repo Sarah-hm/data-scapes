@@ -203,7 +203,11 @@ window.onload = (event) => {
     // console.log("go");
 
     let rect = getElCenter(el.div);
+    // console.log(rect);
+
+    // if (el.title === "Visual Complexity") {
     console.log(rect);
+
     let currentX = rect.x;
     let currentY = rect.y;
 
@@ -224,6 +228,7 @@ window.onload = (event) => {
         //Get the center of the end object too!
         el.redrawLines(el.div, currentX, currentY);
       }
+      // }
     }
   } //window onload
 };

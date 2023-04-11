@@ -42,7 +42,7 @@
     ],
     "image": "https://example.com/image2.jpg",
     "dataAtt": "visual-complexity",
-    "link": []
+    "link": ["data-scapes"]
   },
   {
     "title": "Cultural Analytics",
@@ -54,7 +54,7 @@
     ],
     "image": "https://example.com/image2.jpg",
     "dataAtt": "cultural-analytics",
-    "link": []
+    "link": ["data-scapes"]
   },
   {
     "title": "Non-Things",
@@ -66,6 +66,6 @@
     ],
     "image": "https://example.com/image2.jpg",
     "dataAtt": "non-things",
-    "link": []
+    "link": ["data-scapes"]
   }
 ]
