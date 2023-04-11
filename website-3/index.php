@@ -29,6 +29,7 @@
     <script src="js/ds-script.js"></script>
 </head>
 <body>
+<div id="black-out-screen"></div>
 <div id="rhizome-cloud-container">
       <div id="svg-container">
       </div>

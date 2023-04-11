@@ -7,7 +7,6 @@ class MyMap {
     this.nativeLandLayer = true;
     this.datascapesPoints = [];
     this.slidersMenu = document.querySelector("#sliders-container");
-    console.log(this.slidersMenu);
     this.latitude = latitude;
     this.longitude = longitude;
     this.zoomOutLvl = 3;
@@ -117,16 +116,16 @@ class MyMap {
     console.log(this.ipData);
   }
   // latlngtolayerpoint not a function? broken?
-  conversionLatLngtoPoints(datascapesData) {
-    console.log(datascapesData.length);
+  // conversionLatLngtoPoints(datascapesData) {
+  //   console.log(datascapesData.length);
 
-    for (let i = 0; i < datascapesData.length; i++) {
-      console.log(datascapesData[i]);
-      this.point = latLngToLayerPoint(datascapesData[i]);
-      // console.log(point);
-    }
-    //latLngToLayerPoint
-  }
+  //   for (let i = 0; i < datascapesData.length; i++) {
+  //     console.log(datascapesData[i]);
+  //     this.point = latLngToLayerPoint(datascapesData[i]);
+  //     // console.log(point);
+  //   }
+  //   //latLngToLayerPoint
+  // }
 
   zoomOut() {
     if (this.zoomLvl > this.zoomOutLvl) {

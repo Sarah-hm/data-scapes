@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DATA_SCAPES</title>
+    <link rel="icon" type="image/x-icon" href="assets/ds-logo.png">
     <!-- CSS  -->
     <link rel="stylesheet" href="style/rhizome-style.css" />
     <link rel="stylesheet" href="style/ds-style.css" />

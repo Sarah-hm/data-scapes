@@ -580,6 +580,15 @@ class RhizomeItem {
   }
 
   goToDatascapes() {
-    window.open("map.php", "_self");
+    let fadeAnim = document.querySelector(`#black-out-screen`);
+
+    this.parentContainer.style.transform = "scale(5)";
+
+    console.log(fadeAnim);
+    // fadeAnim.style.display = `block`;
+    // fadeAnim.style.opacity = `1`;
+    setTimeout(() => {
+      window.open("map.php", "_self");
+    }, 1500);
   }
 }

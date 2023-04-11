@@ -231,15 +231,30 @@ function addEventListeners() {
 
   let infoBoxClsBtn = document.querySelectorAll(".closeButton");
 
+  layerMenuCtn.style.height = `0px`;
+  layersCtn.style.height = "0%";
+  layersCtn.style.width = "0%";
+  layersMenuIcon.style.transform = "rotate(0deg)";
+
   layersMenuIcon.addEventListener("click", () => {
     if (layersMenuOpened) {
-      layersCtn.style.display = "none";
-      layerMenuCtn.style.height = "100px";
+      // layersCtn.style.display = "none";
+      layerMenuCtn.style.height = `0px`;
+      layersCtn.style.height = "0%";
+      layersCtn.style.width = "0%";
       layersMenuIcon.style.transform = "rotate(0deg)";
+
+      //Close info-box in case they are open
+      mrctInfoBox.style.top = `110vh`;
+      nlInfoBox.style.top = `110vh`;
+
+      //set menu as closed (!opened)
       layersMenuOpened = false;
     } else {
-      layersCtn.style.display = "flex";
-      layerMenuCtn.style.height = "100%";
+      // layersCtn.style.display = "block";
+      layerMenuCtn.style.height = `200px`;
+      layersCtn.style.height = "100%";
+      layersCtn.style.width = "100%";
       layersMenuIcon.style.transform = "rotate(180deg)";
       layersMenuOpened = true;
     }
