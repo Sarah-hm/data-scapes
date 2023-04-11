@@ -139,8 +139,8 @@ fetch("getData.php")
 
             let polygon = L.polygon(line, {
               zindex: 0,
-              color: "black",
-              fillOpacity: 0.1,
+              color: "white",
+              fillOpacity: 0.5,
               stroke: false,
               className: "native-land-polygons",
             });

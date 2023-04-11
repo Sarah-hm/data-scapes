@@ -38,7 +38,7 @@ input[type="range"]::-ms-track {
 #sliders-container {
   position: fixed;
   background-color: transparent;
-  border: black solid 5px;
+  border: white solid 1px;
   z-index: 1000;
   width: 80%;
   left: 10%;
@@ -121,6 +121,10 @@ input[type="range"]::-ms-thumb {
   border-radius: 50%;
   background: #ffffff;
   cursor: pointer;
+}
+
+.native-land-polygons {
+  transition: opacity 1s;
 }
 
 /* .native-land-polygons {

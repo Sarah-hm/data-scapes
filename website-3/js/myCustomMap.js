@@ -26,6 +26,9 @@ class MyMap {
       city: null,
     };
 
+    this.mrctAlpla = null;
+    this.nlAlpha = null;
+
     this.initMap();
     this.setBlackTile();
     this.zoomOut();
@@ -141,6 +144,7 @@ class MyMap {
   }
 
   addListenersOnPolygon(polygon, link) {
+    let self = this;
     polygon.on("click", function (event) {
       window.open(link, "_blank").focus();
     });
@@ -152,6 +156,14 @@ class MyMap {
         stroke: false,
         className: "native-land-polygons",
       });
+      setTimeout(() => {
+        event.target.setStyle({
+          color: "white",
+          fillOpacity: self.nlAlpha,
+          stroke: false,
+          className: "native-land-polygons",
+        });
+      }, 500);
     });
   }
 
@@ -165,12 +177,12 @@ class MyMap {
       .addEventListener("change", (e) => {
         console.log(e.target.value / 100);
 
-        let currentAlpha = e.target.value / 100;
+        this.nlAlpha = e.target.value / 100;
         for (let i = 0; i < self.nativeLandPolys.length; i++) {
-          console.log(currentAlpha);
+          // console.log(this.currentAlpha);
           self.nativeLandPolys[i].setStyle({
             color: "white",
-            fillOpacity: currentAlpha,
+            fillOpacity: this.nlAlpha,
             stroke: false,
             className: "native-land-polygons",
           });
@@ -184,8 +196,8 @@ class MyMap {
       .addEventListener("change", (e) => {
         console.log(e.target.value / 100);
 
-        let currentAlpha = e.target.value / 100;
-        self.currentTile.options.opacity = currentAlpha;
+        this.mrctAlpla = e.target.value / 100;
+        self.currentTile.options.opacity = this.mrctAlpla;
       });
   }
 }
