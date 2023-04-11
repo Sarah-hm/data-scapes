@@ -56,6 +56,7 @@ class MyMap {
   }
 
   setWorldMapTile() {
+    this.mrctAlpha = 0;
     this.currentTile = L.tileLayer(
       "https://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
       {
@@ -195,10 +196,11 @@ class MyMap {
     this.slidersMenu
       .querySelector("#mercator-slider")
       .addEventListener("change", (e) => {
+        console.log("changing");
         console.log(e.target.value / 100);
 
         this.mrctAlpla = e.target.value / 100;
-        self.currentTile.options.opacity = this.mrctAlpla;
+        self.currentTile.options.opacity = self.mrctAlpla;
       });
   }
 }
