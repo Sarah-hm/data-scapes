@@ -608,7 +608,7 @@ class RhizomeItem {
 
   goToDatascapes() {
     this.dsPopup = document.querySelector("#ds-geolocation-sharing-ack");
-    this.addListenersDSPopup();
+
     let fadeAnim = document.querySelector(`#black-out-screen`);
     this.parentContainer.style.transform = "scale(3)";
 

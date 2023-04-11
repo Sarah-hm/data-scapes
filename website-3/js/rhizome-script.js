@@ -206,7 +206,7 @@ window.onload = (event) => {
     // console.log(rect);
 
     // if (el.title === "Visual Complexity") {
-    console.log(rect);
+    // console.log(rect);
 
     let currentX = rect.x;
     let currentY = rect.y;
@@ -217,7 +217,7 @@ window.onload = (event) => {
     // console.log(currentX);
 
     if (currentX !== oldX || currentY !== oldY) {
-      console.log("this ain't the same");
+      // console.log("this ain't the same");
 
       el.oldX = currentX;
       el.oldY = currentY;

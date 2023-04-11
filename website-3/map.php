@@ -76,13 +76,11 @@
   </div>
   
   <div class="info-box" id = "nl-info-box">
-  <div class="closeButton">X</div>
     <div class="info-box-inner-container">
     </div>
   </div>
 
   <div class="info-box" id = "mrct-info-box">
-  <div class="closeButton">X</div>
     <div class="info-box-inner-container"> </div>
 </div>
 

@@ -51,7 +51,6 @@ let endpoint =
 let map;
 let nativeLandPolys = [];
 
-getIPAPIdata();
 let clientCoords = await fetchGeolocation();
 
 function getIPAPIdata() {
@@ -77,6 +76,27 @@ function getIPAPIdata() {
       }
     }
   };
+}
+
+function getIPCoords() {
+  console.log("getting IP ");
+  return new Promise((resolve, reject) => {
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        var response = JSON.parse(this.responseText);
+        console.log(response);
+        if (response.status !== "success") {
+          reject("query failed: " + response.message);
+          return;
+        } else {
+          resolve(response);
+        }
+      }
+    };
+    xhr.open("GET", endpoint, true);
+    xhr.send();
+  });
 }
 
 //Get datascapes data and create the map
@@ -170,32 +190,13 @@ function fetchGeolocation() {
           let longitude = position.coords.longitude;
           resolve({ latitude, longitude }); //resolves properly and runs if geolocation is
         },
-        function (error) {
-          let ipLat = null;
-          let ipLng = null;
+        async function (error) {
+          // console.log(error);
+          let res = await getIPCoords();
+          // console.log(res);
 
-          console.log(error);
-          let xhr = new XMLHttpRequest();
-          xhr.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-              var response = JSON.parse(this.responseText);
-              if (response.status !== "success") {
-                console.log("query failed: " + response.message);
-                return;
-              } else {
-                ipLat = response.lat;
-                ipLng = response.lon;
-                console.log(ipLat, ipLng); //console.logging the good values, after line 174
-              }
-            }
-          };
-          xhr.open("GET", endpoint, true);
-          xhr.send();
-
-          console.log(ipLng); //console.log(null)
-          let latitude = ipLat;
-          let longitude = ipLng;
-
+          let latitude = res.lat;
+          let longitude = res.lon;
           resolve({ latitude, longitude }); //doesn't resolve anything, crashes
         }
       );
@@ -205,17 +206,6 @@ function fetchGeolocation() {
     }
   });
 }
-
-// function getPublicIP() {
-//   return new Promise((resolve, reject) => {
-//     console.log(clientInfo);
-//     xhr.open("GET", endpoint, true);
-//     xhr.send(clientInfo);
-//     console.log(clientInfo);
-//     // console.log(latitude, longitude);
-//     resolve({ clientInfo });
-//   });
-// }
 
 //== event listeners about buttons and other shenanigans ===
 function addEventListeners() {
@@ -237,8 +227,6 @@ function addEventListeners() {
   let dsInfoBoxOpened = false;
   let dsInfoBoxIcon = document.querySelector("#ds-info-box-icon");
   let dsInfoBox = document.querySelector("#ds-info-box");
-
-  let infoBoxClsBtn = document.querySelectorAll(".closeButton");
 
   layerMenuCtn.style.height = `0px`;
   layersCtn.style.height = "0%";
@@ -273,16 +261,36 @@ function addEventListeners() {
   //   console.log(event.target);
   // });
 
+  //set info-box to be !opened
+  let nlInfoBoxOpened = false;
+  let mrctInfoBoxOpened = false;
+
   nlInfoBoxIcon.addEventListener("click", () => {
-    nlInfoBox.style.top = `30vh`;
-    mrctInfoBox.style.top = `110vh`;
-    dsInfoBox.style.top = `110vh`;
+    if (!nlInfoBoxOpened) {
+      nlInfoBox.style.top = `30vh`;
+      mrctInfoBox.style.top = `110vh`;
+      dsInfoBox.style.top = `110vh`;
+      nlInfoBoxOpened = true;
+    } else {
+      mrctInfoBox.style.top = `110vh`;
+      nlInfoBox.style.top = `110vh`;
+      dsInfoBox.style.top = `110vh`;
+      nlInfoBoxOpened = false;
+    }
   });
 
   mrctInfoBoxIcon.addEventListener("click", () => {
-    mrctInfoBox.style.top = `30vh`;
-    nlInfoBox.style.top = `110vh`;
-    dsInfoBox.style.top = `110vh`;
+    if (!mrctInfoBoxOpened) {
+      mrctInfoBox.style.top = `30vh`;
+      nlInfoBox.style.top = `110vh`;
+      dsInfoBox.style.top = `110vh`;
+      mrctInfoBoxOpened = true;
+    } else {
+      mrctInfoBox.style.top = `110vh`;
+      nlInfoBox.style.top = `110vh`;
+      dsInfoBox.style.top = `110vh`;
+      mrctInfoBoxOpened = false;
+    }
   });
 
   dsInfoBoxIcon.addEventListener("click", () => {
@@ -296,12 +304,5 @@ function addEventListeners() {
       dsInfoBox.style.top = `110vh`;
       dsInfoBoxOpened = false;
     }
-  });
-
-  infoBoxClsBtn.forEach((e) => {
-    e.addEventListener("click", () => {
-      mrctInfoBox.style.top = `110vh`;
-      nlInfoBox.style.top = `110vh`;
-    });
   });
 }
