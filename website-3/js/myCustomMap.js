@@ -26,8 +26,8 @@ class MyMap {
       city: null,
     };
 
-    this.mrctAlpla = null;
-    this.nlAlpha = null;
+    this.mrctAlpla = 0;
+    this.nlAlpha = 0;
 
     this.initMap();
     this.setBlackTile();
@@ -63,7 +63,7 @@ class MyMap {
         attribution:
           "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
         zIndex: -5,
-        opacity: 0.5,
+        opacity: this.mrctAlpha,
         reuseTiles: true,
         minZoom: 2,
         maxZoom: 15,
@@ -149,7 +149,7 @@ class MyMap {
       window.open(link, "_blank").focus();
     });
     polygon.on("mouseover", function (event) {
-      // console.log(event.target);
+      console.log(event.target);
       event.target.setStyle({
         color: "white",
         fillOpacity: 0.5,
@@ -157,9 +157,11 @@ class MyMap {
         className: "native-land-polygons",
       });
       setTimeout(() => {
+        console.log("hello");
+        console.log(self.nlAlpha);
         event.target.setStyle({
           color: "white",
-          fillOpacity: self.nlAlpha,
+          fillOpacity: 0,
           stroke: false,
           className: "native-land-polygons",
         });
