@@ -79,6 +79,16 @@ input[type="range"]::-ms-track {
   margin-right: 2%;
 }
 
+.slider .infoIcon svg {
+  transform: scale(0.5);
+  transition: fill 0.5s;
+}
+
+.slider .infoIcon svg:hover {
+  fill: white;
+  cursor: pointer;
+}
+
 .slider input {
   appearance: none;
   height: 2px;
@@ -123,8 +133,35 @@ input[type="range"]::-ms-thumb {
   cursor: pointer;
 }
 
-.native-land-polygons {
-  transition: opacity 1s;
+#mrct-info-box,
+#nl-info-box {
+  width: 80%;
+  height: 60vh;
+  z-index: 1000;
+  background-color: transparent;
+  border: white 1px solid;
+  position: fixed;
+  left: 10%;
+  top: 110vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: top 0.75s ease-in-out;
+}
+
+.info-box .closeButton {
+  height: 5%;
+  align-self: flex-start;
+  cursor: pointer;
+  color: white;
+  padding-left: 1%;
+}
+
+.info-box-inner-container {
+  width: 95%;
+  height: 80%;
+  background-color: rgba(255, 255, 255, 0.6);
 }
 
 /* .native-land-polygons {
@@ -149,4 +186,4 @@ input[type="range"]::-ms-thumb {
 /* 
 .native-land-polygons {
   transition: all 1s;
-} */
+} */ ;

@@ -133,9 +133,9 @@ class MyMap {
       this.zoomLvl--;
       this.map.flyTo([this.latitude, this.longitude], this.zoomLvl, {
         animate: true,
-        duration: 0.75,
+        duration: 0.5,
       });
-      setTimeout(() => this.zoomOut(), 850);
+      setTimeout(() => this.zoomOut(), 600);
     } else if (this.zoomLvl <= this.zoomOutLvl) {
       // Go to black;
       // console.log(this.polyline);

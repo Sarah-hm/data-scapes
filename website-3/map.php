@@ -59,13 +59,26 @@
   <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M23.245 4l-11.245 14.374-11.219-14.374-.781.619 12 15.381 12-15.391-.755-.609z"/></svg>
   </div>
     <div class="slider">
-      <h1>n-l</h1><input type="range" min = "0" max ="50" id = "native-land-slider">
+      <h1>n-l</h1>
+      <div class="infoIcon"><?xml version="1.0" ?><svg id = "nl-info-box-icon" height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h48v48h-48z" fill="none"/><path  d="M22 34h4v-12h-4v12zm2-30c-11.05 0-20 8.95-20 20s8.95 20 20 20 20-8.95 20-20-8.95-20-20-20zm0 36c-8.82 0-16-7.18-16-16s7.18-16 16-16 16 7.18 16 16-7.18 16-16 16zm-2-22h4v-4h-4v4z"/></svg></div>
+      <input type="range" min = "0" max ="50" id = "native-land-slider">
     </div>
     <div class="slider">
-      <h1>mrct</h1><input type="range" min = "0" max ="100" id = "mercator-slider">
+      <h1>mrct</h1>
+      <div class="infoIcon"><?xml version="1.0" ?><svg id = "mrct-info-box-icon" height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h48v48h-48z" fill="none"/><path  d="M22 34h4v-12h-4v12zm2-30c-11.05 0-20 8.95-20 20s8.95 20 20 20 20-8.95 20-20-8.95-20-20-20zm0 36c-8.82 0-16-7.18-16-16s7.18-16 16-16 16 7.18 16 16-7.18 16-16 16zm-2-22h4v-4h-4v4z"/></svg></div>
+      <input type="range" min = "0" max ="100" id = "mercator-slider">
     </div>
   </div>
-
+  <div class="info-box" id = "nl-info-box">
+  <div class="closeButton">X</div>
+    <div class="info-box-inner-container">
+    </div>
+  </div>
+  <div class="info-box" id = "mrct-info-box">
+  <div class="closeButton">X</div>
+    <div class="info-box-inner-container">
+    </div>
+  </div>
 </body>
 
 </html>

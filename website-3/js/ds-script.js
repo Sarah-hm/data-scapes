@@ -10,6 +10,8 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 // ====== COMMENTED OUT THE POSTING ========= DO NOT REMOVE
 // postData();
 
+addEventListeners();
+
 async function postData(latitude, longitude) {
   const response = await fetch(`postData.php`, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -140,7 +142,7 @@ fetch("getData.php")
             let polygon = L.polygon(line, {
               zindex: 0,
               color: "white",
-              fillOpacity: 0.5,
+              fillOpacity: 0.1,
               stroke: false,
               className: "native-land-polygons",
             });
@@ -214,3 +216,34 @@ function fetchGeolocation() {
 //     resolve({ clientInfo });
 //   });
 // }
+
+//== event listeners about buttons and other shenanigans ===
+function addEventListeners() {
+  let nlInfoBoxIcon = document.querySelector("#nl-info-box-icon");
+  let nlInfoBox = document.querySelector("#nl-info-box");
+  let mrctInfoBoxIcon = document.querySelector("#mrct-info-box-icon");
+  let mrctInfoBox = document.querySelector("#mrct-info-box");
+
+  let infoBoxClsBtn = document.querySelectorAll(".closeButton");
+
+  window.addEventListener("click", (event) => {
+    console.log(event.target);
+  });
+
+  nlInfoBoxIcon.addEventListener("click", () => {
+    nlInfoBox.style.top = `30vh`;
+    mrctInfoBox.style.top = `110vh`;
+  });
+
+  mrctInfoBoxIcon.addEventListener("click", () => {
+    mrctInfoBox.style.top = `30vh`;
+    nlInfoBox.style.top = `110vh`;
+  });
+
+  infoBoxClsBtn.forEach((e) => {
+    e.addEventListener("click", () => {
+      mrctInfoBox.style.top = `110vh`;
+      nlInfoBox.style.top = `110vh`;
+    });
+  });
+}
