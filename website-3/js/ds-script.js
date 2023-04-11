@@ -224,10 +224,19 @@ function addEventListeners() {
 
   let layerMenuCtn = document.querySelector("#sliders-container");
   let layersCtn = document.querySelector("#sliders-subcontainer");
+
+  //native-land info icon and box
   let nlInfoBoxIcon = document.querySelector("#nl-info-box-icon");
   let nlInfoBox = document.querySelector("#nl-info-box");
+
+  //mercator info icon and box
   let mrctInfoBoxIcon = document.querySelector("#mrct-info-box-icon");
   let mrctInfoBox = document.querySelector("#mrct-info-box");
+
+  //d-s info icon and box
+  let dsInfoBoxOpened = false;
+  let dsInfoBoxIcon = document.querySelector("#ds-info-box-icon");
+  let dsInfoBox = document.querySelector("#ds-info-box");
 
   let infoBoxClsBtn = document.querySelectorAll(".closeButton");
 
@@ -267,11 +276,26 @@ function addEventListeners() {
   nlInfoBoxIcon.addEventListener("click", () => {
     nlInfoBox.style.top = `30vh`;
     mrctInfoBox.style.top = `110vh`;
+    dsInfoBox.style.top = `110vh`;
   });
 
   mrctInfoBoxIcon.addEventListener("click", () => {
     mrctInfoBox.style.top = `30vh`;
     nlInfoBox.style.top = `110vh`;
+    dsInfoBox.style.top = `110vh`;
+  });
+
+  dsInfoBoxIcon.addEventListener("click", () => {
+    if (!dsInfoBoxOpened) {
+      console.log("clicked");
+      dsInfoBox.style.top = `30vh`;
+      nlInfoBox.style.top = `110vh`;
+      mrctInfoBox.style.top = `110vh`;
+      dsInfoBoxOpened = true;
+    } else {
+      dsInfoBox.style.top = `110vh`;
+      dsInfoBoxOpened = false;
+    }
   });
 
   infoBoxClsBtn.forEach((e) => {

@@ -35,6 +35,24 @@ input[type="range"]::-ms-track {
   background: black;
 }
 
+.infoIcon {
+  transform-origin: center;
+  transition: transform 0.75s;
+}
+
+.infoIcon:hover {
+  transform: scale(1.15);
+}
+
+#ds-info-Icon {
+  position: fixed;
+  z-index: 2000;
+  right: 1.5%;
+  top: 1vh;
+  fill: white;
+  cursor: pointer;
+}
+
 #sliders-container {
   position: fixed;
   background-color: transparent;
@@ -146,7 +164,8 @@ input[type="range"]::-ms-thumb {
 }
 
 #mrct-info-box,
-#nl-info-box {
+#nl-info-box,
+#ds-info-box {
   width: 80%;
   height: 60vh;
   z-index: 1000;
