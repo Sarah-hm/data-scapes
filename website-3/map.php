@@ -63,12 +63,12 @@
   </div>
   <div id="sliders-subcontainer">
   <div class="slider">
-      <h1>n-l</h1>
+      <h1>n-l layer</h1>
       <div class="infoIcon"><?xml version="1.0" ?><svg id = "nl-info-box-icon" height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h48v48h-48z" fill="none"/><path  d="M22 34h4v-12h-4v12zm2-30c-11.05 0-20 8.95-20 20s8.95 20 20 20 20-8.95 20-20-8.95-20-20-20zm0 36c-8.82 0-16-7.18-16-16s7.18-16 16-16 16 7.18 16 16-7.18 16-16 16zm-2-22h4v-4h-4v4z"/></svg></div>
       <input type="range" value = "0"min = "0" max ="50" id = "native-land-slider">
     </div>
     <div class="slider">
-      <h1>mrct</h1>
+      <h1>mrct layer</h1>
       <div class="infoIcon"><?xml version="1.0" ?><svg id = "mrct-info-box-icon" height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h48v48h-48z" fill="none"/><path  d="M22 34h4v-12h-4v12zm2-30c-11.05 0-20 8.95-20 20s8.95 20 20 20 20-8.95 20-20-8.95-20-20-20zm0 36c-8.82 0-16-7.18-16-16s7.18-16 16-16 16 7.18 16 16-7.18 16-16 16zm-2-22h4v-4h-4v4z"/></svg></div>
       <input type="range" value="0" min = "0" max ="100" id = "mercator-slider">
     </div>
@@ -77,11 +77,40 @@
   
   <div class="info-box" id = "nl-info-box">
     <div class="info-box-inner-container">
+      <h1>native-land.ca</h1>
+      <p><b>Each shapes situated on the map is a historically native land.</b> Clicking on any of them will send you to its landing page on <a href="https://native-land.ca/">Native-land.ca</a> for you to learn more about that land and its nation. A lot of shapes overlap in time and space, and showcase a another way of approaching a map we are used to seeing arbitrarily cut differently.</p>
+      <p>What stories do does shapes tell about the data that's visualized with them?</p>
+      <p> 
+      The shapes and database they come from are created by <a href="https://native-land.ca/">Native-land.ca</a>, an open-source API. predominantly accounting for nations, treaties and languages in the Americas and currently Anglo-Saxon countries.
+      </p>
+      <p>
+      In their own words, 
+      </p>
+      <blockquote cite = "https://native-land.ca/">
+      "This map does not represent or intend to represent official or legal boundaries of any Indigenous nations. To learn about definitive boundaries, contact the nations in question. Also, this map is not perfect -- it is a work in progress with tons of contributions from the community."
+      </blockquote>
     </div>
   </div>
 
   <div class="info-box" id = "mrct-info-box">
-    <div class="info-box-inner-container"> </div>
+    <div class="info-box-inner-container"> 
+    <h1>The Mercator Map Projection</h1>
+    <h3>The orange peel problem</h3>
+    <p>Geographers have commonly called the issue of having to place a 3D shape (the globe) onto a 2D medium (a flat map) the 'orange peel problem'. Just like a peel, the surface of the earth will have to be split, torn, and distorted in order to fit the desired flat surface of a paper or a screen.</p>
+    <p>
+    Because of this problem, <b>all maps have been created with some level of distortion</b>, while considering which parts were most important to preserve to scale. 
+    </p>
+    <h3>the Mercator projection</h3>
+    <p>
+      <b>The Mercator projection is the most used flat map in the global North.</b> Created in 1569, it places the Greenwich line (UK) at the center of the world. The readability of the map popularized it as the map of choice for water navigation back in the day. While the map stayed faithful to local directions, the lands were increasingly distorted and bigger-than-nature as you moved from the Equateur. This means that continents like Africa, Asia and Central America stay true to size, <b>while Europe, Canada, Russia and Australia become disproportionately enlarged</b>. 
+    </p>
+    <p>
+    Though its general usage has evolved, the Mercator projection has remained our map of choice for most mainstream visualization of mapped information. 
+    </p>
+    <p>
+    <b>What kind of story does the Mercator projection tell</b>about the data that is visualized on it?
+    </p>
+    </div>
 </div>
 
     <div class="info-box" id = "ds-info-box">

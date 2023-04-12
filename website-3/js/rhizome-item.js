@@ -24,10 +24,13 @@ class RhizomeItem {
 
     //for when item is focused
     this.descriptionOpened = false;
+    this.descParentContainer = null;
     this.descriptionCtn = null;
     this.descriptionTitle = null;
     this.descriptionSubtitle = null;
-    this.descriptionDesc = [];
+    this.descriptionDesc = null;
+    this.descriptionParas = [];
+    this.descCloseBtn = null;
 
     this.parentContainer = rhizomeCloud;
 
@@ -445,22 +448,25 @@ class RhizomeItem {
           self.div.classList.add("rhizome-item-focus");
 
           //change the background svg to rectangle => gotta calculate the full width of the client after having resized the div
-          this.calculateSVGRhizomepoints(
-            this.rect.lgDist,
-            this.rect.midDist,
-            this.rect.shDist
+          self.calculateSVGRhizomepoints(
+            self.rect.lgDist,
+            self.rect.midDist,
+            self.rect.shDist
           );
 
+          self.backgroundPolygon.fill("transparent");
+          self.backgroundPolygon.stroke({ color: "#000", width: 0 });
+
           //make polygon bigger
-          this.backgroundPolygon
+          self.backgroundPolygon
             .animate(500)
             .plot(
               `${self.p1.rect.x},${self.p1.rect.y} ${self.p2.rect.x},${self.p2.rect.y} ${self.p3.rect.x},${self.p3.rect.y} ${self.p4.rect.x},${self.p4.rect.y} ${self.p5.rect.x},${self.p5.rect.y} ${self.p6.rect.x},${self.p6.rect.y} ${self.p7.rect.x},${self.p7.rect.y} ${self.p8.rect.x},${self.p8.rect.y}`
             )
             .after(function () {
               //Create the description div
-              // self.toggleDescription();
-              // self.divHoverScreen.style.opacity = `0`;
+              self.toggleDescription();
+              self.divHoverScreen.style.display = `none`;
             });
         }
         //if button is clicked and an item is in focus, close that item (and make it go back to its original position)
@@ -471,14 +477,18 @@ class RhizomeItem {
           self.div.classList.remove("rhizome-item-focus");
 
           //change the background svg to rectangle => gotta calculate the full width of the client after having resized the div
-          this.calculateSVGRhizomepoints(
-            this.hex.lgDist,
-            this.hex.midDist,
-            this.hex.shDist
+          self.calculateSVGRhizomepoints(
+            self.hex.lgDist,
+            self.hex.midDist,
+            self.hex.shDist
           );
           console.log("hello");
+
+          self.backgroundPolygon.fill("#fff");
+          self.backgroundPolygon.stroke({ color: "#000", width: 2 });
+
           //make polygon bigger
-          this.backgroundPolygon
+          self.backgroundPolygon
             .animate(500)
             .plot(
               `${self.p1.hex.x},${self.p1.hex.y} ${self.p2.hex.x},${self.p2.hex.y} ${self.p3.hex.x},${self.p3.hex.y} ${self.p4.hex.x},${self.p4.hex.y} ${self.p5.hex.x},${self.p5.hex.y} ${self.p6.hex.x},${self.p6.hex.y} ${self.p7.hex.x},${self.p7.hex.y} ${self.p8.hex.x},${self.p8.hex.y}`
@@ -609,10 +619,81 @@ class RhizomeItem {
   }
 
   toggleDescription() {
-    if (descriptionOpened) {
-      console.log("description is opened");
+    this.descParentContainer = document.querySelector(".rhizome-item-focus");
+    console.log(this.descParentContainer);
+
+    if (this.descriptionOpened) {
+      console.log("description will closed");
+
+      //set the description to close
+      this.descriptionOpened = false;
     } else {
-      console.log("description is closed");
+      console.log("description will opened");
+      //create a container div
+      this.descriptionCtn = document.createElement("div");
+      // this.descriptionCtn.classList.add("rhizome-item-focus");
+
+      this.descParentContainer.appendChild(this.descriptionCtn);
+      //append element to parent container (item focus)
+
+      //create a title element
+      this.descriptionTitle = document.createElement("h1");
+      //create description paragraphs
+      this.descriptionDesc = document.createElement("p");
+      //create a close button
+      this.descCloseBtn = document.createElement("button");
+      //create links button?
+
+      //set the description to open;
+      this.descriptionOpened = true;
+
+      this.addClosingFocusEventListener();
+    }
+  }
+
+  addClosingFocusEventListener(el) {
+    let self = this;
+    let currentFocus = document.querySelector(".rhizome-item-focus");
+
+    if (this.descriptionOpened) {
+      currentFocus.addEventListener("click", () => {
+        self.parentContainer.classList.remove("button-clicked");
+        self.div.classList.add("rhizome-grid-item");
+        self.div.style = `transition: transform 1s ease 0s; left:${self.tempX}px; top: ${self.tempY}px `;
+        self.div.classList.remove("rhizome-item-focus");
+
+        //change the background svg to rectangle => gotta calculate the full width of the client after having resized the div
+        self.calculateSVGRhizomepoints(
+          self.hex.lgDist,
+          self.hex.midDist,
+          self.hex.shDist
+        );
+        console.log("hello");
+
+        self.backgroundPolygon.fill("#fff");
+        self.backgroundPolygon.stroke({ color: "#000", width: 2 });
+
+        //make polygon bigger
+        self.backgroundPolygon
+          .animate(500)
+          .plot(
+            `${self.p1.hex.x},${self.p1.hex.y} ${self.p2.hex.x},${self.p2.hex.y} ${self.p3.hex.x},${self.p3.hex.y} ${self.p4.hex.x},${self.p4.hex.y} ${self.p5.hex.x},${self.p5.hex.y} ${self.p6.hex.x},${self.p6.hex.y} ${self.p7.hex.x},${self.p7.hex.y} ${self.p8.hex.x},${self.p8.hex.y}`
+          )
+          .after(function () {
+            //making sure the hover state is removed from all rhizome items and that all shapes return to original state
+            self.removeHoverStateRhizomeItems(self.div);
+          });
+
+        //recalculate lines
+
+        for (let i = 0; i < self.links.length; i++) {
+          let newCoords = self.getElCenter(self.div);
+          self.x = newCoords.x;
+          self.y = newCoords.y;
+          //Get the center of the end object too!
+          this.redrawLines(self.div, self.x, self.y);
+        }
+      });
     }
   }
 

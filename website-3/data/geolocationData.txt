@@ -152,3 +152,6 @@
 {"latitude":"45.495732","longitude":"-73.5777838"}
 {"latitude":"45.5081984","longitude":"-73.56416"}
 {"latitude":"45.5114279","longitude":"-73.5523034"}
+{"latitude":"45.5027209","longitude":"-73.562579"}
+{"latitude":"45.5027168","longitude":"-73.562665"}
+{"latitude":"45.5026959","longitude":"-73.5626032"}

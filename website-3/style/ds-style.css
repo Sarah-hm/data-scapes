@@ -179,6 +179,35 @@ input[type="range"]::-ms-thumb {
   align-items: center;
   flex-direction: column;
   transition: top 0.75s ease-in-out;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.info-box p span {
+  font-weight: bold;
+  background-color: black;
+  color: white;
+  padding-left: 0.4%;
+  padding-right: 0.4%;
+}
+
+.info-box p a {
+  font-weight: bold;
+  background-color: black;
+  border: white 1px solid;
+  color: white;
+  padding-left: 0.4%;
+  padding-right: 0.4%;
+  transition: all 0.75s;
+}
+
+.info-box p a:hover {
+  background-color: white;
+  color: black;
+}
+
+p {
+  padding-top: 0.5%;
 }
 
 .info-box .closeButton {
@@ -190,6 +219,8 @@ input[type="range"]::-ms-thumb {
 }
 
 .info-box-inner-container {
+  padding-left: 5%;
+  padding-right: 5%;
   width: 95%;
   height: 80%;
   background-color: rgba(255, 255, 255, 0.7);

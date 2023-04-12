@@ -19,6 +19,8 @@ input[type="reset"] {
 
 body {
   background: #000;
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* RHIZOME CLOUD PAGE */
@@ -69,14 +71,15 @@ body {
 }
 
 .rhizome-item-focus {
-  z-index: 4000;
-  /* background-color: cyan; */
+  z-index: 5000;
+  background-color: white;
+  border: black solid 3px;
   position: absolute;
   top: 5%;
-  left: 30%;
+  left: 25%;
   /* transform: translatey(-1000px); */
-  width: 40%;
-  height: 90vh;
+  width: 50%;
+  height: 80vh;
   margin: auto;
   padding-left: 5%;
   padding-right: 5%;
@@ -285,7 +288,8 @@ body {
 .info-box-inner-container {
   width: 95%;
   height: 90%;
-  /* margin: auto; */
+  padding-left: 5%;
+  padding-right: 5%;
   background-color: rgba(255, 255, 255, 0.7);
 }
 

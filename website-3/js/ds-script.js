@@ -293,8 +293,6 @@ function addEventListeners() {
       mrctInfoBoxOpened = true;
     } else {
       mrctInfoBox.style.top = `110vh`;
-      nlInfoBox.style.top = `110vh`;
-      dsInfoBox.style.top = `110vh`;
       mrctInfoBoxOpened = false;
     }
   });
