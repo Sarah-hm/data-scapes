@@ -228,6 +228,9 @@ function addEventListeners() {
   let dsInfoBoxIcon = document.querySelector("#ds-info-box-icon");
   let dsInfoBox = document.querySelector("#ds-info-box");
 
+  //Go back button
+  let goBackToRhizomeBtn = document.querySelector("#goBackToRhizomeButton");
+
   layerMenuCtn.style.height = `0px`;
   layersCtn.style.height = "0%";
   layersCtn.style.width = "0%";
@@ -304,5 +307,9 @@ function addEventListeners() {
       dsInfoBox.style.top = `110vh`;
       dsInfoBoxOpened = false;
     }
+  });
+
+  goBackToRhizomeBtn.addEventListener("click", () => {
+    window.open("index.php", "_self");
   });
 }
