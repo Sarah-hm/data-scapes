@@ -15,7 +15,8 @@
       "data-feminism",
       "visual-complexity",
       "cultural-analytics",
-      "non-things"
+      "non-things",
+      "psychic-numbing"
     ]
   },
   {
@@ -36,9 +37,9 @@
     "title": "Visual Complexity",
     "pullquote": "This is the pullquote for Visual Complexity",
     "description": [
-      "This is the first sentence of the description for Visual Complexity.",
-      "This is the second sentence of the description for Visual Complexity.",
-      "This is the third sentence of the description for Visual Complexity."
+      "Visual Complexity's creator Manuel Lima describes the project as a 'map of maps' (Lima 16); a repository of several thousand data visualization projects, specifically networks. In the book of the same name, Lima explains how innovative data visualization methods embed science, art, and design to create an interconnected, free and decentralized way of approaching information. He explains that if one understands science as the discovery of new knowledge, design as helping users see the pattern in a 'utilitarian' way, and art as the aesthetically pleasing 'product of nonutilitarian activity' (Lima 12), then data visualization can be understood as the overlap of all three of them. ",
+      "Indeed, the visualization of new information and knowledge should not only be useful, it should also have an affect on its viewer; the aesthetics of visual representation of novel information are important because it will impact its useful interpretation from the person who consumes it. In other words, the way you see, perceive and are affected by visual representation will impact how your interprete those information.",
+      "Lima also explores the living nature of the web, more specifically the ''interconnected information organism of free expression'' (Lima 56) that is the ever-changing nature of the Internet. He explains that, helped by the ''social architecture'' (Lima 61) of the Internet, we are moving from a documentcentric web to a ''pulsating ecosystem of data'' and a ''truly ubiquitous datasphere'' (Lima 57). Indeed, the hyperlink foundations of the web creates an environment where hierarchy can be reshaped into a horizontal rather than vertical mode of propagation. This decentralized information structure, Lima explains, is as much an aesthetic choice as an ideology. While the historical graph techniques ''fit the scientific paradigm of reduction (breaking nature down into the simplest possible elements…), our current interest lies in understanding the phenomena of complexity'' (Lima 12)."
     ],
     "image": "https://example.com/image2.jpg",
     "dataAtt": "visual-complexity",
@@ -60,12 +61,26 @@
     "title": "Non-Things",
     "pullquote": "This is the pullquote for Visual Complexity",
     "description": [
-      "This is the first sentence of the description for Visual Complexity.",
-      "This is the second sentence of the description for Visual Complexity.",
-      "This is the third sentence of the description for Visual Complexity."
+      "Byung-Chul Han is a Korean-born German teacher and prolific author. In his book non-things, he focuses on information culture, our different usages of technologies, and its impacts on our society as well as the machines we design to help us. .",
+      "In his books, he defines non-things as information things, objects created from processed data through machine labour, as opposed to real things made from human hands and intent. He explains that we see machines as 'workers' so humans can become 'players', creating an ever-growing non-things production loop. ",
+      "He further argues that machines cannot be emotionally affected like humans are, or even 'know' the way humans 'know'. Through many examples, he tries to clarify how machines will never be able to completely replace humans; though we have become increasingly reliant on them to support our day-to-day life.",
+      "This has made me wondered how we often antagonize the machine as being a means of replacement alone, failing to conceive of the non-human with non-anthropocentric needs and potentials. In other words, we would not ask a shark to run a marathon. Why then ask a machine (non-human) to do human work, the way a human would?",
+      "What would happen if we were to rethink our relationship to machines and what we can achieve if we work collaboratively? "
     ],
     "image": "https://example.com/image2.jpg",
     "dataAtt": "non-things",
-    "link": ["data-scapes"]
+    "link": ["data-scapes", "cultural-analytics"]
+  },
+  {
+    "title": "psychic-numbing",
+    "pullquote": "This is the pullquote for Psychic Numbing",
+    "description": [
+      "Paul Slovic first coined the term ‘psychic numbing’ in his article ‘psychic numbing and genocide’ written in 2007 (Slovic). The term refers to the psychological phenomenon in which individuals become less able to feel empathy or concern for others as the number of individuals affected by a tragedy or crisis increases. Slovic’s theory is based on the idea that our brains have a limited capacity for processing information and emotions, and when confronted with a large number of victims, we become overwhelmed and are unable to fully engage with the situation (Slovic 2007). This can result in a lack of action or support for those in need, even in the face of overwhelming evidence of suffering.",
+      "To counter this consequential apathy of overwhelming realities, Slovic argues that “a single individual, unlike a group, is viewed as a psychologically coherent unit” (Slovic 2007). Of course, Slovic’s theory is based on human tragedy, and so most of his examples explore human contexts. His theory is however applicable in many more spheres, including that of big data and screen-based information.",
+      "The general public's literacy on information culture and data is scarce, as the overwhelming quantity of complex information can create an intimidating environment to start exploring. Making data a more situated, bite-sized and personally curated explorative endeavor aims to foster learning and an individual critical thinking."
+    ],
+    "image": "https://example.com/image2.jpg",
+    "dataAtt": "psychic-numbing",
+    "link": ["data-feminism", "data-scapes"]
   }
 ]
