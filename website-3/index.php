@@ -37,7 +37,7 @@
     <h4>is an exploration of new methodologies of knowledge sharing and information propagation</h4>
 
     <p>The cloud of nodes that populate data-scapes' landing page are the main inspirations behind the project. They are authors, books, chapters, events or other projects that have fed into what data-scapes is. Not only that, The strings linking some nodes are conceptual bridges between sources; they visualize an overlap of some kind between the two.</p>
-    <p>Though diverse, these sources often require levels of attention and specialization </p>
+    <!-- <p>Though diverse, these sources often require levels of attention and specialization </p> -->
 
     </div>
   </div>

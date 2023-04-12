@@ -114,7 +114,13 @@
 </div>
 
     <div class="info-box" id = "ds-info-box">
-    <div class="info-box-inner-container"></div>
+    <div class="info-box-inner-container">
+      <h1>data_scapes</h1>
+    <h4>data-scapes explores the different stories our data say about us; the ones that are collected and the information that can be inferred from the former.</h4>
+  <p>When continuing to data-scapes,<span >you will be asked to share your geolocation.</span>  <b>If you accept,</b> information on your latitude and longitude coordinates will be entered in data-scapes' database and impact its visual output. <b>If you decline,</b> public information about your internet provider's closest headquarter's geolocation will be entered instead of your own.</p>
+  <p>Further <span>publically found information based on those two data points will be inferred</span>, such as the weather, the timezone, or your streetname.</p>
+  <p><span>Other websites are aware of these information, and so much more. </span> <b> Do you want to see how little you know they know?</b> </p>
+    </div>
   </div>
   
 </body>

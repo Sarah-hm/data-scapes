@@ -23,11 +23,10 @@
     "title": "Data Feminism",
     "pullquote": "This is the pullquote for Data Femnism",
     "description": [
-      "This is the first sentence of the description for Data Femnism.",
-      "This is the second sentence of the description for Data Femnism.",
-      "This is the first sentence of the description for Data Femnism.",
-      "This is the third sentence of the description for Data Femnism.",
-      "This is the third sentence of the description for Data Femnism."
+      "In their article ‘On Rational, Scientific, Objective Viewpoints from Mythical, Imaginary, Impossible Standpoints’ (2020), Catherine D’Ignazio and Lauren Klein argue in favor of emotion-driven data visualization, as opposed to the conventionally accepted dry and cold data visualization that is often prioritized in research and dissemination methods. Pulling from Donna Haraway’s theories, the authors explain that seemingly ‘neutral’ data visualization “masks the people, the methods, the questions, and the messiness that lies behind clean lines and geometric shapes” (D’Ignazio and Klein 2020, 76). ",
+      "This means that the act of over-simplifying data into ‘neutral’ sets of information de-contextualizes them to the point where they are no longer representative of the original situation’s complexities. ",
+      "The authors go on to argue that “even plain, “unemotional” visualizations are not neutral, but are actually extremely persuasive” (D’Ignazio and Klein 2020, 82) in making people think they are neutral. In this context, they wonder how ‘neutral’ information impacts the concept of neutrality, explaining that “the belief that universal objectivity should be our goal is harmful because it’s always only partially put into practice” (D’Ignazio and Klein 2020, 83). ",
+      "Instead, the authors vouch for emotion-driven data visualization, as “deliberately embracing emotions […] enables a valuable form of data maximalism [while] creating novel presentation forms help people grasp and learn more from data-driven arguments (D’Ignazio and Klein 2020, 87-88). This means that data visualization that create affect may be better in triggering reaction and action from a greater population than plain and dry data visualizations methods. "
     ],
     "image": "https://example.com/image1.jpg",
     "dataAtt": "data-feminism",
@@ -49,9 +48,10 @@
     "title": "Cultural Analytics",
     "pullquote": "This is the pullquote for Visual Complexity",
     "description": [
-      "This is the first sentence of the description for Visual Complexity.",
-      "This is the second sentence of the description for Visual Complexity.",
-      "This is the third sentence of the description for Visual Complexity."
+      "Lev Manovich is a prolific author on the matter of new media and digital culture. He has also been focusing a lot of his practice and teachings around topics of database, especially within design and the arts. References to his texts were therefore good first steps into the conceptualization of the Genevieve corpus, specifically ''database as a symbolic form'' written in 1999. In his essay, he covers important themes and biases of databases, notably in opposition with narrative-based information structures, but also on the technicalities of building an efficient dynamic data structure. ",
+      "Manovich focuses his text on the tension between narrative and database, which we will come back to later. While I disagree on his opinions that a relationship between the two is not viable, the ways he approaches and explain both remain relevant. ",
+      "He argues that both data structures and algorithms are the main forces at play in the dynamics of a database.",
+      "Moreover, he explains that while the data structure could seem as the passive force and the algorithm as its active counterpart, they are in fact both active, as ''data does not just exist, it has to be generated [or] be digitized from already existing media'' (Manovich 6, 1999). "
     ],
     "image": "https://example.com/image2.jpg",
     "dataAtt": "cultural-analytics",
