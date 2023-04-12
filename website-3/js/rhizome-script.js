@@ -28,6 +28,7 @@ window.onload = (event) => {
     .then((data) => {
       //push all the data in their own object
       for (let i = 0; i < data.length; i++) {
+        // console.log(data[i].description);
         //push the data, x, y, shDist and lgDist into a new rhizome Item
         rhizomeItems.push(
           new RhizomeItem(

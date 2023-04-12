@@ -465,49 +465,45 @@ class RhizomeItem {
             )
             .after(function () {
               //Create the description div
+              self.descriptionOpened = true;
               self.toggleDescription();
               self.divHoverScreen.style.display = `none`;
             });
         }
         //if button is clicked and an item is in focus, close that item (and make it go back to its original position)
-        else {
-          self.parentContainer.classList.remove("button-clicked");
-          self.div.classList.add("rhizome-grid-item");
-          self.div.style = `transition: transform 1s ease 0s; left:${self.tempX}px; top: ${self.tempY}px `;
-          self.div.classList.remove("rhizome-item-focus");
-
-          //change the background svg to rectangle => gotta calculate the full width of the client after having resized the div
-          self.calculateSVGRhizomepoints(
-            self.hex.lgDist,
-            self.hex.midDist,
-            self.hex.shDist
-          );
-          console.log("hello");
-
-          self.backgroundPolygon.fill("#fff");
-          self.backgroundPolygon.stroke({ color: "#000", width: 2 });
-
-          //make polygon bigger
-          self.backgroundPolygon
-            .animate(500)
-            .plot(
-              `${self.p1.hex.x},${self.p1.hex.y} ${self.p2.hex.x},${self.p2.hex.y} ${self.p3.hex.x},${self.p3.hex.y} ${self.p4.hex.x},${self.p4.hex.y} ${self.p5.hex.x},${self.p5.hex.y} ${self.p6.hex.x},${self.p6.hex.y} ${self.p7.hex.x},${self.p7.hex.y} ${self.p8.hex.x},${self.p8.hex.y}`
-            )
-            .after(function () {
-              //making sure the hover state is removed from all rhizome items and that all shapes return to original state
-              self.removeHoverStateRhizomeItems(self.div);
-            });
-
-          //recalculate lines
-
-          for (let i = 0; i < self.links.length; i++) {
-            let newCoords = self.getElCenter(self.div);
-            self.x = newCoords.x;
-            self.y = newCoords.y;
-            //Get the center of the end object too!
-            this.redrawLines(self.div, self.x, self.y);
-          }
-        }
+        // else {
+        //   // self.parentContainer.classList.remove("button-clicked");
+        //   // self.div.classList.add("rhizome-grid-item");
+        //   // self.div.style = `transition: transform 1s ease 0s; left:${self.tempX}px; top: ${self.tempY}px `;
+        //   // self.div.classList.remove("rhizome-item-focus");
+        //   // //change the background svg to rectangle => gotta calculate the full width of the client after having resized the div
+        //   // self.calculateSVGRhizomepoints(
+        //   //   self.hex.lgDist,
+        //   //   self.hex.midDist,
+        //   //   self.hex.shDist
+        //   // );
+        //   // console.log("hello");
+        //   // self.backgroundPolygon.fill("#fff");
+        //   // self.backgroundPolygon.stroke({ color: "#000", width: 2 });
+        //   // //make polygon bigger
+        //   // self.backgroundPolygon
+        //   //   .animate(500)
+        //   //   .plot(
+        //   //     `${self.p1.hex.x},${self.p1.hex.y} ${self.p2.hex.x},${self.p2.hex.y} ${self.p3.hex.x},${self.p3.hex.y} ${self.p4.hex.x},${self.p4.hex.y} ${self.p5.hex.x},${self.p5.hex.y} ${self.p6.hex.x},${self.p6.hex.y} ${self.p7.hex.x},${self.p7.hex.y} ${self.p8.hex.x},${self.p8.hex.y}`
+        //   //   )
+        //   //   .after(function () {
+        //   //     //making sure the hover state is removed from all rhizome items and that all shapes return to original state
+        //   //     self.removeHoverStateRhizomeItems(self.div);
+        //   //   });
+        //   // //recalculate lines
+        //   // for (let i = 0; i < self.links.length; i++) {
+        //   //   let newCoords = self.getElCenter(self.div);
+        //   //   self.x = newCoords.x;
+        //   //   self.y = newCoords.y;
+        //   //   //Get the center of the end object too!
+        //   //   this.redrawLines(self.div, self.x, self.y);
+        //   // }
+        // }
       }
     });
   }
@@ -609,7 +605,7 @@ class RhizomeItem {
   }
 
   calculateRectSVGDist() {
-    console.log(this.parentContainer);
+    // console.log(this.parentContainer);
     let container = this.parentContainer.getBoundingClientRect();
     this.rect = {
       lgDist: container.width / 5,
@@ -619,44 +615,63 @@ class RhizomeItem {
   }
 
   toggleDescription() {
-    this.descParentContainer = document.querySelector(".rhizome-item-focus");
-    console.log(this.descParentContainer);
+    // this.descParentContainer = document.querySelector(".rhizome-item-focus");
+    // console.log(this.descParentContainer);
 
+    console.log(this.div);
     if (this.descriptionOpened) {
-      console.log("description will closed");
+      console.log("description will open");
 
-      //set the description to close
-      this.descriptionOpened = false;
-    } else {
-      console.log("description will opened");
       //create a container div
       this.descriptionCtn = document.createElement("div");
-      // this.descriptionCtn.classList.add("rhizome-item-focus");
-
-      this.descParentContainer.appendChild(this.descriptionCtn);
+      this.descriptionCtn.classList.add("rhizome-description-container");
+      this.div.appendChild(this.descriptionCtn);
       //append element to parent container (item focus)
 
       //create a title element
       this.descriptionTitle = document.createElement("h1");
+      this.descriptionCtn.appendChild(this.descriptionTitle);
+      this.descriptionTitle.innerText = `${this.title}`;
       //create description paragraphs
-      this.descriptionDesc = document.createElement("p");
+      for (let i = 0; i < this.description.length; i++) {
+        this.newPara = document.createElement("p");
+        console.log(this.description[i]);
+        this.descriptionCtn.appendChild(this.newPara);
+        this.newPara.innerText = `${this.description[i]}`;
+        this.newPara.classList.add("rhizome-item-paragraph");
+      }
+      // this.descriptionDesc = document.createElement("p");
       //create a close button
-      this.descCloseBtn = document.createElement("button");
+      // this.descCloseBtn = document.createElement("button");
       //create links button?
 
       //set the description to open;
       this.descriptionOpened = true;
+      console.log(document.querySelector(".rhizome-item-focus"));
 
       this.addClosingFocusEventListener();
+      //set the description to open
+      this.descriptionOpened = true;
+    } else {
+      console.log("description will close");
+      //set the description to close
+      this.descriptionOpened = false;
     }
   }
 
-  addClosingFocusEventListener(el) {
+  addClosingFocusEventListener() {
     let self = this;
     let currentFocus = document.querySelector(".rhizome-item-focus");
-
+    console.log(currentFocus);
     if (this.descriptionOpened) {
       currentFocus.addEventListener("click", () => {
+        //remove the entire description container
+        this.descriptionTitle.remove();
+        this.descriptionCtn.remove();
+        document.querySelectorAll(`.rhizome-item-paragraph`).forEach((e) => {
+          e.remove();
+        });
+
         self.parentContainer.classList.remove("button-clicked");
         self.div.classList.add("rhizome-grid-item");
         self.div.style = `transition: transform 1s ease 0s; left:${self.tempX}px; top: ${self.tempY}px `;
