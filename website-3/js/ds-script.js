@@ -52,6 +52,8 @@ let map;
 let nativeLandPolys = [];
 
 let clientCoords = await fetchGeolocation();
+//post the client's coords (personal or wifi provider's) to the data-scapes' database
+postData(clientCoords.latitude, clientCoords.longitude);
 
 function getIPAPIdata() {
   let xhr = new XMLHttpRequest();
@@ -181,22 +183,27 @@ fetch("getData.php")
 function fetchGeolocation() {
   return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
-      console.log("we're getting the geolocation");
+      console.log("getting the geolocation");
       //If user enabled geolocation, set lat/long to their current position, send data to database, and send to tracing Path function
       navigator.geolocation.getCurrentPosition(
         function (position) {
-          console.log("we're allowing the geolocation");
+          console.log("allowing the geolocation");
+          //set the latitude and longitude as the response's lat, long
           let latitude = position.coords.latitude;
           let longitude = position.coords.longitude;
+          //return the latitude and longitude
+
           resolve({ latitude, longitude }); //resolves properly and runs if geolocation is
         },
         async function (error) {
           // console.log(error);
           let res = await getIPCoords();
-          // console.log(res);
-
+          console.log("getting provider's geolocation");
+          //set the latitude and longitude as the response's lat, long
           let latitude = res.lat;
           let longitude = res.lon;
+          //return the latitude and longitude
+
           resolve({ latitude, longitude }); //doesn't resolve anything, crashes
         }
       );
@@ -259,10 +266,6 @@ function addEventListeners() {
       layersMenuOpened = true;
     }
   });
-
-  // window.addEventListener("click", (event) => {
-  //   console.log(event.target);
-  // });
 
   //set info-box to be !opened
   let nlInfoBoxOpened = false;

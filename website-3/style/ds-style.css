@@ -207,15 +207,15 @@ input[type="range"]::-ms-thumb {
   left: 2%;
   width: 10%;
   min-height: 5vh;
-  background-color: white;
+  background-color: black;
   border: white solid 1px;
-  color: black;
+  color: white;
   transition: all 0.75s;
 }
 
 #goBackToRhizomeButton:hover {
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
 }
 
 #ds-info-box {

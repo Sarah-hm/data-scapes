@@ -37,12 +37,15 @@
 
 <div class="info-box" id = "ds-info-box">
     <div class="info-box-inner-container">
-        <h1>Share your geolocation acknowledgement</h1>
-  <p>I'm stealing your geolocation whether or not you want it, bitchbaby.</p>
+        <h1>Share your geolocation and go to data-scapes</h1>
+     <p>data_scapes is a generative and interactive </p>   
+  <p>Clicking on the next button will have your browser ask for your geolocation. </p>
+  <p>If you accept, information on your latitude and longitude coordinates will be entered in data-scapes' database and impact its visual output.
+  <p></p>
+  </p>
   <div id="button-ctn">
   <button id="ds-popup-go-back-btn">Go back</button>
-  <button id="share-public-geolocation">Share public IP geolocation</button>
-  <button id="share-personal-geolocation">Share my personal geolocation</button>
+  <button id="share-personal-geolocation">Go to data-scapes</button>
   </div>
     </div>
   </div>

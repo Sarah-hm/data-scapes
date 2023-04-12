@@ -124,7 +124,6 @@ window.onload = (event) => {
 
     let self = this;
     let goBackBtn = document.querySelector(`#ds-popup-go-back-btn`);
-    let shareIPGeolocBtn = document.querySelector("#share-public-geolocation");
     let sharePersGeolocBtn = document.querySelector(
       "#share-personal-geolocation"
     );
@@ -136,23 +135,6 @@ window.onload = (event) => {
       document.querySelector("#ds-info-box").style.display = "none";
       document.querySelector("#rhizome-cloud-container").style.transform =
         "scale(1)";
-    });
-
-    shareIPGeolocBtn.addEventListener("click", () => {
-      // set black out screen while zooming out
-      document.querySelector("#rhizome-cloud-container").style.transform =
-        "scale(7)";
-      // get ip address, send it to geolocation.txt and make it the new marker
-      // and go to map.php
-      document.querySelector("#black-out-screen").style.display = "block";
-
-      setTimeout(() => {
-        document.querySelector("#black-out-screen").style.opacity = "1";
-      }, 1000);
-
-      setTimeout(() => {
-        window.open("map.php", "_self");
-      }, 1000);
     });
 
     sharePersGeolocBtn.addEventListener("click", () => {
