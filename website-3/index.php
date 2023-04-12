@@ -32,17 +32,21 @@
 <div id="black-out-screen"></div>
 <div class = "infoIcon" id="rhizome-info-icon"><?xml version="1.0" ?><svg id = "rhizome-info-box-icon" height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h48v48h-48z" fill="none"/><path  d="M22 34h4v-12h-4v12zm2-30c-11.05 0-20 8.95-20 20s8.95 20 20 20 20-8.95 20-20-8.95-20-20-20zm0 36c-8.82 0-16-7.18-16-16s7.18-16 16-16 16 7.18 16 16-7.18 16-16 16zm-2-22h4v-4h-4v4z"/></svg></div>
 <div class="info-box" id = "rhizome-info-box">
-    <div class="info-box-inner-container"></div>
+    <div class="info-box-inner-container">
+    <h1>data-scapes' conceptual rhizome</h1>
+    <h4>is an exploration of new methodologies of knowledge sharing and information propagation</h4>
+    <p>The cloud of nodes that populate data-scapes' landing page are the main inspirations behind the project. They may be authors, books, chapters, events or other projects that have fed into what is data-scapes now, but they have also extended their concepts amongst themselves often. </p>
+
+    </div>
   </div>
 
 <div class="info-box" id = "ds-info-box">
     <div class="info-box-inner-container">
         <h1>Share your geolocation and go to data-scapes</h1>
-     <p>data_scapes is a generative and interactive </p>   
-  <p>Clicking on the next button will have your browser ask for your geolocation. </p>
-  <p>If you accept, information on your latitude and longitude coordinates will be entered in data-scapes' database and impact its visual output.
-  <p></p>
-  </p>
+  <h4>data-scapes explores the different stories our data say about us; the ones that are collected and the information that can be inferred from the former.</h4>
+  <p>When continuing to data-scapes,<span >you will be asked to share your geolocation.</span>  <b>If you accept,</b> information on your latitude and longitude coordinates will be entered in data-scapes' database and impact its visual output. <b>If you decline,</b> public information about your internet provider's closest headquarter's geolocation will be entered instead of your own.</p>
+  <p>Further <span>publically found information based on those two data points will be inferred</span>, such as the weather, the timezone, or your streetname.</p>
+  <p><span>Other websites are aware of these information, and so much more. </span> <b> Do you want to see how little you know they know?</b> </p>
   <div id="button-ctn">
   <button id="ds-popup-go-back-btn">Go back</button>
   <button id="share-personal-geolocation">Go to data-scapes</button>
