@@ -22,6 +22,13 @@ class RhizomeItem {
     this.img = img;
     this.links = links;
 
+    //for when item is focused
+    this.descriptionOpened = false;
+    this.descriptionCtn = null;
+    this.descriptionTitle = null;
+    this.descriptionSubtitle = null;
+    this.descriptionDesc = [];
+
     this.parentContainer = rhizomeCloud;
 
     console.log(this.description.length);
@@ -451,30 +458,25 @@ class RhizomeItem {
               `${self.p1.rect.x},${self.p1.rect.y} ${self.p2.rect.x},${self.p2.rect.y} ${self.p3.rect.x},${self.p3.rect.y} ${self.p4.rect.x},${self.p4.rect.y} ${self.p5.rect.x},${self.p5.rect.y} ${self.p6.rect.x},${self.p6.rect.y} ${self.p7.rect.x},${self.p7.rect.y} ${self.p8.rect.x},${self.p8.rect.y}`
             )
             .after(function () {
-              //making sure the hover state is removed from all rhizome items and that all shapes return to original state
-              // self.removeHoverStateRhizomeItems(self.div);
+              //Create the description div
+              // self.toggleDescription();
+              // self.divHoverScreen.style.opacity = `0`;
             });
         }
-        //if button is clicked and an item is in focus, close that item
+        //if button is clicked and an item is in focus, close that item (and make it go back to its original position)
         else {
           self.parentContainer.classList.remove("button-clicked");
           self.div.classList.add("rhizome-grid-item");
           self.div.style = `transition: transform 1s ease 0s; left:${self.tempX}px; top: ${self.tempY}px `;
           self.div.classList.remove("rhizome-item-focus");
 
-          let allItems = document.querySelectorAll(".rhizome-grid-item");
-          let allLines = document.querySelectorAll(".rhizome-cloud-line ");
-
-          allItems.forEach((el) => {
-            console.log(el);
-          });
           //change the background svg to rectangle => gotta calculate the full width of the client after having resized the div
           this.calculateSVGRhizomepoints(
             this.hex.lgDist,
             this.hex.midDist,
             this.hex.shDist
           );
-
+          console.log("hello");
           //make polygon bigger
           this.backgroundPolygon
             .animate(500)
@@ -483,7 +485,7 @@ class RhizomeItem {
             )
             .after(function () {
               //making sure the hover state is removed from all rhizome items and that all shapes return to original state
-              // self.removeHoverStateRhizomeItems(self.div);
+              self.removeHoverStateRhizomeItems(self.div);
             });
 
           //recalculate lines
@@ -600,10 +602,18 @@ class RhizomeItem {
     console.log(this.parentContainer);
     let container = this.parentContainer.getBoundingClientRect();
     this.rect = {
-      lgDist: container.width / 3,
+      lgDist: container.width / 5,
       midDist: 86.57 * this.rhizomeSVGsize,
-      shDist: container.height / 3,
+      shDist: container.height / 5,
     };
+  }
+
+  toggleDescription() {
+    if (descriptionOpened) {
+      console.log("description is opened");
+    } else {
+      console.log("description is closed");
+    }
   }
 
   goToDatascapes() {

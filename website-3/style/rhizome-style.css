@@ -70,15 +70,16 @@ body {
 
 .rhizome-item-focus {
   z-index: 4000;
-  background-color: cyan;
+  /* background-color: cyan; */
   position: absolute;
   top: 5%;
-  left: 5%;
+  left: 30%;
   /* transform: translatey(-1000px); */
-  width: 90%;
+  width: 40%;
   height: 90vh;
   margin: auto;
-  padding: auto;
+  padding-left: 5%;
+  padding-right: 5%;
   transition: all 1s;
 }
 
