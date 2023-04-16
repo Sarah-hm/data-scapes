@@ -1,9 +1,9 @@
-#data-scapes project documentation
+# data-scapes project documentation #
 
-##First steps
+## First steps ##
 The original intentions of my time in CART-411 relied heavily on past projects from by data patterns series, and the general topic of finding new collaborative methodologies between human and non-human, especially between artisanal fashion work and A.I. processes. An added layer in this iteration was to find ways of telling stories with our analog data, too. The first writings of the semester hitted towards a more material and fashion-oriented project:
 
-###First writings
+### First writings ###
 Data Patterns is a project and research on how digitally generated and collected data impact consumerist objects, especially within clothing and fashion. While researching on this topic, I found myself reminiscing paper trails of pre-computer artisanship. Indeed, we are rapidly losing traces of analog history which have not been translated into our modern world. Genevieve, my ever-moving grandmother, lost all her fashion designs, papers and patterns through her life. By creating a community-based corpus of digitalized paper sewing patterns, I wish to construct a tool allowing ‘material’ media to impact our modern tools, such as AI, in a permanent fashion.
 
 Stuck in the battle between copy rights infringements and critical analysis of creativity itself, many fail to conceive of AI or ‘AI art’ as one of the artist’s many tools. Commercial and artistically geared AI systems access almost uncontrollable amounts of data which the individual user has no power on. Moreover, these systems lack large amounts of data created before the digital age, namely those of artists and artisans. By creating a community-based corpus of historical sewing patterns, my goal is not only to prototype with a more controlled pool of data but also to ensure artisanship’s legacy in the digital age.
@@ -14,7 +14,7 @@ While creating a better tool for research, this project also aims to ensure that
 
 My research prompted the creation of this sewing patterns corpus which it will become a valuable tool for. However, it will hopefully live on to also become an open source and community-based space where one can share and find once analog patterns free of rights.
 
-##Literature review and project reorientation
+## Literature review and project reorientation ##
 The full literature review of my project will undeniably grow as the project evolves, and will be added to data-scapes' landing page where the original inspirations already reside. The literature review was --and remains, a step I did not want to minimize from my project. As a Fine Arts student, I often feel stuck in a 13-week production-intensive schedule loop which often limits the contemplative period of my projects; the time-space where I can reshape and redirect the ways I approach my artistic endeavors. I got reminded of a very effective advice I got given years ago, which is to "fall in love with a problem rather than its solution". And so I gave myself the task of wondering exactly what was the problem I wanted to solutionize; and if the material and fashion-oriented solution I was trying to fit into my problem was really the best one.
 
 Through my research, it became apparent, and frankly dizzying, to recognize how much our data had an undeniable and insidious impact on a majority of spheres of our lives. By data is understood not only the ones that we create, but also the ones that is collected from us, inferred and modelled, as well as returned to us via screens or built objects ('real life' products). The fact is, people who consume media and electronics as much as a majority of people do nowaways, have to recognize their data health at the same level as the way they view their nutrition or life hygiene.
