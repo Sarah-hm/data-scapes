@@ -153,3 +153,4 @@
 {"latitude":"45.5081984","longitude":"-73.56416"}
 {"latitude":"45.5114279","longitude":"-73.5523034"}
 {"latitude":"45.5027209","longitude":"-73.562579"}
+{"latitude":"45.5126949","longitude":"-73.5620933"}

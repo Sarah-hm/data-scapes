@@ -1,0 +1,86 @@
+[
+  {
+    "title": "data_scapes",
+    "pullquote": "This is the pullquote for data-scapes",
+    "description": [
+      "This is a decoy description so the code registers the item as having information and makes it bigger :)",
+      "This is the second sentence of the description for data-scapes.",
+      "This is the second sentence of the description for data-scapes.",
+      "This is the second sentence of the description for data-scapes.",
+      "This is the third sentence of the description for data-scapes."
+    ],
+    "image": "https://example.com/image1.jpg",
+    "dataAtt": "data-scapes",
+    "link": [
+      "data-feminism",
+      "visual-complexity",
+      "cultural-analytics",
+      "non-things",
+      "psychic-numbing"
+    ]
+  },
+  {
+    "title": "Data Feminism",
+    "pullquote": "This is the pullquote for Data Femnism",
+    "description": [
+      "In their article ‘On Rational, Scientific, Objective Viewpoints from Mythical, Imaginary, Impossible Standpoints’ (2020), Catherine D’Ignazio and Lauren Klein argue in favor of emotion-driven data visualization, as opposed to the conventionally accepted dry and cold data visualization that is often prioritized in research and dissemination methods. Pulling from Donna Haraway’s theories, the authors explain that seemingly ‘neutral’ data visualization “masks the people, the methods, the questions, and the messiness that lies behind clean lines and geometric shapes” (D’Ignazio and Klein 2020, 76). ",
+      "This means that the act of over-simplifying data into ‘neutral’ sets of information de-contextualizes them to the point where they are no longer representative of the original situation’s complexities. ",
+      "The authors go on to argue that “even plain, “unemotional” visualizations are not neutral, but are actually extremely persuasive” (D’Ignazio and Klein 2020, 82) in making people think they are neutral. In this context, they wonder how ‘neutral’ information impacts the concept of neutrality, explaining that “the belief that universal objectivity should be our goal is harmful because it’s always only partially put into practice” (D’Ignazio and Klein 2020, 83). ",
+      "Instead, the authors vouch for emotion-driven data visualization, as “deliberately embracing emotions […] enables a valuable form of data maximalism [while] creating novel presentation forms help people grasp and learn more from data-driven arguments (D’Ignazio and Klein 2020, 87-88). This means that data visualization that create affect may be better in triggering reaction and action from a greater population than plain and dry data visualizations methods. "
+    ],
+    "image": "https://example.com/image1.jpg",
+    "dataAtt": "data-feminism",
+    "link": ["data-scapes", "visual-complexity", "cultural-analytics"]
+  },
+  {
+    "title": "Visual Complexity",
+    "pullquote": "This is the pullquote for Visual Complexity",
+    "description": [
+      "Visual Complexity's creator Manuel Lima describes the project as a 'map of maps' (Lima 16); a repository of several thousand data visualization projects, specifically networks. In the book of the same name, Lima explains how innovative data visualization methods embed science, art, and design to create an interconnected, free and decentralized way of approaching information. He explains that if one understands science as the discovery of new knowledge, design as helping users see the pattern in a 'utilitarian' way, and art as the aesthetically pleasing 'product of nonutilitarian activity' (Lima 12), then data visualization can be understood as the overlap of all three of them. ",
+      "Indeed, the visualization of new information and knowledge should not only be useful, it should also have an affect on its viewer; the aesthetics of visual representation of novel information are important because it will impact its useful interpretation from the person who consumes it. In other words, the way you see, perceive and are affected by visual representation will impact how your interprete those information.",
+      "Lima also explores the living nature of the web, more specifically the ''interconnected information organism of free expression'' (Lima 56) that is the ever-changing nature of the Internet. He explains that, helped by the ''social architecture'' (Lima 61) of the Internet, we are moving from a documentcentric web to a ''pulsating ecosystem of data'' and a ''truly ubiquitous datasphere'' (Lima 57). Indeed, the hyperlink foundations of the web creates an environment where hierarchy can be reshaped into a horizontal rather than vertical mode of propagation. This decentralized information structure, Lima explains, is as much an aesthetic choice as an ideology. While the historical graph techniques ''fit the scientific paradigm of reduction (breaking nature down into the simplest possible elements…), our current interest lies in understanding the phenomena of complexity'' (Lima 12)."
+    ],
+    "image": "https://example.com/image2.jpg",
+    "dataAtt": "visual-complexity",
+    "link": ["data-scapes"]
+  },
+  {
+    "title": "Cultural Analytics",
+    "pullquote": "This is the pullquote for Visual Complexity",
+    "description": [
+      "Lev Manovich is a prolific author on the matter of new media and digital culture. He has also been focusing a lot of his practice and teachings around topics of database, especially within design and the arts. References to his texts were therefore good first steps into the conceptualization of the Genevieve corpus, specifically ''database as a symbolic form'' written in 1999. In his essay, he covers important themes and biases of databases, notably in opposition with narrative-based information structures, but also on the technicalities of building an efficient dynamic data structure. ",
+      "Manovich focuses his text on the tension between narrative and database, which we will come back to later. While I disagree on his opinions that a relationship between the two is not viable, the ways he approaches and explain both remain relevant. ",
+      "He argues that both data structures and algorithms are the main forces at play in the dynamics of a database.",
+      "Moreover, he explains that while the data structure could seem as the passive force and the algorithm as its active counterpart, they are in fact both active, as ''data does not just exist, it has to be generated [or] be digitized from already existing media'' (Manovich 6, 1999). "
+    ],
+    "image": "https://example.com/image2.jpg",
+    "dataAtt": "cultural-analytics",
+    "link": ["data-scapes"]
+  },
+  {
+    "title": "Non-Things",
+    "pullquote": "This is the pullquote for non-things",
+    "description": [
+      "Byung-Chul Han is a Korean-born German teacher and prolific author. In his book non-things, he focuses on information culture, our different usages of technologies, and its impacts on our society as well as the machines we design to help us. .",
+      "In his books, he defines non-things as information things, objects created from processed data through machine labour, as opposed to real things made from human hands and intent. He explains that we see machines as 'workers' so humans can become 'players', creating an ever-growing non-things production loop. ",
+      "He further argues that machines cannot be emotionally affected like humans are, or even 'know' the way humans 'know'. Through many examples, he tries to clarify how machines will never be able to completely replace humans; though we have become increasingly reliant on them to support our day-to-day life.",
+      "This has made me wondered how we often antagonize the machine as being a means of replacement alone, failing to conceive of the non-human with non-anthropocentric needs and potentials. In other words, we would not ask a shark to run a marathon. Why then ask a machine (non-human) to do human work, the way a human would?",
+      "What would happen if we were to rethink our relationship to machines and what we can achieve if we work collaboratively? "
+    ],
+    "image": "https://example.com/image2.jpg",
+    "dataAtt": "non-things",
+    "link": ["data-scapes", "cultural-analytics"]
+  },
+  {
+    "title": "psychic-numbing",
+    "pullquote": "This is the pullquote for Psychic Numbing",
+    "description": [
+      "Paul Slovic first coined the term ‘psychic numbing’ in his article ‘psychic numbing and genocide’ written in 2007 (Slovic). The term refers to the psychological phenomenon in which individuals become less able to feel empathy or concern for others as the number of individuals affected by a tragedy or crisis increases. Slovic’s theory is based on the idea that our brains have a limited capacity for processing information and emotions, and when confronted with a large number of victims, we become overwhelmed and are unable to fully engage with the situation (Slovic 2007). This can result in a lack of action or support for those in need, even in the face of overwhelming evidence of suffering.",
+      "To counter this consequential apathy of overwhelming realities, Slovic argues that “a single individual, unlike a group, is viewed as a psychologically coherent unit” (Slovic 2007). Of course, Slovic’s theory is based on human tragedy, and so most of his examples explore human contexts. His theory is however applicable in many more spheres, including that of big data and screen-based information.",
+      "The general public's literacy on information culture and data is scarce, as the overwhelming quantity of complex information can create an intimidating environment to start exploring. Making data a more situated, bite-sized and personally curated explorative endeavor aims to foster learning and an individual critical thinking."
+    ],
+    "image": "https://example.com/image2.jpg",
+    "dataAtt": "psychic-numbing",
+    "link": ["data-feminism", "data-scapes"]
+  }
+]

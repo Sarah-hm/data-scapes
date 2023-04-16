@@ -1,0 +1,319 @@
+button,
+input[type="submit"],
+input[type="reset"] {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Helvetica", sans-serif;
+}
+
+body {
+  background: #000;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* RHIZOME CLOUD PAGE */
+
+#black-out-screen {
+  position: fixed;
+  z-index: 5000;
+  background-color: black;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100vh;
+  opacity: 0;
+  transition: opacity 1.5s ease-out;
+  display: none;
+}
+
+#rhizome-cloud-container {
+  width: 90%;
+  height: 90vh;
+  transition: transform 2s ease-in;
+}
+
+#svg-container {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100vh;
+  z-index: -5;
+}
+
+.rhizome-grid-item {
+  transform-origin: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+  position: fixed;
+  width: 10%;
+  height: 20vh;
+  z-index: 0;
+  transition: all 1s ease-in-out;
+  transform: translatey(0px);
+  animation: float 10s ease-in-out infinite;
+}
+
+.rhizome-item-focus {
+  z-index: 5000;
+  background-color: white;
+  border: black solid 3px;
+  position: absolute;
+  top: 5%;
+  left: 25%;
+  /* transform: translatey(-1000px); */
+  width: 50%;
+  height: 80vh;
+  margin: auto;
+  padding: 5%;
+  transition: all 1s;
+}
+
+/* .rhizome-cloud-line {
+  transform: translatey(0px);
+  animation: float 10s ease-in-out infinite;
+} */
+
+@keyframes float {
+  0% {
+    transform: translatey(0px);
+  }
+  50% {
+    transform: translatey(-40px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
+}
+
+.rhizome-item-background {
+  z-index: -2;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  /* width:100%; 
+    height: 100%; */
+  transform-origin: center;
+}
+
+.svg-background svg,
+.svg-foreground svg {
+  overflow: visible;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transition: all 1s;
+}
+
+.svg-background svg {
+  z-index: -5;
+}
+
+.svg-foreground svg {
+  z-index: 5;
+}
+
+.rhizome-item-cover-element {
+  opacity: 0;
+  width: 70%;
+  height: 100%;
+  transform-origin: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.7s;
+  /* background-color: cyan; */
+}
+
+.rhizome-item-hover-screen {
+  position: absolute;
+  top: 20%;
+  opacity: 0;
+  transition: opacity 0.75s;
+}
+
+.coverElement h1 {
+  user-select: none;
+  font-size: 1.5rem;
+  position: absolute;
+  text-align: center;
+  top: 35%;
+  margin: auto;
+  z-index: 1;
+  color: rgba(0, 0, 0, 1);
+  transition: color 0.75s ease-in;
+}
+
+.ds-logo-element-rhizome-item {
+  transform: scale(0.2);
+}
+
+.rhizome-item-hover-screen h2 {
+  user-select: none;
+  text-align: center;
+  margin: auto;
+  width: 60%;
+  z-index: 2;
+  color: rgba(0, 0, 0, 1);
+  font-size: 1rem;
+  transition: color 0.75s ease-out;
+}
+
+.rhizome-grid-item-hover {
+  transform: scale(1);
+  cursor: grab;
+  display: flex;
+}
+
+.grid-item-closed {
+  transform: scale(1);
+}
+
+.rhizome-item-hover-screen button {
+  position: absolute;
+  font-size: 80%;
+  text-align: center;
+  left: 25%;
+  z-index: 10;
+  margin: auto;
+  padding: 1%;
+  width: 50%;
+  background-color: black;
+  color: white;
+}
+
+/* Everything about the info box */
+
+#rhizome-info-icon {
+  transform-origin: center;
+  transition: transform 0.75s;
+  transform: scale(1);
+}
+
+/* #rhizome-info-icon:hover {
+  transform: scale(1.15);
+} */
+
+#rhizome-info-box-icon {
+  position: fixed;
+  z-index: 3000;
+  right: 1.5%;
+  top: 1vh;
+  fill: white;
+  cursor: pointer;
+}
+
+#rhizome-info-box {
+  text-indent: 2%;
+  padding: 3%;
+  width: 80%;
+  height: 60vh;
+  z-index: 4000;
+  background-color: transparent;
+  border: white 1px solid;
+  position: fixed;
+  left: 10%;
+  top: 110vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: top 0.75s ease-in-out;
+}
+
+#ds-info-box {
+  text-indent: 2%;
+  padding: 3%;
+  width: 80%;
+  max-height: 60vh;
+  z-index: 4000;
+  background-color: transparent;
+  border: white 1px solid;
+  position: fixed;
+  left: 10%;
+  top: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: top 0.75s ease-in-out;
+  display: none;
+}
+
+#ds-info-box .info-box-inner-container {
+  padding: 2%;
+}
+
+#button-ctn {
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+#button-ctn button {
+  padding-left: 5%;
+  padding-right: 5%;
+  font-size: 80%;
+  font-weight: bold;
+  text-align: center;
+  padding: 1%;
+  background-color: black;
+  color: white;
+  transition: all 0.75s;
+}
+
+#button-ctn button:hover {
+  background-color: white;
+  color: black;
+}
+
+.info-box-inner-container {
+  width: 95%;
+  height: 90%;
+  padding-left: 5%;
+  padding-right: 5%;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.rhizome-description-container {
+  padding: 5%;
+  position: absolute;
+  top: 5%;
+  left: 15%;
+  /* transform: translatey(-1000px); */
+  width: 70%;
+  height: 60vh;
+  overflow: scroll;
+}
+
+.rhizome-description-container p {
+}
+
+.info-box p span {
+  font-weight: bold;
+  background-color: black;
+  color: white;
+  padding-left: 0.4%;
+  padding-right: 0.4%;
+}
+
+p {
+  padding-top: 0.5%;
+}
