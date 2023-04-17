@@ -38,5 +38,5 @@ So how do I say, and show, all of that in a digestible way?
 
 The idea of a rhizome and using non-linearity and 'bite-size' information was really important from the get-go. I did not want the information to feel overwhelming, or dictating in which way it should be digested, as opposed to a more conventional linear article. The idea was to allow the user to pick whichever resources, or node, they wanted and read a brief introduction of the resource material. If they felt interested in it, they could continue their exploration on a bridged node, or any other one. To add to the dynamism and interactivity, I embedded animated SVGs. The grabbable linked up floating nodes give an slightly gamified ambiance that keeps the user fascinated/entertained by the content.
 
-![Exploration of data-scapes' landing page](https://file%2B.vscode-resource.vscode-cdn.net/Users/sarah/Documents/GitHub/data_scapes/website/documentation/Screenshot%202023-04-05%20at%202.27.37%20PM.png?version%3D1681690469387)
+![Exploration of data-scapes' landing page](https://github.com/Sarah-hm/data-scapes/blob/main/website/documentation/rhizome-cloud-early.png)
 -> Exploration of data-scapes' landing page, interconnected nodes, literature review
