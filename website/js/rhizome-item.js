@@ -108,6 +108,8 @@ class RhizomeItem {
 
     this.tempX = null;
     this.tempY = null;
+    this.tempWidth = null;
+    this.tempHeight = null;
     this.temptRect = null;
     this.handleBtnClick();
     this.handleWindowResize();
@@ -203,6 +205,7 @@ class RhizomeItem {
     let self = this;
     let animating = false;
     let btnHovering = false;
+    let dataScapeSvganimating = false;
 
     const drawBackground = SVG().addTo(this.svgBackground).size("100%", "100%");
     const drawForeground = SVG().addTo(this.svgForeground).size("100%", "100%");
@@ -260,28 +263,30 @@ class RhizomeItem {
 
         //if data_scapes, also animate the background svg:
         if (self.title === "data_scapes") {
-          self.calculateSVGRhizomepoints(
-            self.dsBckg.opened.lgDist,
-            self.dsBckg.opened.midDist,
-            self.dsBckg.opened.shDist
-          );
-          animating = true;
-          this.dsBackground
-            .animate(500)
-            .plot(
-              `${self.p1.oct.x},${self.p1.oct.y} ${self.p2.oct.x},${self.p2.oct.y} ${self.p3.oct.x},${self.p3.oct.y} ${self.p4.oct.x},${self.p4.oct.y} ${self.p5.oct.x},${self.p5.oct.y} ${self.p6.oct.x},${self.p6.oct.y} ${self.p7.oct.x},${self.p7.oct.y} ${self.p8.oct.x},${self.p8.oct.y}`
-            )
-            .after(function () {
-              animating = false;
-            });
+          if (!dataScapeSvganimating) {
+            self.calculateSVGRhizomepoints(
+              self.dsBckg.opened.lgDist,
+              self.dsBckg.opened.midDist,
+              self.dsBckg.opened.shDist
+            );
+            dataScapeSvganimating = true;
+            this.dsBackground
+              .animate(500)
+              .plot(
+                `${self.p1.oct.x},${self.p1.oct.y} ${self.p2.oct.x},${self.p2.oct.y} ${self.p3.oct.x},${self.p3.oct.y} ${self.p4.oct.x},${self.p4.oct.y} ${self.p5.oct.x},${self.p5.oct.y} ${self.p6.oct.x},${self.p6.oct.y} ${self.p7.oct.x},${self.p7.oct.y} ${self.p8.oct.x},${self.p8.oct.y}`
+              )
+              .after(function () {
+                dataScapeSvganimating = false;
+              });
+          }
         }
       }
 
-      // If data_scapes is mouse over'd, animate the black oct from 0 to open
-      if (self.title === "data_scapes") {
-        //change to full oct shape - 10 indent;
-        console.log("we are changing data_scapes on mouse over");
-      }
+      // // If data_scapes is mouse over'd, animate the black oct from 0 to open
+      // if (self.title === "data_scapes") {
+      //   //change to full oct shape - 10 indent;
+      //   console.log("we are changing data_scapes on mouse over");
+      // }
     });
 
     this.foregroundPolygon.on(`mouseleave`, (e) => {
@@ -323,14 +328,14 @@ class RhizomeItem {
               self.dsBckg.closed.midDist,
               self.dsBckg.closed.shDist
             );
-            animating = true;
+            dataScapeSvganimating = true;
             this.dsBackground
               .animate(1000)
               .plot(
                 `${this.p1.hex.x},${this.p1.hex.y} ${this.p2.hex.x},${this.p2.hex.y} ${this.p3.hex.x},${this.p3.hex.y} ${this.p4.hex.x},${this.p4.hex.y} ${this.p5.hex.x},${this.p5.hex.y} ${this.p6.hex.x},${this.p6.hex.y} ${this.p7.hex.x},${this.p7.hex.y} ${this.p8.hex.x},${this.p8.hex.y}`
               )
               .after(function () {
-                animating = false;
+                dataScapeSvganimating = false;
               });
           }
         }
@@ -427,7 +432,7 @@ class RhizomeItem {
       if (self.title === "data_scapes") {
         self.goToDatascapes();
       } else {
-        console.log(self.div);
+        // console.log(self.div);
 
         //If no item is in focus, bring that item in focus
         if (!self.div.classList.contains("rhizome-item-focus")) {
@@ -436,6 +441,8 @@ class RhizomeItem {
           // console.log(self.tempRect);
           self.tempX = self.tempRect.x;
           self.tempY = self.tempRect.y;
+          self.tempWidth = self.tempRect.width;
+          self.tempHeight = self.tempRect.height;
           self.parentContainer.classList.add("button-clicked");
           // console.log("button clicked");
 
@@ -659,7 +666,7 @@ class RhizomeItem {
   addClosingFocusEventListener() {
     let self = this;
     let currentFocus = document.querySelector(".rhizome-item-focus");
-    console.log(currentFocus);
+    // console.log(currentFocus);
     if (this.descriptionOpened) {
       currentFocus.addEventListener("click", () => {
         //remove the entire description container
@@ -672,7 +679,7 @@ class RhizomeItem {
         self.parentContainer.classList.remove("button-clicked");
         self.div.classList.remove("rhizome-item-focus");
         self.div.classList.add("rhizome-grid-item");
-        self.div.style = `transition: transform 1s ease 0s; left:${self.tempX}px; top: ${self.tempY}px `;
+        self.div.style = `width: ${self.tempWidth}; height: ${self.tempHeight};transition: transform 1s ease 0s; left:${self.tempX}px; top: ${self.tempY}px `;
 
         //change the background svg to rectangle => gotta calculate the full width of the client after having resized the div
         self.calculateSVGRhizomepoints(
@@ -708,6 +715,8 @@ class RhizomeItem {
           this.redrawLines(self.div, self.x, self.y);
         }
       });
+      //set description to closed (!opened)
+      self.descriptionOpened = false;
     }
   }
 
