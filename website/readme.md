@@ -39,4 +39,13 @@ So how do I say, and show, all of that in a digestible way?
 The idea of a rhizome and using non-linearity and 'bite-size' information was really important from the get-go. I did not want the information to feel overwhelming, or dictating in which way it should be digested, as opposed to a more conventional linear article. The idea was to allow the user to pick whichever resources, or node, they wanted and read a brief introduction of the resource material. If they felt interested in it, they could continue their exploration on a bridged node, or any other one. To add to the dynamism and interactivity, I embedded animated SVGs. The grabbable linked up floating nodes give an slightly gamified ambiance that keeps the user fascinated/entertained by the content.
 
 ![Exploration of data-scapes' landing page](https://github.com/Sarah-hm/data-scapes/blob/main/website/documentation/rhizome-cloud-early.png)
--> Exploration of data-scapes' landing page, interconnected nodes, literature review
+-> Exploration of data-scapes' landing page, interconnected nodes, literature review, grabbable elements, changing SVGs
+
+![data-scapes lines](https://github.com/Sarah-hm/data-scapes/blob/main/website/documentation/data-scapes-blck-background.png)
+-> By using leaflet.js instead of Google Maps API, I was able to customize the map a lot more than the first iteration of the project. This allowed me to be able to change the map/tile/projection under the data-scapes' thread formed by users' geolocation. By turning the map tile fully black, I saw data-scapes' thread, alone, for the first time. This made me realize that sometimes less is indeed more, and the user thread was a stand alone piece, too. It deserved to be portrayed as such. And so instead of the maximalist tendencies I usually take with my projects, I decided to work towards minimalism instead.
+
+![glitched mrct map](https://github.com/Sarah-hm/data-scapes/blob/main/website/documentation/data-scapes-glitched-map.png)
+-> when I put the tile in the first time around, I created very weird glitches by inputting the wrong x, y, z variables. When I realized my mistake, I had fun playing around with the glitch and looking at where the thread was instead pointing towards. I also spent some time recognizing (or not) some misplaced countries; how arbitrary the map looked now. With the knowledge of how map projections come to exist, with a few people deciding what is most important to distort/keep intact, it made me realize how completely arbitrary the very story of the Mercator projection itself was.
+We often think of 'stories' as subjective folkore, but stories build objective truth. Our data is told through stories, which we often interpret as being objective truth. What if we used different kinds of map to showcase other stories?
+
+![glitch nl map](https://github.com/Sarah-hm/data-scapes/blob/main/website/documentation/data-scapes-glitches-native-land.png)
