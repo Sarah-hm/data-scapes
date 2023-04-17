@@ -433,11 +433,11 @@ class RhizomeItem {
         if (!self.div.classList.contains("rhizome-item-focus")) {
           //store the current position of the item so it goes back when it closes
           self.tempRect = self.div.getBoundingClientRect();
-          console.log(self.tempRect);
+          // console.log(self.tempRect);
           self.tempX = self.tempRect.x;
           self.tempY = self.tempRect.y;
           self.parentContainer.classList.add("button-clicked");
-          console.log("button clicked");
+          // console.log("button clicked");
 
           //resize the rhizome-item to be the full width of the screen and on top of everything
 
@@ -466,8 +466,8 @@ class RhizomeItem {
             .after(function () {
               //Create the description div
               self.descriptionOpened = true;
-              self.toggleDescription();
               self.divHoverScreen.style.display = `none`;
+              self.toggleDescription();
             });
         }
         //if button is clicked and an item is in focus, close that item (and make it go back to its original position)
@@ -640,14 +640,10 @@ class RhizomeItem {
         this.newPara.innerText = `${this.description[i]}`;
         this.newPara.classList.add("rhizome-item-paragraph");
       }
-      // this.descriptionDesc = document.createElement("p");
-      //create a close button
-      // this.descCloseBtn = document.createElement("button");
-      //create links button?
 
       //set the description to open;
       this.descriptionOpened = true;
-      console.log(document.querySelector(".rhizome-item-focus"));
+      // console.log(document.querySelector(".rhizome-item-focus"));
 
       this.addClosingFocusEventListener();
       //set the description to open
@@ -655,6 +651,7 @@ class RhizomeItem {
     } else {
       console.log("description will close");
       //set the description to close
+
       this.descriptionOpened = false;
     }
   }
@@ -673,9 +670,9 @@ class RhizomeItem {
         });
 
         self.parentContainer.classList.remove("button-clicked");
+        self.div.classList.remove("rhizome-item-focus");
         self.div.classList.add("rhizome-grid-item");
         self.div.style = `transition: transform 1s ease 0s; left:${self.tempX}px; top: ${self.tempY}px `;
-        self.div.classList.remove("rhizome-item-focus");
 
         //change the background svg to rectangle => gotta calculate the full width of the client after having resized the div
         self.calculateSVGRhizomepoints(
@@ -683,7 +680,7 @@ class RhizomeItem {
           self.hex.midDist,
           self.hex.shDist
         );
-        console.log("hello");
+        // console.log("hello");
 
         self.backgroundPolygon.fill("#fff");
         self.backgroundPolygon.stroke({ color: "#000", width: 2 });
@@ -695,6 +692,8 @@ class RhizomeItem {
             `${self.p1.hex.x},${self.p1.hex.y} ${self.p2.hex.x},${self.p2.hex.y} ${self.p3.hex.x},${self.p3.hex.y} ${self.p4.hex.x},${self.p4.hex.y} ${self.p5.hex.x},${self.p5.hex.y} ${self.p6.hex.x},${self.p6.hex.y} ${self.p7.hex.x},${self.p7.hex.y} ${self.p8.hex.x},${self.p8.hex.y}`
           )
           .after(function () {
+            self.divHoverScreen.style = ``;
+
             //making sure the hover state is removed from all rhizome items and that all shapes return to original state
             self.removeHoverStateRhizomeItems(self.div);
           });
