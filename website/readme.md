@@ -52,5 +52,10 @@ The idea of a rhizome and using non-linearity and 'bite-size' information was re
 We often think of 'stories' as subjective folkore, but stories build objective truth. Our data is told through stories, which we often interpret as being objective truth. What if we used different kinds of map to showcase other stories?
 
 ![glitch nl map](https://github.com/Sarah-hm/data-scapes/blob/main/website/documentation/data-scapes-glitches-native-land.png)
+->[native-land.ca](https://native-land.ca/) is an incredible open-source resource and a rabbit hole I often find myself falling into. In the context of data-scapes however, native-land also tells stories about the same land we usually see within very specific visualization. The overlapping of polygons are the testimony of different time-spaces present at once. The territories, treaties or languages accounted for by Native-land, which do not claim to be a complete or official resource, may belong to different times but are regarded portrayed on the same mapped layer.
+
+This in itself, in reciprocity with the Mercator Projection and contemporary binary boarder cuttings, tells stories about the way we shape, hierarchize and propagate information through not only space, but time. The way the global North 'cuts' countries would never allow for any overlapping, let alone the fantom of an old conquered nation.
+
+The hovering effect over the native-land polygons was born from a glitch, like most effects in this project. I enjoyed creating a vague, questioning experience that users need to unfold. Being meant with only the data-scapes thread, and having 'random' shapes appear when hovering over it, creates an uncanny feeling. The user cannot fully understand what it is they are dealing with. Upon further inspection of the platform, they can open the information boxes and learn more, uncover, what it is they are looking at. This soft fascination, mixed with the minimalism of the simple visualization, helps the user appropriate the map and all its information bit by bit.
 
 [link to data-scapes' website](https://github.com/Sarah-hm/data-scapes/blob/main/website/readme.md)
