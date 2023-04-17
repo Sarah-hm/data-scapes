@@ -142,10 +142,14 @@ body {
 }
 
 .rhizome-item-hover-screen {
+  width: 80%;
   position: absolute;
-  top: 20%;
+  /* top: 20%; */
   opacity: 0;
   transition: opacity 0.75s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .coverElement h1 {
@@ -187,13 +191,18 @@ body {
 
 .rhizome-item-hover-screen button {
   position: absolute;
-  font-size: 80%;
+  font-size: 70%;
   text-align: center;
-  left: 25%;
   z-index: 10;
-  margin: auto;
-  padding: 1%;
-  width: 50%;
+  width: 75%;
+  background-color: transparent;
+  color: black;
+  padding: 2%;
+  border: black solid 1px;
+  transition: all 0.75s;
+}
+
+.rhizome-item-hover-screen button:hover {
   background-color: black;
   color: white;
 }

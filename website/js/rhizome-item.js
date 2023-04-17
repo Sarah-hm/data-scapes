@@ -184,15 +184,15 @@ class RhizomeItem {
     // this.hoverScreenContainer = document
     //   .querySelector(`[data-att="${this.name}"]`)
     //   .querySelector(".rhizome-item-hover-screen");
-    this.pullquoteElement = document.createElement("h2");
+    // this.pullquoteElement = document.createElement("h2");
     this.btnElement = document.createElement("button");
 
-    this.divHoverScreen.appendChild(this.pullquoteElement);
+    // this.divHoverScreen.appendChild(this.pullquoteElement);
     this.divHoverScreen.appendChild(this.btnElement);
 
     //Populate all elements with data from json file
-    this.container.querySelector("h2").innerText = this.title;
-    this.container.querySelector("button").innerText = `Learn more`;
+    // this.container.querySelector("h2").innerText = this.title;
+    this.container.querySelector("button").innerText = this.title;
 
     //Convert the x, y position (%) in pixel with client rect and send it to the move event listener
     let originPosition = this.div.getBoundingClientRect();
