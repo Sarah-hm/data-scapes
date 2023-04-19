@@ -316,9 +316,6 @@ body {
   overflow: scroll;
 }
 
-.rhizome-description-container p {
-}
-
 .info-box p span {
   font-weight: bold;
   background-color: black;
@@ -331,7 +328,7 @@ p {
   padding-top: 0.5%;
 }
 
-.rhizome-description-container p {
+.focus-item-description-container p {
   padding-top: 1%;
   text-indent: 25px;
 }
