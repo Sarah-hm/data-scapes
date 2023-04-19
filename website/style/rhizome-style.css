@@ -294,14 +294,18 @@ body {
 }
 
 .info-box-inner-container {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  flex-direction: column;
   width: 95%;
   height: 90%;
   padding-left: 5%;
   padding-right: 5%;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
-.rhizome-description-container {
+.focus-item-description-container {
   padding: 5%;
   position: absolute;
   top: 5%;
@@ -325,4 +329,9 @@ body {
 
 p {
   padding-top: 0.5%;
+}
+
+.rhizome-description-container p {
+  padding-top: 1%;
+  text-indent: 25px;
 }

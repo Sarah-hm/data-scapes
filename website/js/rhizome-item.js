@@ -31,6 +31,7 @@ class RhizomeItem {
     this.descriptionDesc = null;
     this.descriptionParas = [];
     this.descCloseBtn = null;
+    this.descriptionEventListenerAdded = false;
 
     this.parentContainer = rhizomeCloud;
 
@@ -436,6 +437,8 @@ class RhizomeItem {
 
         //If no item is in focus, bring that item in focus
         if (!self.div.classList.contains("rhizome-item-focus")) {
+          console.log("we're back here");
+          console.log(self.div);
           //store the current position of the item so it goes back when it closes
           self.tempRect = self.div.getBoundingClientRect();
           // console.log(self.tempRect);
@@ -447,35 +450,40 @@ class RhizomeItem {
           // console.log("button clicked");
 
           //resize the rhizome-item to be the full width of the screen and on top of everything
+          console.log(self.div.classList);
 
           self.div.classList.remove("rhizome-grid-item");
           self.div.classList.remove("rhizome-grid-item-hover");
+          self.div.className = "";
           self.div.style = "";
 
-          self.div.classList.add("rhizome-item-focus");
+          setTimeout(function () {
+            self.div.classList.add("rhizome-item-focus");
+            console.log(self.div.classList);
 
-          //change the background svg to rectangle => gotta calculate the full width of the client after having resized the div
-          self.calculateSVGRhizomepoints(
-            self.rect.lgDist,
-            self.rect.midDist,
-            self.rect.shDist
-          );
+            //change the background svg to rectangle => gotta calculate the full width of the client after having resized the div
+            self.calculateSVGRhizomepoints(
+              self.rect.lgDist,
+              self.rect.midDist,
+              self.rect.shDist
+            );
 
-          self.backgroundPolygon.fill("transparent");
-          self.backgroundPolygon.stroke({ color: "#000", width: 0 });
+            self.backgroundPolygon.fill("transparent");
+            self.backgroundPolygon.stroke({ color: "#000", width: 0 });
 
-          //make polygon bigger
-          self.backgroundPolygon
-            .animate(500)
-            .plot(
-              `${self.p1.rect.x},${self.p1.rect.y} ${self.p2.rect.x},${self.p2.rect.y} ${self.p3.rect.x},${self.p3.rect.y} ${self.p4.rect.x},${self.p4.rect.y} ${self.p5.rect.x},${self.p5.rect.y} ${self.p6.rect.x},${self.p6.rect.y} ${self.p7.rect.x},${self.p7.rect.y} ${self.p8.rect.x},${self.p8.rect.y}`
-            )
-            .after(function () {
-              //Create the description div
-              self.descriptionOpened = true;
-              self.divHoverScreen.style.display = `none`;
-              self.toggleDescription();
-            });
+            //make polygon bigger
+            self.backgroundPolygon
+              .animate(500)
+              .plot(
+                `${self.p1.rect.x},${self.p1.rect.y} ${self.p2.rect.x},${self.p2.rect.y} ${self.p3.rect.x},${self.p3.rect.y} ${self.p4.rect.x},${self.p4.rect.y} ${self.p5.rect.x},${self.p5.rect.y} ${self.p6.rect.x},${self.p6.rect.y} ${self.p7.rect.x},${self.p7.rect.y} ${self.p8.rect.x},${self.p8.rect.y}`
+              )
+              .after(function () {
+                //Create the description div
+                self.descriptionOpened = true;
+                self.divHoverScreen.style.display = `none`;
+                self.toggleDescription();
+              });
+          }, 0);
         }
         //if button is clicked and an item is in focus, close that item (and make it go back to its original position)
         // else {
@@ -625,7 +633,7 @@ class RhizomeItem {
     // this.descParentContainer = document.querySelector(".rhizome-item-focus");
     // console.log(this.descParentContainer);
 
-    console.log(this.div);
+    console.log(this.descriptionOpened);
     if (this.descriptionOpened) {
       console.log("description will open");
 
@@ -637,12 +645,13 @@ class RhizomeItem {
 
       //create a title element
       this.descriptionTitle = document.createElement("h1");
+      this.descriptionTitle.classList.add("focus-item-description-title");
       this.descriptionCtn.appendChild(this.descriptionTitle);
       this.descriptionTitle.innerText = `${this.title}`;
       //create description paragraphs
       for (let i = 0; i < this.description.length; i++) {
         this.newPara = document.createElement("p");
-        console.log(this.description[i]);
+        // console.log(this.description[i]);
         this.descriptionCtn.appendChild(this.newPara);
         this.newPara.innerText = `${this.description[i]}`;
         this.newPara.classList.add("rhizome-item-paragraph");
@@ -653,80 +662,86 @@ class RhizomeItem {
       // console.log(document.querySelector(".rhizome-item-focus"));
 
       this.addClosingFocusEventListener();
-      //set the description to open
-      this.descriptionOpened = true;
     } else {
-      console.log("description will close");
+      console.log("description is closed");
       //set the description to close
-
-      this.descriptionOpened = false;
+      // this.descriptionOpened = false;
     }
   }
 
   addClosingFocusEventListener() {
+    // this.focusItemEventListenerEnabled = true;
     let self = this;
     let currentFocus = document.querySelector(".rhizome-item-focus");
-    // console.log(currentFocus);
+    console.log(self.div);
     if (this.descriptionOpened) {
-      currentFocus.addEventListener("click", () => {
-        //remove the entire description container
-        this.descriptionTitle.remove();
-        this.descriptionCtn.remove();
-        document.querySelectorAll(`.rhizome-item-paragraph`).forEach((e) => {
-          e.remove();
-        });
-
-        self.parentContainer.classList.remove("button-clicked");
-        self.div.classList.remove("rhizome-item-focus");
-        self.div.classList.add("rhizome-grid-item");
-        self.div.style = `width: ${self.tempWidth}; height: ${self.tempHeight};transition: transform 1s ease 0s; left:${self.tempX}px; top: ${self.tempY}px `;
-
-        //change the background svg to rectangle => gotta calculate the full width of the client after having resized the div
-        self.calculateSVGRhizomepoints(
-          self.hex.lgDist,
-          self.hex.midDist,
-          self.hex.shDist
-        );
-        // console.log("hello");
-
-        self.backgroundPolygon.fill("#fff");
-        self.backgroundPolygon.stroke({ color: "#000", width: 2 });
-
-        //make polygon bigger
-        self.backgroundPolygon
-          .animate(500)
-          .plot(
-            `${self.p1.hex.x},${self.p1.hex.y} ${self.p2.hex.x},${self.p2.hex.y} ${self.p3.hex.x},${self.p3.hex.y} ${self.p4.hex.x},${self.p4.hex.y} ${self.p5.hex.x},${self.p5.hex.y} ${self.p6.hex.x},${self.p6.hex.y} ${self.p7.hex.x},${self.p7.hex.y} ${self.p8.hex.x},${self.p8.hex.y}`
-          )
-          .after(function () {
-            self.divHoverScreen.style = ``;
-
-            //making sure the hover state is removed from all rhizome items and that all shapes return to original state
-            self.removeHoverStateRhizomeItems(self.div);
-          });
-
-        //recalculate lines
-
-        for (let i = 0; i < self.links.length; i++) {
-          let newCoords = self.getElCenter(self.div);
-          self.x = newCoords.x;
-          self.y = newCoords.y;
-          //Get the center of the end object too!
-          this.redrawLines(self.div, self.x, self.y);
-        }
-      });
+      self.div.addEventListener("click", self.handleFocusClosing);
       //set description to closed (!opened)
-      self.descriptionOpened = false;
     }
+  }
+
+  handleFocusClosing() {
+    // let self = this;
+    // console.log(document.querySelector(".focus-item-description-title"));
+    //remove the entire description container
+    this.descriptionTitle.remove();
+    this.descriptionCtn.remove();
+    document.querySelectorAll(`.rhizome-item-paragraph`).forEach((e) => {
+      e.remove();
+    });
+    this.parentContainer.classList.remove("button-clicked");
+    console.log(this.div);
+    this.div.classList.remove("rhizome-item-focus");
+    this.div.classList.add("rhizome-grid-item");
+    console.log(this.div);
+    this.div.style = `width: ${self.tempWidth}; height: ${self.tempHeight};transition: transform 1s ease 0s; left:${self.tempX}px; top: ${self.tempY}px `;
+
+    //change the background svg to rectangle => gotta calculate the full width of the client after having resized the div
+    self.calculateSVGRhizomepoints(
+      self.hex.lgDist,
+      self.hex.midDist,
+      self.hex.shDist
+    );
+    // console.log("hello");
+
+    self.backgroundPolygon.fill("#fff");
+    self.backgroundPolygon.stroke({ color: "#000", width: 2 });
+
+    //make polygon bigger
+    self.backgroundPolygon
+      .animate(500)
+      .plot(
+        `${self.p1.hex.x},${self.p1.hex.y} ${self.p2.hex.x},${self.p2.hex.y} ${self.p3.hex.x},${self.p3.hex.y} ${self.p4.hex.x},${self.p4.hex.y} ${self.p5.hex.x},${self.p5.hex.y} ${self.p6.hex.x},${self.p6.hex.y} ${self.p7.hex.x},${self.p7.hex.y} ${self.p8.hex.x},${self.p8.hex.y}`
+      )
+      .after(function () {
+        self.divHoverScreen.style = ``;
+
+        //making sure the hover state is removed from all rhizome items and that all shapes return to original state
+        self.removeHoverStateRhizomeItems(self.div);
+      });
+
+    //recalculate lines
+
+    for (let i = 0; i < self.links.length; i++) {
+      let newCoords = self.getElCenter(self.div);
+      self.x = newCoords.x;
+      self.y = newCoords.y;
+      //Get the center of the end object too!
+      this.redrawLines(self.div, self.x, self.y);
+    }
+    console.log(self.div);
+    self.div.removeEventListener("click", self.handleFocusClosing());
+    self.descriptionOpened = false;
+    self.descriptionEventListenerAdded = true;
   }
 
   goToDatascapes() {
     this.dsPopup = document.querySelector("#ds-geolocation-sharing-ack");
 
-    let fadeAnim = document.querySelector(`#black-out-screen`);
+    // let fadeAnim = document.querySelector(`#black-out-screen`);
     this.parentContainer.style.transform = "scale(3)";
 
-    console.log(fadeAnim);
+    // console.log(fadeAnim);
     // fadeAnim.style.display = `block`;
     // fadeAnim.style.opacity = `1`;
     setTimeout(() => {

@@ -30,13 +30,15 @@
 </head>
 <body>
 <div id="black-out-screen"></div>
-<div class = "infoIcon" id="rhizome-info-icon"><?xml version="1.0" ?><svg id = "rhizome-info-box-icon" height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h48v48h-48z" fill="none"/><path  d="M22 34h4v-12h-4v12zm2-30c-11.05 0-20 8.95-20 20s8.95 20 20 20 20-8.95 20-20-8.95-20-20-20zm0 36c-8.82 0-16-7.18-16-16s7.18-16 16-16 16 7.18 16 16-7.18 16-16 16zm-2-22h4v-4h-4v4z"/></svg></div>
+<div class = "infoIcon" id="rhizome-info-icon"><svg id = "rhizome-info-box-icon" height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h48v48h-48z" fill="none"/><path  d="M22 34h4v-12h-4v12zm2-30c-11.05 0-20 8.95-20 20s8.95 20 20 20 20-8.95 20-20-8.95-20-20-20zm0 36c-8.82 0-16-7.18-16-16s7.18-16 16-16 16 7.18 16 16-7.18 16-16 16zm-2-22h4v-4h-4v4z"/></svg></div>
 <div class="info-box" id = "rhizome-info-box">
     <div class="info-box-inner-container">
     <h1>data-scapes' conceptual rhizome</h1>
     <h4>is an exploration of new methodologies of knowledge sharing and information propagation</h4>
 
-    <p>The cloud of nodes that populate data-scapes' landing page are the main inspirations behind the project. They are authors, books, chapters, events or other projects that have fed into what data-scapes is. Not only that, The strings linking some nodes are conceptual bridges between sources; they visualize an overlap of some kind between the two.</p>
+    <p>The cloud of nodes that populate data-scapes' landing page <b>are the main inspirations behind the project.</b> They are authors, books, chapters, events or other projects that have fed into what data-scapes is. Not only that, The strings linking some nodes are conceptual bridges between sources; they visualize an overlap of some kind between the two.</p>
+    <p>You can explore these ndoes however you want to. <b>Click on one to read more about the resource and how it impacted data-scapes.</b>  If you find the information interesting, feel free to follow the node's linked string to find out how they relate to other resources, or simply pick another one.</p>
+    <p><span>Click on the data-scapes' node to continue on to the project's main page.</span> </p>
     <!-- <p>Though diverse, these sources often require levels of attention and specialization </p> -->
 
     </div>

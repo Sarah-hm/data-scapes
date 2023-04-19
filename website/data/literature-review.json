@@ -16,7 +16,8 @@
       "visual-complexity",
       "cultural-analytics",
       "non-things",
-      "psychic-numbing"
+      "psychic-numbing",
+      "queer-phenomenology"
     ]
   },
   {
@@ -72,7 +73,7 @@
     "link": ["data-scapes", "cultural-analytics"]
   },
   {
-    "title": "psychic-numbing",
+    "title": "psychic numbing",
     "pullquote": "This is the pullquote for Psychic Numbing",
     "description": [
       "Paul Slovic first coined the term ‘psychic numbing’ in his article ‘psychic numbing and genocide’ written in 2007 (Slovic). The term refers to the psychological phenomenon in which individuals become less able to feel empathy or concern for others as the number of individuals affected by a tragedy or crisis increases. Slovic’s theory is based on the idea that our brains have a limited capacity for processing information and emotions, and when confronted with a large number of victims, we become overwhelmed and are unable to fully engage with the situation (Slovic 2007). This can result in a lack of action or support for those in need, even in the face of overwhelming evidence of suffering.",
@@ -82,5 +83,27 @@
     "image": "https://example.com/image2.jpg",
     "dataAtt": "psychic-numbing",
     "link": ["data-feminism", "data-scapes"]
+  },
+  {
+    "title": "Queer phenomenology",
+    "pullquote": "This is the pullquote for queer phenomenology",
+    "description": [
+      "In her Queer Phenomenology book, Sarah Ahmed explores ideas of physicality, or lack thereof, of objects, especially those we consume online. She writes that “objects are objects insofar as they are within my horizon, it is in the act of reaching out “toward them” that makes them available as objects for me” (Ahmed 2006, 55). In this sense, objects that are available through screens, like the information that circulates about us (our data), or even online-bought products, could be considered non-objects as long as they are consumed through the screen.",
+      "It is the action of buying them, and having the products sent to us, that ultimately makes them become real objects. The desensitization caused by the lack of materiality of the object may cause Shein’s clients to overlook how unsustainable the retailer’s production practices are, as everything remains an invisible and out of reach process. "
+    ],
+    "image": "https://example.com/image2.jpg",
+    "dataAtt": "queer-phenomenology",
+    "link": ["data-scapes", "non-things", "data-feminism"]
+  },
+  {
+    "title": "Dirt(y) media",
+    "pullquote": "This is the pullquote for queer phenomenology",
+    "description": [
+      " Another core inspiration for the project was Caleb Kelly’s idea of dirt explored in his essay dirt(y) media (2021). Kelly explains that “the view of a clean and pristine nature offers an understanding of natural surroundings that is beyond our reach, one that evicts any sense of dirt (Kelly 2021, 3).",
+      "This opposition of nature and dirt makes humans devalue dirt, whereas Kelly argues we should instead foster more spaces to explore its affordances. "
+    ],
+    "image": "https://example.com/image2.jpg",
+    "dataAtt": "dirty-media",
+    "link": ["queer-phenomenology", "data-feminism"]
   }
 ]
